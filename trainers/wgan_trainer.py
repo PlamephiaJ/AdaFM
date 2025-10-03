@@ -20,6 +20,8 @@ class WGAN_GP_Trainer:
         generator_iters: int,
         critic_iters: int,
         save_interval: int,
+        z_dim: int,
+        batch_size: int,
         device=None,
     ):
         if device is None:
@@ -34,6 +36,8 @@ class WGAN_GP_Trainer:
         self.critic_iters = critic_iters
         self.lambda_term = 1e-4
         self.save_interval = save_interval
+        self.z_dim = z_dim
+        self.batch_size = batch_size
 
     def calculate_gradient_penalty(self, real_images, fake_images, eta):
         # eta = torch.FloatTensor(self.batch_size,1,1,1).uniform_(0,1)
@@ -65,9 +69,7 @@ class WGAN_GP_Trainer:
         gradients = autograd.grad(
             outputs=prob_interpolated,
             inputs=interpolated,
-            grad_outputs=torch.ones(prob_interpolated.size()).cuda(self.cuda_index)
-            if self.cuda
-            else torch.ones(prob_interpolated.size()),
+            grad_outputs=torch.ones(prob_interpolated.size()).to(self.device),
             create_graph=True,
             retain_graph=True,
         )[0]
@@ -75,8 +77,7 @@ class WGAN_GP_Trainer:
         grad_penalty = ((gradients.norm(2, dim=1) - 1) ** 2).mean() * self.lambda_term
         return grad_penalty, eta
 
-    def train(self, train_loader, Real_Inception_score, args):
-        args = args
+    def train(self, train_loader, Real_Inception_score):
         self.t_begin = t.time()
         self.data = self.get_infinite_batches(train_loader)
         one = torch.tensor(1, dtype=torch.float).to(self.device)
@@ -105,7 +106,7 @@ class WGAN_GP_Trainer:
             d_loss_fake = 0
             Wasserstein_D = 0
 
-            for d_iter in range(self.critic_iter):
+            for d_iter in range(self.critic_iters):
                 self.D.zero_grad()
                 if D_old is not None:
                     D_old.zero_grad()
@@ -215,9 +216,7 @@ class WGAN_GP_Trainer:
                 sample_list = []
                 for _ in range(10):
                     # samples  = self.data.__next__()
-                    z = Variable(torch.randn(800, self.z_dim, 1, 1)).cuda(
-                        self.cuda_index
-                    )
+                    z = Variable(torch.randn(800, self.z_dim, 1, 1)).to(self.device)
                     samples = self.G(z)
                     # samples = samples.mul(0.5).add(0.5)
                     sample_list.append(samples.data.cpu().numpy())
@@ -264,3 +263,11 @@ class WGAN_GP_Trainer:
                 norm_type,
             )
         return total_norm
+    
+    def get_infinite_batches(self, data_loader):
+        while True:
+            for i, (images, _) in enumerate(data_loader):
+                yield images
+    
+    def get_torch_variable(self, arg):
+        return Variable(arg).to(self.device)

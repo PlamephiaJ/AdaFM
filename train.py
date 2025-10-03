@@ -35,7 +35,7 @@ def run(cfg: DictConfig) -> None:
             from optimizers.TiAda import TiAda_Adam
             d_optimizer = TiAda_Adam(discriminator.parameters(), lr=cfg.optimizers.lr, alpha=cfg.optimizers.beta, betas=(cfg.optimizers.b1, cfg.optimizers.b2))
             g_optimizer = TiAda_Adam(generator.parameters(), lr=cfg.optimizers.lr, alpha=cfg.optimizers.beta, opponent_optim=d_optimizer, betas=(cfg.optimizers.b1, cfg.optimizers.b2))
-        elif cfg.optimizers.name == 'AdaFM':
+        elif cfg.optimizers.name == 'adafm':
             from optimizers.AdaFM import AdaFM
             d_optimizer = AdaFM(discriminator.parameters(), lr=cfg.optimizers.lr_y, beta=cfg.optimizers.beta_for_VRAda)
             g_optimizer = AdaFM(generator.parameters(), lr=cfg.optimizers.lr_x, opponent_optim=d_optimizer, beta=cfg.optimizers.beta_for_VRAda)
@@ -62,8 +62,14 @@ def run(cfg: DictConfig) -> None:
             generator_iters=cfg.models.generator_iters,
             critic_iters=cfg.models.critic_iters,
             save_interval=cfg.models.training.save_interval,
+            z_dim=cfg.models.generator.z_dim,
+            batch_size=cfg.models.training.batch_size,
             device=device,
         )
         logger.info("Trainer is ready.")
+
+        trainer.train(train_loader, Real_Inception_score)
+
+        logger.info("Training is finished.")
     else:
         raise NotImplementedError(f"Model {cfg.models.name} is not implemented.")

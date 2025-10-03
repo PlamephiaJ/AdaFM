@@ -1,6 +1,6 @@
 defaults:
   - _self_
-  - optimizers: adam
+  - optimizers: adafm
   - datasets: cifar10
   - models: wgan
 
