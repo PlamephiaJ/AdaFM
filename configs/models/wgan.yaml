@@ -1,0 +1,7 @@
+name: wgan
+channels: 3
+generator:
+  channels: 3
+  z_dim: 100
+discriminator:
+  channels: 3
