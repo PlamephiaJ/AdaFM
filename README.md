@@ -22,7 +22,7 @@ Ensure you have Python 3.13+ and `conda` installed on your system.
 
 ```bash
 # 1. Clone this repository
-git clone github_repo
+git clone https://github.com/PlamephiaJ/AdaFM
 cd AdaFM
 
 # 2. Create a virtual environment using conda
