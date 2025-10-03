@@ -2,3 +2,5 @@ torch
 matplotlib
 torchvision
 hydra-core==1.3.2
+scipy
+tqdm

@@ -1,6 +1,4 @@
 name: cifar10
-download: true
+dataroot: dataset/cifar10/
+download: false
 batch_size: 64
-shuffle: true
-num_workers: 4
-pin_memory: true

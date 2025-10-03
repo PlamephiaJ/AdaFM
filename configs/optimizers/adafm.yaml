@@ -1,4 +1,5 @@
 name: adafm
 beta_for_VRAda: 0.9
-lr_x: 0.001
-lr_y: 0.001
+lr: 1e-2
+lr_x: 1e-2
+lr_y: 1e-2

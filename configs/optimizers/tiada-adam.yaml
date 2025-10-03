@@ -1,0 +1,6 @@
+name: tiada-adam
+lr: 1e-2
+alpha: 0.6
+beta: 0.4
+b1: 0.5
+b2: 0.9

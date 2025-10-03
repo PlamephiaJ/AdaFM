@@ -1,0 +1,5 @@
+name: rsgda
+beta_x: 0.9
+beta_y: 0.9
+lr_x: 1e-2
+lr_y: 1e-2

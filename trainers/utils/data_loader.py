@@ -3,7 +3,7 @@ import os
 import torchvision.datasets as dset
 import torchvision.transforms as transforms
 import torch.utils.data as data_utils
-from wgan_gp.utils.fashion_mnist import MNIST, FashionMNIST
+from .fashion_mnist import MNIST, FashionMNIST
 
 
 def get_data_loader(args):

@@ -1,0 +1,4 @@
+name: tiada
+beta: 0.4
+lr_x: 1e-2
+lr_y: 1e-2

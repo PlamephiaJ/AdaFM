@@ -6,7 +6,7 @@ from torch.autograd import Variable
 import time as t
 from itertools import chain
 import copy
-from utils.inception_score import get_inception_score
+from .utils.inception_score import get_inception_score
 
 
 class WGAN_GP_Trainer:
@@ -18,7 +18,7 @@ class WGAN_GP_Trainer:
         g_optimizer: optim.Optimizer,
         d_optimizer: optim.Optimizer,
         generator_iters: int,
-        critic_iter: int,
+        critic_iters: int,
         save_interval: int,
         device=None,
     ):
@@ -31,7 +31,7 @@ class WGAN_GP_Trainer:
         self.device = device
         self.number_of_images = 100
         self.generator_iters = generator_iters
-        self.critic_iter = critic_iter
+        self.critic_iters = critic_iters
         self.lambda_term = 1e-4
         self.save_interval = save_interval
 

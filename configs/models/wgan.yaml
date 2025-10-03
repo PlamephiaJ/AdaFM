@@ -1,7 +1,19 @@
 name: wgan
 channels: 3
+critic_iters: 1
+generator_iters: 100000
+lambda_term: 1e-4
+number_of_images: 100
+
 generator:
   channels: 3
-  z_dim: 100
+  z_dim: 50
 discriminator:
   channels: 3
+
+training:
+  epochs: 50
+  batch_size: 64
+  save_interval: 200
+  device: cuda
+  save_flag: false

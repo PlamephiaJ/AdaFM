@@ -12,14 +12,7 @@ setup:
     seed: 8
   numpy:
     seed: 8
-
-training:
-  epochs: 200
-  save_interval: 10
-  sample_interval: 100
-  checkpoint: null
   device: cuda
-  log_interval: 100
 
 hydra:
   run:
