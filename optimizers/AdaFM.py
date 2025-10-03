@@ -2,6 +2,7 @@ import torch
 from torch.optim import Optimizer
 from typing import Optional
 
+
 class AdaFM(Optimizer):
     r"""Implements TiAda algorithm.
     Args:
@@ -108,7 +109,7 @@ class AdaFM(Optimizer):
                 state["sum"].share_memory_()
 
     @torch.no_grad()
-    def step(self, closure=None,delta=None):
+    def step(self, closure=None, delta=None):
         """Performs a single optimization step.
 
         Args:
@@ -121,7 +122,7 @@ class AdaFM(Optimizer):
                 loss = closure()
 
         # 遍历每一个参数组并更新梯度的平方和。
-        if delta is  None:
+        if delta is None:
             for group in self.param_groups:
                 for p in group["params"]:
                     if p.grad is not None:
@@ -131,13 +132,13 @@ class AdaFM(Optimizer):
                         grad = p.grad
                         state = self.state[p]
                         # todo:步骤7,8更新梯度
-                        d_p = state['est'] = torch.clone(grad).detach()
+                        d_p = state["est"] = torch.clone(grad).detach()
                         sq_grad = torch.mul(d_p, d_p.conj()) / self.beta  # 梯度的平方
                         state["sum"].add_(sq_grad)
-                        self.total_sum.add_(sq_grad.sum() )
+                        self.total_sum.add_(sq_grad.sum())
         else:
             for group in self.param_groups:
-                for i, (p, delta_x_i) in enumerate(zip(group['params'], delta)):
+                for i, (p, delta_x_i) in enumerate(zip(group["params"], delta)):
                     if p.grad is not None:
                         # 如果参数是复数或者梯度是稀疏的，抛出异常。
                         if torch.is_complex(p) or p.grad.is_sparse:
@@ -145,7 +146,7 @@ class AdaFM(Optimizer):
                         grad = p.grad
                         state = self.state[p]
                         # todo:步骤7,8更新梯度
-                        d_p = state['est']
+                        d_p = state["est"]
                         d_p.sub_(delta_x_i).mul_(1 - self.beta).add_(grad)
                         sq_grad = torch.mul(d_p, d_p.conj()) / self.beta  # 梯度的平方
                         state["sum"].add_(sq_grad)
@@ -153,13 +154,8 @@ class AdaFM(Optimizer):
 
         # 如果存在对手的优化器，则计算比率。
         if self.opponent_optim is not None:
-            ratio = self.total_sum.pow(1/3)
-            ratio.div_(
-                torch.max(
-                    ratio,
-                    self.opponent_optim.total_sum.pow(1/3)
-                )
-            )
+            ratio = self.total_sum.pow(1 / 3)
+            ratio.div_(torch.max(ratio, self.opponent_optim.total_sum.pow(1 / 3)))
         else:
             ratio = 1
         # 遍历每一个参数组进行参数更新。
@@ -170,11 +166,11 @@ class AdaFM(Optimizer):
             eps = group["eps"]
             maximize = group["maximize"]
 
-            for i,p in enumerate(group["params"]):
+            for i, p in enumerate(group["params"]):
                 if p.grad is not None:
                     state = self.state[p]
                     # grad = p.grad
-                    grad = state['est']
+                    grad = state["est"]
                     state_sum = state["sum"]
 
                     step_t = state["step"]
@@ -204,7 +200,7 @@ class AdaFM(Optimizer):
                     clr = lr / (1 + (step - 1) * lr_decay)
 
                     # 根据之前计算的比率更新参数。
-                    ratio_p = state_sum.pow(1/3).add_(eps).div_(ratio)
+                    ratio_p = state_sum.pow(1 / 3).add_(eps).div_(ratio)
                     p.data.addcdiv_(grad_m, ratio_p, value=-clr)
                     # print(clr / ratio_p)
                     # 如果设置了计算有效的步长大小，计算它。

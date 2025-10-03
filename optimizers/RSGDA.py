@@ -2,7 +2,9 @@ import torch
 from torch.optim import Optimizer
 from typing import Optional
 
+
 class RSGDA(Optimizer):
+
     def __init__(
         self,
         params,
@@ -15,8 +17,7 @@ class RSGDA(Optimizer):
         beta_y=0.9,
         lr_x=0.1,
         lr_y=0.1,
-
-        opponent_optim = None,
+        opponent_optim=None,
         compute_effective_stepsize=False,
         *,
         maximize: bool = False,
@@ -93,7 +94,7 @@ class RSGDA(Optimizer):
                 state["sum"].share_memory_()
 
     @torch.no_grad()
-    def step(self, closure=None,delta=None):
+    def step(self, closure=None, delta=None):
         """Performs a single optimization step.
 
         Args:
@@ -122,11 +123,11 @@ class RSGDA(Optimizer):
                         grad = p.grad
                         state = self.state[p]
                         # todo:步骤7,8更新梯度
-                        d_p = state['est'] = torch.clone(grad).detach()
+                        d_p = state["est"] = torch.clone(grad).detach()
 
         else:
             for group in self.param_groups:
-                for i, (p, delta_x_i) in enumerate(zip(group['params'], delta)):
+                for i, (p, delta_x_i) in enumerate(zip(group["params"], delta)):
                     if p.grad is not None:
                         # 如果参数是复数或者梯度是稀疏的，抛出异常。
                         if torch.is_complex(p) or p.grad.is_sparse:
@@ -134,10 +135,8 @@ class RSGDA(Optimizer):
                         grad = p.grad
                         state = self.state[p]
                         # todo:步骤7,8更新梯度
-                        d_p = state['est']
+                        d_p = state["est"]
                         d_p.sub_(delta_x_i).mul_(1 - beta).add_(grad)
-
-
 
         # 遍历每一个参数组进行参数更新。
         for group in self.param_groups:
@@ -146,17 +145,16 @@ class RSGDA(Optimizer):
             eps = group["eps"]
             maximize = group["maximize"]
 
-            for i,p in enumerate(group["params"]):
+            for i, p in enumerate(group["params"]):
                 if p.grad is not None:
                     state = self.state[p]
                     # grad = p.grad
-                    grad = state['est']
+                    grad = state["est"]
                     state_sum = state["sum"]
 
                     step_t = state["step"]
                     step_t += 1
                     step = step_t.item()
-
 
                     # 如果maximize为True，取梯度的负值。
                     grad_m = grad if not maximize else -grad

@@ -67,7 +67,7 @@ class TiAda(Optimizer):
         self.alpha = alpha
         self.opponent_optim = opponent_optim
         # whether to compute effective_stepsize
-        self.compute_effective_stepsize = compute_effective_stepsize 
+        self.compute_effective_stepsize = compute_effective_stepsize
 
         super(TiAda, self).__init__(params, defaults)
 
@@ -139,21 +139,16 @@ class TiAda(Optimizer):
         # calculate the ratio
         if self.opponent_optim is not None:
             ratio = self.total_sum.pow(self.alpha)
-            ratio.div_(
-                    torch.max(
-                        ratio,
-                        self.opponent_optim.total_sum.pow(self.alpha)
-                        )
-                    )
+            ratio.div_(torch.max(ratio, self.opponent_optim.total_sum.pow(self.alpha)))
         else:
             ratio = 1
 
         for group in self.param_groups:
             lr = group["lr"]
-            lr_decay=group["lr_decay"]
-            weight_decay=group["weight_decay"]
-            eps=group["eps"]
-            maximize=group["maximize"]
+            lr_decay = group["lr_decay"]
+            weight_decay = group["weight_decay"]
+            eps = group["eps"]
+            maximize = group["maximize"]
 
             for p in group["params"]:
                 if p.grad is not None:
@@ -165,7 +160,7 @@ class TiAda(Optimizer):
                     step_t = state["step"]
                     step_t += 1
                     step = step_t.item()
-                    
+
                     grad = grad if not maximize else -grad
 
                     if weight_decay != 0:
@@ -185,7 +180,9 @@ class TiAda(Optimizer):
 
         return loss
 
+
 class TiAda_wo_max(Optimizer):
+
     def __init__(
         self,
         params,
@@ -287,10 +284,10 @@ class TiAda_wo_max(Optimizer):
 
         for group in self.param_groups:
             lr = group["lr"]
-            lr_decay=group["lr_decay"]
-            weight_decay=group["weight_decay"]
-            eps=group["eps"]
-            maximize=group["maximize"]
+            lr_decay = group["lr_decay"]
+            weight_decay = group["weight_decay"]
+            eps = group["eps"]
+            maximize = group["maximize"]
 
             for p in group["params"]:
                 if p.grad is not None:
@@ -302,7 +299,7 @@ class TiAda_wo_max(Optimizer):
                     step_t = state["step"]
                     step_t += 1
                     step = step_t.item()
-                    
+
                     grad = grad if not maximize else -grad
 
                     if weight_decay != 0:
@@ -320,8 +317,8 @@ class TiAda_wo_max(Optimizer):
         return loss
 
 
-
 # Adam
+
 
 class TiAda_Adam(Optimizer):
     r"""Implements TiAda-Adam algorithm.
@@ -349,12 +346,21 @@ class TiAda_Adam(Optimizer):
             this optimizer is for y, set it to None.
     """
 
-    def __init__(self, params, lr=1e-3, betas=(0.9, 0.999), eps=1e-8,
-                 weight_decay=0, amsgrad=False,
-                 alpha=0.5,
-                 opponent_optim=None,
-                 *, foreach: Optional[bool] = None,
-                 maximize: bool = False, capturable: bool = False):
+    def __init__(
+        self,
+        params,
+        lr=1e-3,
+        betas=(0.9, 0.999),
+        eps=1e-8,
+        weight_decay=0,
+        amsgrad=False,
+        alpha=0.5,
+        opponent_optim=None,
+        *,
+        foreach: Optional[bool] = None,
+        maximize: bool = False,
+        capturable: bool = False,
+    ):
         if not 0.0 <= lr:
             raise ValueError("Invalid learning rate: {}".format(lr))
         if not 0.0 <= eps:
@@ -365,9 +371,16 @@ class TiAda_Adam(Optimizer):
             raise ValueError("Invalid beta parameter at index 1: {}".format(betas[1]))
         if not 0.0 <= weight_decay:
             raise ValueError("Invalid weight_decay value: {}".format(weight_decay))
-        defaults = dict(lr=lr, betas=betas, eps=eps,
-                        weight_decay=weight_decay, amsgrad=amsgrad,
-                        maximize=maximize, foreach=foreach, capturable=capturable)
+        defaults = dict(
+            lr=lr,
+            betas=betas,
+            eps=eps,
+            weight_decay=weight_decay,
+            amsgrad=amsgrad,
+            maximize=maximize,
+            foreach=foreach,
+            capturable=capturable,
+        )
         super(TiAda_Adam, self).__init__(params, defaults)
 
         self.alpha = alpha
@@ -380,36 +393,45 @@ class TiAda_Adam(Optimizer):
             for group in self.param_groups:
                 for p in group["params"]:
                     state = self.state[p]
-                    state['step'] = torch.zeros((1,), dtype=torch.float, device=p.device) \
-                        if self.defaults['capturable'] else torch.tensor(0.)
+                    state["step"] = (
+                        torch.zeros((1,), dtype=torch.float, device=p.device)
+                        if self.defaults["capturable"]
+                        else torch.tensor(0.0)
+                    )
                     # Exponential moving average of gradient values
-                    state['exp_avg'] = torch.zeros_like(p, memory_format=torch.preserve_format)
+                    state["exp_avg"] = torch.zeros_like(
+                        p, memory_format=torch.preserve_format
+                    )
                     # Exponential moving average of squared gradient values
-                    state['exp_avg_sq'] = torch.zeros_like(p, memory_format=torch.preserve_format)
+                    state["exp_avg_sq"] = torch.zeros_like(
+                        p, memory_format=torch.preserve_format
+                    )
 
-                    if group['amsgrad']:
+                    if group["amsgrad"]:
                         # Maintains max of all exp. moving avg. of sq. grad. values
-                        state['max_exp_avg_sq'] = torch.zeros_like(p, memory_format=torch.preserve_format)
+                        state["max_exp_avg_sq"] = torch.zeros_like(
+                            p, memory_format=torch.preserve_format
+                        )
 
                         # Update total
                         self.total_sum.add_(state["max_exp_avg_sq"].sum())
                     else:
                         self.total_sum.add_(state["exp_avg_sq"].sum())
 
-
-
     def __setstate__(self, state):
         super().__setstate__(state)
         for group in self.param_groups:
-            group.setdefault('amsgrad', False)
-            group.setdefault('maximize', False)
-            group.setdefault('foreach', None)
-            group.setdefault('capturable', False)
+            group.setdefault("amsgrad", False)
+            group.setdefault("maximize", False)
+            group.setdefault("foreach", None)
+            group.setdefault("capturable", False)
         state_values = list(self.state.values())
-        step_is_tensor = (len(state_values) != 0) and torch.is_tensor(state_values[0]['step'])
+        step_is_tensor = (len(state_values) != 0) and torch.is_tensor(
+            state_values[0]["step"]
+        )
         if not step_is_tensor:
             for s in state_values:
-                s['step'] = torch.tensor(float(s['step']))
+                s["step"] = torch.tensor(float(s["step"]))
 
     @torch.no_grad()
     def step(self, closure=None):
@@ -426,32 +448,34 @@ class TiAda_Adam(Optimizer):
             with torch.enable_grad():
                 loss = closure()
 
-        amsgrad = self.defaults['amsgrad']
+        amsgrad = self.defaults["amsgrad"]
 
         # set total to 0
         self.total_sum.zero_()
 
         # Update the states
         for group in self.param_groups:
-            beta1, beta2 = group['betas']
-            maximize = group['maximize']
-            capturable = group['capturable']
-            weight_decay = group['weight_decay']
-            lr = group['lr']
-            eps = group['eps']
+            beta1, beta2 = group["betas"]
+            maximize = group["maximize"]
+            capturable = group["capturable"]
+            weight_decay = group["weight_decay"]
+            lr = group["lr"]
+            eps = group["eps"]
 
-            for p in group['params']:
+            for p in group["params"]:
                 param = p
                 if p.grad is not None:
                     if p.grad.is_sparse:
-                        raise RuntimeError('Adam does not support sparse gradients, please consider SparseAdam instead')
+                        raise RuntimeError(
+                            "Adam does not support sparse gradients, please consider SparseAdam instead"
+                        )
 
                     state = self.state[p]
 
                     grad = param.grad if not maximize else -param.grad
-                    exp_avg = state['exp_avg']
-                    exp_avg_sq = state['exp_avg_sq']
-                    step_t = state['step']
+                    exp_avg = state["exp_avg"]
+                    exp_avg_sq = state["exp_avg_sq"]
+                    step_t = state["step"]
 
                     if capturable:
                         # assert param.is_cuda and step_t.is_cuda, "If capturable=True, params and state_steps must be CUDA tensors."
@@ -465,7 +489,7 @@ class TiAda_Adam(Optimizer):
                     exp_avg_sq.mul_(beta2).addcmul_(grad, grad.conj(), value=1 - beta2)
 
                     if amsgrad:
-                        max_exp_avg_sq = state['max_exp_avg_sq']
+                        max_exp_avg_sq = state["max_exp_avg_sq"]
                         # Maintains the maximum of all 2nd moment running avg. till now
                         torch.maximum(max_exp_avg_sq, exp_avg_sq, out=max_exp_avg_sq)
 
@@ -477,37 +501,34 @@ class TiAda_Adam(Optimizer):
         # calculate the ratio
         if self.opponent_optim is not None:
             ratio = self.total_sum.pow(self.alpha)
-            ratio.div_(
-                    torch.max(
-                        ratio,
-                        self.opponent_optim.total_sum.pow(self.alpha)
-                        )
-                    )
+            ratio.div_(torch.max(ratio, self.opponent_optim.total_sum.pow(self.alpha)))
         else:
             ratio = 1
 
         # Update parameters
         for group in self.param_groups:
 
-            beta1, beta2 = group['betas']
-            maximize = group['maximize']
-            capturable = group['capturable']
-            weight_decay = group['weight_decay']
-            lr = group['lr']
-            eps = group['eps']
+            beta1, beta2 = group["betas"]
+            maximize = group["maximize"]
+            capturable = group["capturable"]
+            weight_decay = group["weight_decay"]
+            lr = group["lr"]
+            eps = group["eps"]
 
-            for p in group['params']:
+            for p in group["params"]:
                 param = p
                 if p.grad is not None:
                     if p.grad.is_sparse:
-                        raise RuntimeError('Adam does not support sparse gradients, please consider SparseAdam instead')
+                        raise RuntimeError(
+                            "Adam does not support sparse gradients, please consider SparseAdam instead"
+                        )
 
                     state = self.state[p]
 
                     grad = param.grad if not maximize else -param.grad
-                    exp_avg = state['exp_avg']
-                    exp_avg_sq = state['exp_avg_sq']
-                    step_t = state['step']
+                    exp_avg = state["exp_avg"]
+                    exp_avg_sq = state["exp_avg_sq"]
+                    step_t = state["step"]
 
                     # update step
                     step_t += 1
@@ -517,8 +538,8 @@ class TiAda_Adam(Optimizer):
                     else:
                         step = step_t.item()
 
-                        bias_correction1 = 1 - beta1 ** step
-                        bias_correction2 = 1 - beta2 ** step
+                        bias_correction1 = 1 - beta1**step
+                        bias_correction2 = 1 - beta2**step
 
                         step_size = lr / bias_correction1
 
@@ -526,10 +547,14 @@ class TiAda_Adam(Optimizer):
 
                         if amsgrad:
                             # Use the max. for normalizing running avg. of gradient
-                            max_exp_avg_sq = state['max_exp_avg_sq']
-                            denom = (max_exp_avg_sq.pow(self.alpha) / bias_correction2_sqrt).add_(eps)
+                            max_exp_avg_sq = state["max_exp_avg_sq"]
+                            denom = (
+                                max_exp_avg_sq.pow(self.alpha) / bias_correction2_sqrt
+                            ).add_(eps)
                         else:
-                            denom = (exp_avg_sq.pow(self.alpha) / bias_correction2_sqrt).add_(eps)
+                            denom = (
+                                exp_avg_sq.pow(self.alpha) / bias_correction2_sqrt
+                            ).add_(eps)
 
                         denom.div_(ratio)
 
@@ -539,6 +564,7 @@ class TiAda_Adam(Optimizer):
 
 
 # Copy of AdaGrad, customized to compute the effective stepsize
+
 
 class Adagrad(Optimizer):
     r"""Implements Adagrad algorithm.
@@ -593,7 +619,7 @@ class Adagrad(Optimizer):
         eps=1e-10,
         foreach: Optional[bool] = None,
         *,
-        maximize: bool = False
+        maximize: bool = False,
     ):
         if not 0.0 <= lr:
             raise ValueError("Invalid learning rate: {}".format(lr))
@@ -686,14 +712,16 @@ class Adagrad(Optimizer):
                     state_steps.append(state["step"])
 
             params = params_with_grad
-            lr=group["lr"]
-            weight_decay=group["weight_decay"]
-            lr_decay=group["lr_decay"]
-            eps=group["eps"]
-            has_sparse_grad=has_sparse_grad
-            maximize=group["maximize"]
+            lr = group["lr"]
+            weight_decay = group["weight_decay"]
+            lr_decay = group["lr_decay"]
+            eps = group["eps"]
+            has_sparse_grad = has_sparse_grad
+            maximize = group["maximize"]
 
-            for (param, grad, state_sum, step_t) in zip(params, grads, state_sums, state_steps):
+            for param, grad, state_sum, step_t in zip(
+                params, grads, state_sums, state_steps
+            ):
                 # update step
                 step_t += 1
                 step = step_t.item()
@@ -709,7 +737,9 @@ class Adagrad(Optimizer):
                 clr = lr / (1 + (step - 1) * lr_decay)
 
                 if grad.is_sparse:
-                    grad = grad.coalesce()  # the update is non-linear so indices must be unique
+                    grad = (
+                        grad.coalesce()
+                    )  # the update is non-linear so indices must be unique
                     grad_indices = grad._indices()
                     grad_values = grad._values()
                     size = grad.size()
@@ -718,7 +748,8 @@ class Adagrad(Optimizer):
                     std = state_sum.sparse_mask(grad)
                     std_values = std._values().sqrt_().add_(eps)
                     param.add_(
-                        _make_sparse(grad, grad_indices, grad_values / std_values), alpha=-clr
+                        _make_sparse(grad, grad_indices, grad_values / std_values),
+                        alpha=-clr,
                     )
                 else:
                     is_complex = torch.is_complex(param)

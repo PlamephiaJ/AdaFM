@@ -8,16 +8,20 @@ from itertools import chain
 import copy
 from utils.inception_score import get_inception_score
 
+
 class WGAN_GP_Trainer:
-    def __init__(self, 
-                 generator: nn.Module, 
-                 discriminator: nn.Module, 
-                 g_optimizer: optim.Optimizer, 
-                 d_optimizer: optim.Optimizer, 
-                 generator_iters: int,
-                 critic_iter: int,
-                 save_interval: int,
-                 device=None):
+
+    def __init__(
+        self,
+        generator: nn.Module,
+        discriminator: nn.Module,
+        g_optimizer: optim.Optimizer,
+        d_optimizer: optim.Optimizer,
+        generator_iters: int,
+        critic_iter: int,
+        save_interval: int,
+        device=None,
+    ):
         if device is None:
             device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.G = generator.to(device)
@@ -31,12 +35,20 @@ class WGAN_GP_Trainer:
         self.lambda_term = 1e-4
         self.save_interval = save_interval
 
-
     def calculate_gradient_penalty(self, real_images, fake_images, eta):
         # eta = torch.FloatTensor(self.batch_size,1,1,1).uniform_(0,1)
         if eta is None:
-            eta = torch.FloatTensor(real_images.size(0),1,1,1).uniform_(0,1).to(self.device)
-            eta = eta.expand(real_images.size(0), real_images.size(1), real_images.size(2), real_images.size(3))
+            eta = (
+                torch.FloatTensor(real_images.size(0), 1, 1, 1)
+                .uniform_(0, 1)
+                .to(self.device)
+            )
+            eta = eta.expand(
+                real_images.size(0),
+                real_images.size(1),
+                real_images.size(2),
+                real_images.size(3),
+            )
         else:
             eta = eta.to(self.device)
 
@@ -50,11 +62,15 @@ class WGAN_GP_Trainer:
         prob_interpolated = self.D(interpolated)
 
         # calculate gradients of probabilities with respect to examples
-        gradients = autograd.grad(outputs=prob_interpolated, inputs=interpolated,
-                               grad_outputs=torch.ones(
-                                   prob_interpolated.size()).cuda(self.cuda_index) if self.cuda else torch.ones(
-                                   prob_interpolated.size()),
-                               create_graph=True, retain_graph=True)[0]
+        gradients = autograd.grad(
+            outputs=prob_interpolated,
+            inputs=interpolated,
+            grad_outputs=torch.ones(prob_interpolated.size()).cuda(self.cuda_index)
+            if self.cuda
+            else torch.ones(prob_interpolated.size()),
+            create_graph=True,
+            retain_graph=True,
+        )[0]
 
         grad_penalty = ((gradients.norm(2, dim=1) - 1) ** 2).mean() * self.lambda_term
         return grad_penalty, eta
@@ -68,7 +84,6 @@ class WGAN_GP_Trainer:
 
         real_images, _ = next(iter(train_loader))
         real_images = real_images.to(self.device)
-
 
         # save_path = './GAN/gan_fake_images_c100/real_images.png'
 
@@ -90,7 +105,6 @@ class WGAN_GP_Trainer:
             d_loss_fake = 0
             Wasserstein_D = 0
 
-
             for d_iter in range(self.critic_iter):
                 self.D.zero_grad()
                 if D_old is not None:
@@ -107,7 +121,9 @@ class WGAN_GP_Trainer:
                 d_loss_real.backward(mone)
 
                 # Train with fake images
-                z = self.get_torch_variable(torch.randn(images.size(0), self.z_dim, 1, 1))
+                z = self.get_torch_variable(
+                    torch.randn(images.size(0), self.z_dim, 1, 1)
+                )
 
                 fake_images = self.G(z)
                 d_loss_fake = self.D(fake_images)
@@ -115,14 +131,15 @@ class WGAN_GP_Trainer:
                 d_loss_fake.backward(one)
 
                 # Train with gradient penalty
-                gradient_penalty, eta = self.calculate_gradient_penalty(images.data, fake_images.data, eta=None)
+                gradient_penalty, eta = self.calculate_gradient_penalty(
+                    images.data, fake_images.data, eta=None
+                )
                 gradient_penalty.backward()
-
 
                 d_loss = d_loss_fake - d_loss_real + gradient_penalty
                 Wasserstein_D = (d_loss_real - d_loss_fake).item()
 
-                if D_old  is not None:
+                if D_old is not None:
                     d_loss_real_old = D_old(images).mean()
                     d_loss_real_old.backward(mone)
 
@@ -131,7 +148,9 @@ class WGAN_GP_Trainer:
                     d_loss_fake_old.backward(one)
 
                     # Train with gradient penalty
-                    gradient_penalty_old, _ = self.calculate_gradient_penalty(images.data, fake_images_.data, eta=eta)
+                    gradient_penalty_old, _ = self.calculate_gradient_penalty(
+                        images.data, fake_images_.data, eta=eta
+                    )
                     gradient_penalty_old.backward()
                     delta_y = [g.grad.data.clone() for g in D_old.parameters()]
                     d_loss_real_old = d_loss_fake_old = gradient_penalty_old = None
@@ -161,7 +180,7 @@ class WGAN_GP_Trainer:
             g_loss = g_loss.mean()
             g_loss.backward(mone)
             g_cost = -g_loss
-            if  G_old is not None:
+            if G_old is not None:
                 fake_images_ = G_old(z)
                 g_loss_old = D_old(fake_images_).mean()
                 g_loss_old.backward(mone)
@@ -196,7 +215,9 @@ class WGAN_GP_Trainer:
                 sample_list = []
                 for _ in range(10):
                     # samples  = self.data.__next__()
-                    z = Variable(torch.randn(800, self.z_dim, 1, 1)).cuda(self.cuda_index)
+                    z = Variable(torch.randn(800, self.z_dim, 1, 1)).cuda(
+                        self.cuda_index
+                    )
                     samples = self.G(z)
                     # samples = samples.mul(0.5).add(0.5)
                     sample_list.append(samples.data.cpu().numpy())
@@ -205,11 +226,13 @@ class WGAN_GP_Trainer:
                 new_sample_list = list(chain.from_iterable(sample_list))
                 print("Calculating Inception Score over 8k generated images")
                 # # Feeding list of numpy arrays
-                inception_score = get_inception_score(new_sample_list, cuda=True, batch_size=64,
-                                                      resize=True, splits=10)
+                inception_score = get_inception_score(
+                    new_sample_list, cuda=True, batch_size=64, resize=True, splits=10
+                )
 
-
-                z = self.get_torch_variable(torch.randn(self.number_of_images, self.z_dim, 1, 1))
+                z = self.get_torch_variable(
+                    torch.randn(self.number_of_images, self.z_dim, 1, 1)
+                )
                 Real_Inception_score.append(inception_score[0])
                 # Testing
                 # time = t.time() - self.t_begin
@@ -234,8 +257,10 @@ class WGAN_GP_Trainer:
     @staticmethod
     def get_gradient_norm(model, norm_type=2.0):
         with torch.no_grad():
-            total_norm = torch.norm(torch.stack(
-                [torch.norm(
-                    p.grad.detach(), norm_type) \
-                            for p in model.parameters()]), norm_type)
+            total_norm = torch.norm(
+                torch.stack(
+                    [torch.norm(p.grad.detach(), norm_type) for p in model.parameters()]
+                ),
+                norm_type,
+            )
         return total_norm

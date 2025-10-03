@@ -7,6 +7,7 @@ import errno
 import torch
 import codecs
 
+
 # Code referenced from torch source code to add Fashion-MNSIT dataset to dataloder
 # Url: http://pytorch.org/docs/0.3.0/_modules/torchvision/datasets/mnist.html#FashionMNIST
 class MNIST(data.Dataset):
@@ -24,18 +25,21 @@ class MNIST(data.Dataset):
         target_transform (callable, optional): A function/transform that takes in the
             target and transforms it.
     """
-    urls = [
-        'http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz',
-        'http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz',
-        'http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz',
-        'http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz',
-    ]
-    raw_folder = 'raw'
-    processed_folder = 'processed'
-    training_file = 'training.pt'
-    test_file = 'test.pt'
 
-    def __init__(self, root, train=True, transform=None, target_transform=None, download=False):
+    urls = [
+        "http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz",
+        "http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz",
+        "http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz",
+        "http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz",
+    ]
+    raw_folder = "raw"
+    processed_folder = "processed"
+    training_file = "training.pt"
+    test_file = "test.pt"
+
+    def __init__(
+        self, root, train=True, transform=None, target_transform=None, download=False
+    ):
         self.root = os.path.expanduser(root)
         self.transform = transform
         self.target_transform = target_transform
@@ -45,15 +49,18 @@ class MNIST(data.Dataset):
             self.download()
 
         if not self._check_exists():
-            raise RuntimeError('Dataset not found.' +
-                               ' You can use download=True to download it')
+            raise RuntimeError(
+                "Dataset not found." + " You can use download=True to download it"
+            )
 
         if self.train:
             self.train_data, self.train_labels = torch.load(
-                os.path.join(self.root, self.processed_folder, self.training_file))
+                os.path.join(self.root, self.processed_folder, self.training_file)
+            )
         else:
             self.test_data, self.test_labels = torch.load(
-                os.path.join(self.root, self.processed_folder, self.test_file))
+                os.path.join(self.root, self.processed_folder, self.test_file)
+            )
 
     def __getitem__(self, index):
         """
@@ -69,7 +76,7 @@ class MNIST(data.Dataset):
 
         # doing this so that it is consistent with all other datasets
         # to return a PIL Image
-        img = Image.fromarray(img.numpy(), mode='L')
+        img = Image.fromarray(img.numpy(), mode="L")
 
         if self.transform is not None:
             img = self.transform(img)
@@ -86,8 +93,11 @@ class MNIST(data.Dataset):
             return len(self.test_data)
 
     def _check_exists(self):
-        return os.path.exists(os.path.join(self.root, self.processed_folder, self.training_file)) and \
-            os.path.exists(os.path.join(self.root, self.processed_folder, self.test_file))
+        return os.path.exists(
+            os.path.join(self.root, self.processed_folder, self.training_file)
+        ) and os.path.exists(
+            os.path.join(self.root, self.processed_folder, self.test_file)
+        )
 
     def download(self):
         """Download the MNIST data if it doesn't exist in processed_folder already."""
@@ -108,34 +118,47 @@ class MNIST(data.Dataset):
                 raise
 
         for url in self.urls:
-            print('Downloading ' + url)
+            print("Downloading " + url)
             data = urllib.request.urlopen(url)
-            filename = url.rpartition('/')[2]
+            filename = url.rpartition("/")[2]
             file_path = os.path.join(self.root, self.raw_folder, filename)
-            with open(file_path, 'wb') as f:
+            with open(file_path, "wb") as f:
                 f.write(data.read())
-            with open(file_path.replace('.gz', ''), 'wb') as out_f, \
-                    gzip.GzipFile(file_path) as zip_f:
+            with open(file_path.replace(".gz", ""), "wb") as out_f, gzip.GzipFile(
+                file_path
+            ) as zip_f:
                 out_f.write(zip_f.read())
             os.unlink(file_path)
 
         # process and save as torch files
-        print('Processing...')
+        print("Processing...")
 
         training_set = (
-            read_image_file(os.path.join(self.root, self.raw_folder, 'train-images-idx3-ubyte')),
-            read_label_file(os.path.join(self.root, self.raw_folder, 'train-labels-idx1-ubyte'))
+            read_image_file(
+                os.path.join(self.root, self.raw_folder, "train-images-idx3-ubyte")
+            ),
+            read_label_file(
+                os.path.join(self.root, self.raw_folder, "train-labels-idx1-ubyte")
+            ),
         )
         test_set = (
-            read_image_file(os.path.join(self.root, self.raw_folder, 't10k-images-idx3-ubyte')),
-            read_label_file(os.path.join(self.root, self.raw_folder, 't10k-labels-idx1-ubyte'))
+            read_image_file(
+                os.path.join(self.root, self.raw_folder, "t10k-images-idx3-ubyte")
+            ),
+            read_label_file(
+                os.path.join(self.root, self.raw_folder, "t10k-labels-idx1-ubyte")
+            ),
         )
-        with open(os.path.join(self.root, self.processed_folder, self.training_file), 'wb') as f:
+        with open(
+            os.path.join(self.root, self.processed_folder, self.training_file), "wb"
+        ) as f:
             torch.save(training_set, f)
-        with open(os.path.join(self.root, self.processed_folder, self.test_file), 'wb') as f:
+        with open(
+            os.path.join(self.root, self.processed_folder, self.test_file), "wb"
+        ) as f:
             torch.save(test_set, f)
 
-        print('Done!')
+        print("Done!")
 
 
 class FashionMNIST(MNIST):
@@ -153,16 +176,17 @@ class FashionMNIST(MNIST):
         target_transform (callable, optional): A function/transform that takes in the
             target and transforms it.
     """
+
     urls = [
-        'http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-images-idx3-ubyte.gz',
-        'http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-labels-idx1-ubyte.gz',
-        'http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/t10k-images-idx3-ubyte.gz',
-        'http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/t10k-labels-idx1-ubyte.gz',
+        "http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-images-idx3-ubyte.gz",
+        "http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-labels-idx1-ubyte.gz",
+        "http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/t10k-images-idx3-ubyte.gz",
+        "http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/t10k-labels-idx1-ubyte.gz",
     ]
 
 
 def get_int(b):
-    return int(codecs.encode(b, 'hex'), 16)
+    return int(codecs.encode(b, "hex"), 16)
 
 
 def parse_byte(b):
@@ -172,7 +196,7 @@ def parse_byte(b):
 
 
 def read_label_file(path):
-    with open(path, 'rb') as f:
+    with open(path, "rb") as f:
         data = f.read()
         assert get_int(data[:4]) == 2049
         length = get_int(data[4:8])
@@ -182,7 +206,7 @@ def read_label_file(path):
 
 
 def read_image_file(path):
-    with open(path, 'rb') as f:
+    with open(path, "rb") as f:
         data = f.read()
         assert get_int(data[:4]) == 2051
         length = get_int(data[4:8])

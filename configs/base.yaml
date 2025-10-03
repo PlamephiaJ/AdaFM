@@ -20,3 +20,12 @@ training:
   checkpoint: null
   device: cuda
   log_interval: 100
+
+hydra:
+  run:
+    dir: ./outputs/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  sweep:
+    dir: ./multirun/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  job_logging:
+    level: INFO
+  output_subdir: null

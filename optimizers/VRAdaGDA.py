@@ -2,7 +2,9 @@ import torch
 from torch.optim import Optimizer
 from typing import Optional
 
+
 class VRAdaGDA(Optimizer):
+
     def __init__(
         self,
         params,
@@ -16,8 +18,7 @@ class VRAdaGDA(Optimizer):
         beta_y=0.9,
         lr_x=0.1,
         lr_y=0.1,
-
-        opponent_optim = None,
+        opponent_optim=None,
         compute_effective_stepsize=False,
         *,
         maximize: bool = False,
@@ -61,13 +62,19 @@ class VRAdaGDA(Optimizer):
             for group in self.param_groups:
                 for p in group["params"]:
                     state = self.state[p]
-                    state['step'] = torch.zeros((1,), dtype=torch.float, device=p.device) \
-                        if self.defaults['capturable'] else torch.tensor(0.)
+                    state["step"] = (
+                        torch.zeros((1,), dtype=torch.float, device=p.device)
+                        if self.defaults["capturable"]
+                        else torch.tensor(0.0)
+                    )
                     # Exponential moving average of gradient values
-                    state['exp_avg'] = torch.zeros_like(p, memory_format=torch.preserve_format)
+                    state["exp_avg"] = torch.zeros_like(
+                        p, memory_format=torch.preserve_format
+                    )
                     # Exponential moving average of squared gradient values
-                    state['exp_avg_sq'] = torch.zeros_like(p, memory_format=torch.preserve_format)
-
+                    state["exp_avg_sq"] = torch.zeros_like(
+                        p, memory_format=torch.preserve_format
+                    )
 
     def __setstate__(self, state):
         super().__setstate__(state)
@@ -90,7 +97,7 @@ class VRAdaGDA(Optimizer):
                 state["sum"].share_memory_()
 
     @torch.no_grad()
-    def step(self, closure=None,delta=None):
+    def step(self, closure=None, delta=None):
         """Performs a single optimization step.
 
         Args:
@@ -112,23 +119,25 @@ class VRAdaGDA(Optimizer):
 
         # Update the states
         for group in self.param_groups:
-            beta1, beta2 = group['betas']
-            maximize = group['maximize']
-            capturable = group['capturable']
-            weight_decay = group['weight_decay']
-            lr = group['lr']
-            eps = group['eps']
+            beta1, beta2 = group["betas"]
+            maximize = group["maximize"]
+            capturable = group["capturable"]
+            weight_decay = group["weight_decay"]
+            lr = group["lr"]
+            eps = group["eps"]
 
-            for p in group['params']:
+            for p in group["params"]:
                 param = p
                 if p.grad is not None:
                     if p.grad.is_sparse:
-                        raise RuntimeError('Adam does not support sparse gradients, please consider SparseAdam instead')
+                        raise RuntimeError(
+                            "Adam does not support sparse gradients, please consider SparseAdam instead"
+                        )
 
                     state = self.state[p]
 
                     grad = param.grad if not maximize else -param.grad
-                    exp_avg_sq = state['exp_avg_sq']
+                    exp_avg_sq = state["exp_avg_sq"]
 
                     if capturable:
                         # assert param.is_cuda and step_t.is_cuda, "If capturable=True, params and state_steps must be CUDA tensors."
@@ -142,8 +151,6 @@ class VRAdaGDA(Optimizer):
 
                     self.total_sum.add_(exp_avg_sq.sum())
 
-
-
         # 遍历每一个参数组并更新梯度的平方和。
         if delta is None:
             for group in self.param_groups:
@@ -155,11 +162,11 @@ class VRAdaGDA(Optimizer):
                         grad = p.grad
                         state = self.state[p]
                         # todo:步骤7,8更新梯度
-                        d_p = state['est'] = torch.clone(grad).detach()
+                        d_p = state["est"] = torch.clone(grad).detach()
 
         else:
             for group in self.param_groups:
-                for i, (p, delta_x_i) in enumerate(zip(group['params'], delta)):
+                for i, (p, delta_x_i) in enumerate(zip(group["params"], delta)):
                     if p.grad is not None:
                         # 如果参数是复数或者梯度是稀疏的，抛出异常。
                         if torch.is_complex(p) or p.grad.is_sparse:
@@ -167,31 +174,28 @@ class VRAdaGDA(Optimizer):
                         grad = p.grad
                         state = self.state[p]
                         # todo:步骤7,8更新梯度
-                        d_p = state['est']
+                        d_p = state["est"]
                         d_p.sub_(delta_x_i).mul_(1 - beta).add_(grad)
-
-
 
         # 遍历每一个参数组进行参数更新。
         for group in self.param_groups:
-            beta1, beta2 = group['betas']
+            beta1, beta2 = group["betas"]
             lr_decay = group["lr_decay"]
             weight_decay = group["weight_decay"]
             eps = group["eps"]
             maximize = group["maximize"]
 
-            for i,p in enumerate(group["params"]):
+            for i, p in enumerate(group["params"]):
                 if p.grad is not None:
                     state = self.state[p]
 
-                    grad = state['est']
+                    grad = state["est"]
                     state_sum = state["sum"]
-                    exp_avg_sq = state['exp_avg_sq']
+                    exp_avg_sq = state["exp_avg_sq"]
                     exp_avg_sq_corre = torch.sqrt(exp_avg_sq) + eps
                     step_t = state["step"]
                     step_t += 1
                     step = step_t.item()
-
 
                     # 如果maximize为True，取梯度的负值。
                     grad_m = grad if not maximize else -grad

@@ -3,6 +3,7 @@ import numpy as np
 
 
 class Logger(object):
+
     def __init__(self, log_dir):
         """Create a summary writer logging to log_dir."""
         self.writer = tf.summary.create_file_writer(log_dir)
@@ -29,19 +30,18 @@ class Logger(object):
         #             imgs = np.append(imgs, img, axis=0)
         #         else:
         #             imgs = img
-            # tf.summary.image('{}'.format(tag), imgs, max_outputs=len(imgs), step=step)
+        # tf.summary.image('{}'.format(tag), imgs, max_outputs=len(imgs), step=step)
         with self.writer.as_default():
-            tf.summary.image('{}'.format(tag), images, step=step)
+            tf.summary.image("{}".format(tag), images, step=step)
 
     def histo_summary(self, tag, values, step, bins=1000):
         """Log a histogram of the tensor of values."""
         with self.writer.as_default():
-            tf.summary.histogram('{}'.format(tag), values, buckets=bins, step=step)
+            tf.summary.histogram("{}".format(tag), values, buckets=bins, step=step)
 
     def config_summary(self, config):
         # Write config
         with self.writer.as_default():
-            tf.summary.text("config",
-                    [[k, str(w)] for k, w in sorted(vars(config).items())],
-                    step=0)
-
+            tf.summary.text(
+                "config", [[k, str(w)] for k, w in sorted(vars(config).items())], step=0
+            )
