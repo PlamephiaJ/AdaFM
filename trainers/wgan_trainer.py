@@ -263,11 +263,11 @@ class WGAN_GP_Trainer:
                 norm_type,
             )
         return total_norm
-    
+
     def get_infinite_batches(self, data_loader):
         while True:
             for i, (images, _) in enumerate(data_loader):
                 yield images
-    
+
     def get_torch_variable(self, arg):
         return Variable(arg).to(self.device)
