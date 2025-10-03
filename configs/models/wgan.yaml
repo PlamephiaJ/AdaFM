@@ -13,7 +13,7 @@ discriminator:
 
 training:
   epochs: 50
-  batch_size: 64
+  batch_size: 128
   save_interval: 200
   device: cuda
   save_flag: false
