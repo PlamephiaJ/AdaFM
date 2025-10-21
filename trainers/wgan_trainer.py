@@ -211,7 +211,7 @@ class WGAN_GP_Trainer:
             if (total_iter) % self.save_interval == 0:
                 grad_g = WGAN_GP_Trainer.get_gradient_norm(self.G).item()
                 grad_d = WGAN_GP_Trainer.get_gradient_norm(self.D).item()
-                self.save_model()
+                # self.save_model()
                 # Workaround because graphic card memory can't store more than 830 examples in memory for generating image
                 # Therefore doing loop and generating 800 examples and stacking into list of samples to get 8000 generated images
                 # This way Inception score is more correct since there are different generated examples from every class of Inception model
