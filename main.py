@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 @hydra.main(version_base=None, config_path="configs", config_name="base")
 def main(cfg: DictConfig) -> None:
     logger.info("Starting training...")
-    logger.info(OmegaConf.to_yaml(cfg))
+    logger.info(OmegaConf.to_yaml(cfg, resolve=True))
     run(cfg)
     logger.info("Training completed.")
 
