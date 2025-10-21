@@ -7,6 +7,8 @@ import time as t
 from itertools import chain
 import copy
 from .utils.inception_score import get_inception_score
+import torchvision.utils as vutils
+import os
 
 
 class WGAN_GP_Trainer:
@@ -86,10 +88,10 @@ class WGAN_GP_Trainer:
         real_images, _ = next(iter(train_loader))
         real_images = real_images.to(self.device)
 
-        # save_path = './GAN/gan_fake_images_c100/real_images.png'
+        save_path = './GAN/gan_fake_images_c100/real_images.png'
 
-        # os.makedirs(os.path.dirname(save_path), exist_ok=True)
-        # vutils.save_image(real_images, save_path, normalize=True)
+        os.makedirs(os.path.dirname(save_path), exist_ok=True)
+        vutils.save_image(real_images, save_path, normalize=True)
 
         total_iter = 0
         D_old, G_old = None, None
@@ -209,7 +211,7 @@ class WGAN_GP_Trainer:
             if (total_iter) % self.save_interval == 0:
                 grad_g = WGAN_GP_Trainer.get_gradient_norm(self.G).item()
                 grad_d = WGAN_GP_Trainer.get_gradient_norm(self.D).item()
-                # self.save_model()
+                self.save_model()
                 # Workaround because graphic card memory can't store more than 830 examples in memory for generating image
                 # Therefore doing loop and generating 800 examples and stacking into list of samples to get 8000 generated images
                 # This way Inception score is more correct since there are different generated examples from every class of Inception model
@@ -234,24 +236,24 @@ class WGAN_GP_Trainer:
                 )
                 Real_Inception_score.append(inception_score[0])
                 # Testing
-                # time = t.time() - self.t_begin
+                time = t.time() - self.t_begin
                 print("Real Inception score: {}".format(inception_score))
                 print("Generator iter: {}".format(g_iter))
                 print("total_iter: {}".format(total_iter))
-                # print("Time {}".format(time))
-                # z = self.get_torch_variable(torch.randn(self.batch_size, self.z_dim, 1, 1))
-                # with torch.no_grad():
-                #     fake_images = self.G(z).detach().cpu()
+                print("Time {}".format(time))
+                z = self.get_torch_variable(torch.randn(self.batch_size, self.z_dim, 1, 1))
+                with torch.no_grad():
+                    fake_images = self.G(z).detach().cpu()
 
                 # 保存图片
-                # save_image_path = f'/home/panxiaokang/parameter_free/GAN/gan_fake_images_c100/iter_{total_iter}.png'
-                # vutils.save_image(fake_images, save_image_path, normalize=True)
+                save_image_path = f'./GAN/gan_fake_images_c100/iter_{total_iter}.png'
+                vutils.save_image(fake_images, save_image_path, normalize=True)
                 #
                 # # 可选：打印保存图片的消息
-                # print(f'Saved images at iteration {total_iter}')
+                print(f'Saved images at iteration {total_iter}')
 
-        # self.t_end = t.time()
-        # print('Time of training-{}'.format((self.t_end - self.t_begin)))
+        self.t_end = t.time()
+        print('Time of training-{}'.format((self.t_end - self.t_begin)))
 
     @staticmethod
     def get_gradient_norm(model, norm_type=2.0):

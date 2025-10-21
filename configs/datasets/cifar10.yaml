@@ -1,4 +1,4 @@
 name: cifar10
-dataroot: dataset/cifar10/
+dataroot: /mnt/cnlab/
 download: false
 batch_size: 64
