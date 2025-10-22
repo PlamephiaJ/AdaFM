@@ -9,6 +9,8 @@ import copy
 from .utils.inception_score import get_inception_score
 import torchvision.utils as vutils
 import os
+import pickle
+import numpy as np
 
 
 class WGAN_GP_Trainer:
@@ -254,6 +256,25 @@ class WGAN_GP_Trainer:
 
         self.t_end = t.time()
         print('Time of training-{}'.format((self.t_end - self.t_begin)))
+        # Save Real Inception Score
+
+        # Convert to numpy array if it's a list
+        real_inception_scores = np.array(Real_Inception_score)
+
+        # Save to pickle file
+        score_save_path = './GAN/gan_fake_images_c100/real_inception_scores.pkl'
+        os.makedirs(os.path.dirname(score_save_path), exist_ok=True)
+        with open(score_save_path, 'wb') as f:
+            pickle.dump(real_inception_scores, f)
+
+        # Also save as text file for easy reading
+        txt_save_path = './GAN/gan_fake_images_c100/real_inception_scores.txt'
+        with open(txt_save_path, 'w') as f:
+            f.write('Real Inception Scores:\n')
+            for i, score in enumerate(real_inception_scores):
+                f.write(f'Iteration {(i+1)*self.save_interval}: {score:.6f}\n')
+
+        print(f'Real Inception Scores saved to {score_save_path} and {txt_save_path}')
 
     @staticmethod
     def get_gradient_norm(model, norm_type=2.0):
