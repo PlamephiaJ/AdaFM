@@ -3,23 +3,7 @@ from torch.optim import Optimizer
 from typing import Optional
 
 
-class AdaFM(Optimizer):
-    r"""Implements TiAda algorithm.
-    Args:
-        params (iterable): iterable of parameters to optimize or dicts defining
-            parameter groups
-        lr (float, optional): learning rate (default: 1e-2)
-        lr_decay (float, optional): learning rate decay (default: 0)
-        weight_decay (float, optional): weight decay (L2 penalty) (default: 0)
-        eps (float, optional): term added to the denominator to improve
-            numerical stability (default: 1e-10)
-        foreach (bool, optional): whether foreach implementation of optimizer is used (default: None)
-        maximize (bool, optional): maximize the params based on the objective, instead of
-            minimizing (default: False)
-        alpha (float): alpha parameter in TiAda
-        opponent_optim (optional): If this optimizer is for x, provide the optimizer of y. If
-            this optimizer is for y, set it to None.
-    """
+class MSGDA(Optimizer):
 
     def __init__(
         self,
@@ -27,10 +11,12 @@ class AdaFM(Optimizer):
         lr=1e-2,
         lr_decay=0,
         weight_decay=0,
-        initial_accumulator_value=0,
         eps=1e-10,
         foreach: Optional[bool] = None,
-        beta=0.9,
+        alpha_param=0.9,
+        beta_param=0.9,
+        m=125,
+        k=5,
         opponent_optim=None,
         compute_effective_stepsize=False,
         *,
@@ -42,12 +28,6 @@ class AdaFM(Optimizer):
             raise ValueError("Invalid lr_decay value: {}".format(lr_decay))
         if not 0.0 <= weight_decay:
             raise ValueError("Invalid weight_decay value: {}".format(weight_decay))
-        if not 0.0 <= initial_accumulator_value:
-            raise ValueError(
-                "Invalid initial_accumulator_value value: {}".format(
-                    initial_accumulator_value
-                )
-            )
         if not 0.0 <= eps:
             raise ValueError("Invalid epsilon value: {}".format(eps))
 
@@ -56,12 +36,15 @@ class AdaFM(Optimizer):
             lr_decay=lr_decay,
             eps=eps,
             weight_decay=weight_decay,
-            initial_accumulator_value=initial_accumulator_value,
             foreach=foreach,
             maximize=maximize,
         )
 
-        self.beta = beta
+        self.beta_param = beta_param
+        self.alpha_param = alpha_param
+        self.m = m
+        self.k = k
+
         self.opponent_optim = opponent_optim
         # whether to compute effective_stepsize
         self.compute_effective_stepsize = compute_effective_stepsize
@@ -76,17 +59,7 @@ class AdaFM(Optimizer):
                 for p in group["params"]:
                     state = self.state[p]
                     state["step"] = torch.tensor(0.0)
-                    init_value = (
-                        complex(initial_accumulator_value, initial_accumulator_value)
-                        if torch.is_complex(p)
-                        else initial_accumulator_value
-                    )
-                    state["sum"] = torch.full_like(
-                        p, init_value, memory_format=torch.preserve_format
-                    )
-
-                    # Update total_sum
-                    self.total_sum.add_(state["sum"].sum())
+                    state["time_factor"] = self.k / (self.m + state["step"]) ** (1 / 3)
 
     def __setstate__(self, state):
         super().__setstate__(state)
@@ -101,12 +74,6 @@ class AdaFM(Optimizer):
         if not step_is_tensor:
             for s in state_values:
                 s["step"] = torch.tensor(float(s["step"]))
-
-    def share_memory(self):
-        for group in self.param_groups:
-            for p in group["params"]:
-                state = self.state[p]
-                state["sum"].share_memory_()
 
     @torch.no_grad()
     def step(self, closure=None, delta=None):

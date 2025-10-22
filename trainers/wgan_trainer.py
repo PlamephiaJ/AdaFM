@@ -90,7 +90,7 @@ class WGAN_GP_Trainer:
         real_images, _ = next(iter(train_loader))
         real_images = real_images.to(self.device)
 
-        save_path = './GAN/gan_fake_images_c100/real_images.png'
+        save_path = "./GAN/gan_fake_images_c100/real_images.png"
 
         os.makedirs(os.path.dirname(save_path), exist_ok=True)
         vutils.save_image(real_images, save_path, normalize=True)
@@ -243,38 +243,40 @@ class WGAN_GP_Trainer:
                 print("Generator iter: {}".format(g_iter))
                 print("total_iter: {}".format(total_iter))
                 print("Time {}".format(time))
-                z = self.get_torch_variable(torch.randn(self.batch_size, self.z_dim, 1, 1))
+                z = self.get_torch_variable(
+                    torch.randn(self.batch_size, self.z_dim, 1, 1)
+                )
                 with torch.no_grad():
                     fake_images = self.G(z).detach().cpu()
 
                 # 保存图片
-                save_image_path = f'./GAN/gan_fake_images_c100/iter_{total_iter}.png'
+                save_image_path = f"./GAN/gan_fake_images_c100/iter_{total_iter}.png"
                 vutils.save_image(fake_images, save_image_path, normalize=True)
                 #
                 # # 可选：打印保存图片的消息
-                print(f'Saved images at iteration {total_iter}')
+                print(f"Saved images at iteration {total_iter}")
 
         self.t_end = t.time()
-        print('Time of training-{}'.format((self.t_end - self.t_begin)))
+        print("Time of training-{}".format((self.t_end - self.t_begin)))
         # Save Real Inception Score
 
         # Convert to numpy array if it's a list
         real_inception_scores = np.array(Real_Inception_score)
 
         # Save to pickle file
-        score_save_path = './GAN/gan_fake_images_c100/real_inception_scores.pkl'
+        score_save_path = "./GAN/gan_fake_images_c100/real_inception_scores.pkl"
         os.makedirs(os.path.dirname(score_save_path), exist_ok=True)
-        with open(score_save_path, 'wb') as f:
+        with open(score_save_path, "wb") as f:
             pickle.dump(real_inception_scores, f)
 
         # Also save as text file for easy reading
-        txt_save_path = './GAN/gan_fake_images_c100/real_inception_scores.txt'
-        with open(txt_save_path, 'w') as f:
-            f.write('Real Inception Scores:\n')
+        txt_save_path = "./GAN/gan_fake_images_c100/real_inception_scores.txt"
+        with open(txt_save_path, "w") as f:
+            f.write("Real Inception Scores:\n")
             for i, score in enumerate(real_inception_scores):
-                f.write(f'Iteration {(i+1)*self.save_interval}: {score:.6f}\n')
+                f.write(f"Iteration {(i+1)*self.save_interval}: {score:.6f}\n")
 
-        print(f'Real Inception Scores saved to {score_save_path} and {txt_save_path}')
+        print(f"Real Inception Scores saved to {score_save_path} and {txt_save_path}")
 
     @staticmethod
     def get_gradient_norm(model, norm_type=2.0):
