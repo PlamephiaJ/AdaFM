@@ -1,3 +1,4 @@
+from omegaconf import DictConfig
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -11,7 +12,10 @@ import torchvision.utils as vutils
 import os
 import pickle
 import numpy as np
+from pathlib import Path
+import logging
 
+LOGGER = logging.getLogger(__name__)
 
 class WGAN_GP_Trainer:
 
@@ -26,6 +30,7 @@ class WGAN_GP_Trainer:
         save_interval: int,
         z_dim: int,
         batch_size: int,
+        cfg: DictConfig,
         device=None,
     ):
         if device is None:
@@ -42,6 +47,9 @@ class WGAN_GP_Trainer:
         self.save_interval = save_interval
         self.z_dim = z_dim
         self.batch_size = batch_size
+        self.cfg = cfg
+        self.results_folder = Path("GAN") / self.cfg.optimizers.name / f"{self.cfg.datasets.name}"
+        self.results_folder.mkdir(parents=True, exist_ok=True)
 
     def calculate_gradient_penalty(self, real_images, fake_images, eta):
         # eta = torch.FloatTensor(self.batch_size,1,1,1).uniform_(0,1)
@@ -82,201 +90,208 @@ class WGAN_GP_Trainer:
         return grad_penalty, eta
 
     def train(self, train_loader, Real_Inception_score):
-        self.t_begin = t.time()
-        self.data = self.get_infinite_batches(train_loader)
-        one = torch.tensor(1, dtype=torch.float).to(self.device)
-        mone = one * -1
+        try:
+            self.t_begin = t.time()
+            self.data = self.get_infinite_batches(train_loader)
+            one = torch.tensor(1, dtype=torch.float).to(self.device)
+            mone = one * -1
 
-        real_images, _ = next(iter(train_loader))
-        real_images = real_images.to(self.device)
+            real_images, _ = next(iter(train_loader))
+            real_images = real_images.to(self.device)
 
-        save_path = "./GAN/gan_fake_images_c100/real_images.png"
+            os.makedirs(self.results_folder, exist_ok=True)
+            vutils.save_image(real_images, self.results_folder / "real_images.png", normalize=True)
 
-        os.makedirs(os.path.dirname(save_path), exist_ok=True)
-        vutils.save_image(real_images, save_path, normalize=True)
+            total_iter = 0
+            D_old, G_old = None, None
 
-        total_iter = 0
-        D_old, G_old = None, None
-
-        for g_iter in range(self.generator_iters):
-            # Requires grad, Generator requires_grad = False
-            for p in self.D.parameters():
-                p.requires_grad = True
-            if D_old is not None:
-                for p in D_old.parameters():
+            for g_iter in range(self.generator_iters):
+                # Requires grad, Generator requires_grad = False
+                for p in self.D.parameters():
                     p.requires_grad = True
-
-            d_loss_real = 0
-            d_loss_fake = 0
-            Wasserstein_D = 0
-
-            for d_iter in range(self.critic_iters):
-                self.D.zero_grad()
                 if D_old is not None:
-                    D_old.zero_grad()
+                    for p in D_old.parameters():
+                        p.requires_grad = True
 
-                images = self.data.__next__()
-                images = self.get_torch_variable(images)
+                d_loss_real = 0
+                d_loss_fake = 0
+                Wasserstein_D = 0
 
-                # Train discriminator
-                # WGAN - Training discriminator more iterations than generator
-                # Train with real images
-                d_loss_real = self.D(images)
-                d_loss_real = d_loss_real.mean()
-                d_loss_real.backward(mone)
+                for d_iter in range(self.critic_iters):
+                    self.D.zero_grad()
+                    if D_old is not None:
+                        D_old.zero_grad()
 
-                # Train with fake images
-                z = self.get_torch_variable(
-                    torch.randn(images.size(0), self.z_dim, 1, 1)
-                )
+                    images = self.data.__next__()
+                    images = self.get_torch_variable(images)
 
-                fake_images = self.G(z)
-                d_loss_fake = self.D(fake_images)
-                d_loss_fake = d_loss_fake.mean()
-                d_loss_fake.backward(one)
+                    # Train discriminator
+                    # WGAN - Training discriminator more iterations than generator
+                    # Train with real images
+                    d_loss_real = self.D(images)
+                    d_loss_real = d_loss_real.mean()
+                    d_loss_real.backward(mone)
 
-                # Train with gradient penalty
-                gradient_penalty, eta = self.calculate_gradient_penalty(
-                    images.data, fake_images.data, eta=None
-                )
-                gradient_penalty.backward()
+                    # Train with fake images
+                    z = self.get_torch_variable(
+                        torch.randn(images.size(0), self.z_dim, 1, 1)
+                    )
 
-                d_loss = d_loss_fake - d_loss_real + gradient_penalty
-                Wasserstein_D = (d_loss_real - d_loss_fake).item()
-
-                if D_old is not None:
-                    d_loss_real_old = D_old(images).mean()
-                    d_loss_real_old.backward(mone)
-
-                    fake_images_ = G_old(z)
-                    d_loss_fake_old = D_old(fake_images_).mean()
-                    d_loss_fake_old.backward(one)
+                    fake_images = self.G(z)
+                    d_loss_fake = self.D(fake_images)
+                    d_loss_fake = d_loss_fake.mean()
+                    d_loss_fake.backward(one)
 
                     # Train with gradient penalty
-                    gradient_penalty_old, _ = self.calculate_gradient_penalty(
-                        images.data, fake_images_.data, eta=eta
+                    gradient_penalty, eta = self.calculate_gradient_penalty(
+                        images.data, fake_images.data, eta=None
                     )
-                    gradient_penalty_old.backward()
-                    delta_y = [g.grad.data.clone() for g in D_old.parameters()]
-                    d_loss_real_old = d_loss_fake_old = gradient_penalty_old = None
+                    gradient_penalty.backward()
+
+                    d_loss = d_loss_fake - d_loss_real + gradient_penalty
+                    Wasserstein_D = (d_loss_real - d_loss_fake).item()
+
+                    if D_old is not None:
+                        d_loss_real_old = D_old(images).mean()
+                        d_loss_real_old.backward(mone)
+
+                        fake_images_ = G_old(z)
+                        d_loss_fake_old = D_old(fake_images_).mean()
+                        d_loss_fake_old.backward(one)
+
+                        # Train with gradient penalty
+                        gradient_penalty_old, _ = self.calculate_gradient_penalty(
+                            images.data, fake_images_.data, eta=eta
+                        )
+                        gradient_penalty_old.backward()
+                        delta_y = [g.grad.data.clone() for g in D_old.parameters()]
+                        d_loss_real_old = d_loss_fake_old = gradient_penalty_old = None
+                    else:
+                        delta_y = None
+                    D_old = copy.deepcopy(self.D).cuda()
+                    self.d_optimizer.step(delta=delta_y)
+                    if delta_y is not None:
+                        delta_y.clear()
+                    total_iter += 1
+
+                # Generator update
+                for p in self.D.parameters():
+                    p.requires_grad = False  # to avoid computation
+                if D_old is not None:
+                    for p in D_old.parameters():
+                        p.requires_grad = False
+
+                self.G.zero_grad()
+                if G_old is not None:
+                    G_old.zero_grad()
+                # train generator
+                # compute loss with fake images
+                z = self.get_torch_variable(torch.randn(self.batch_size, self.z_dim, 1, 1))
+                fake_images = self.G(z)
+                g_loss = self.D(fake_images)
+                g_loss = g_loss.mean()
+                g_loss.backward(mone)
+                g_cost = -g_loss
+                if G_old is not None:
+                    fake_images_ = G_old(z)
+                    g_loss_old = D_old(fake_images_).mean()
+                    g_loss_old.backward(mone)
+                    delta_x = [g.grad.data.clone() for g in G_old.parameters()]
+                    g_loss_old = fake_images_ = None
                 else:
-                    delta_y = None
-                D_old = copy.deepcopy(self.D).cuda()
-                self.d_optimizer.step(delta=delta_y)
-                if delta_y is not None:
-                    delta_y.clear()
+                    delta_x = None
+                # TODO: deepcopy can be optimized
+                G_old = copy.deepcopy(self.G).cuda()
+                self.g_optimizer.step(delta=delta_x)
+                if delta_x is not None:
+                    delta_x.clear()
+
+                # LOGGER.info(f'Generator iteration: {g_iter}/{self.generator_iters}, '
+                #       f'loss_real: {d_loss_real:.4f}, '
+                #       f'loss_fake: {d_loss_fake:.4f}, '
+                #       f'g_loss: {g_loss:.4f}, '
+                #       f'lr_x ={self.lr_x},'
+                #       f'lr_y={self.lr_y}, '
+                #       f'beta = {self.beta_for_VRAda},'
+                #       f'dataset={args.dataset}')
+
                 total_iter += 1
+                # Saving model and sampling images every 1000th generator iterations
+                if (total_iter) % self.save_interval == 0:
+                    grad_g = WGAN_GP_Trainer.get_gradient_norm(self.G).item()
+                    grad_d = WGAN_GP_Trainer.get_gradient_norm(self.D).item()
+                    # self.save_model()
+                    # Workaround because graphic card memory can't store more than 830 examples in memory for generating image
+                    # Therefore doing loop and generating 800 examples and stacking into list of samples to get 8000 generated images
+                    # This way Inception score is more correct since there are different generated examples from every class of Inception model
+                    sample_list = []
+                    for _ in range(10):
+                        # samples  = self.data.__next__()
+                        z = Variable(torch.randn(800, self.z_dim, 1, 1)).to(self.device)
+                        samples = self.G(z)
+                        # samples = samples.mul(0.5).add(0.5)
+                        sample_list.append(samples.data.cpu().numpy())
 
-            # Generator update
-            for p in self.D.parameters():
-                p.requires_grad = False  # to avoid computation
-            if D_old is not None:
-                for p in D_old.parameters():
-                    p.requires_grad = False
+                    # # Flattening list of list into one list
+                    new_sample_list = list(chain.from_iterable(sample_list))
+                    LOGGER.info("Calculating Inception Score over 8k generated images")
+                    # # Feeding list of numpy arrays
+                    inception_score = get_inception_score(
+                        new_sample_list, cuda=True, batch_size=64, resize=True, splits=10
+                    )
 
-            self.G.zero_grad()
-            if G_old is not None:
-                G_old.zero_grad()
-            # train generator
-            # compute loss with fake images
-            z = self.get_torch_variable(torch.randn(self.batch_size, self.z_dim, 1, 1))
-            fake_images = self.G(z)
-            g_loss = self.D(fake_images)
-            g_loss = g_loss.mean()
-            g_loss.backward(mone)
-            g_cost = -g_loss
-            if G_old is not None:
-                fake_images_ = G_old(z)
-                g_loss_old = D_old(fake_images_).mean()
-                g_loss_old.backward(mone)
-                delta_x = [g.grad.data.clone() for g in G_old.parameters()]
-                g_loss_old = fake_images_ = None
+                    z = self.get_torch_variable(
+                        torch.randn(self.number_of_images, self.z_dim, 1, 1)
+                    )
+                    Real_Inception_score.append(inception_score[0])
+                    # Testing
+                    time = t.time() - self.t_begin
+                    LOGGER.info("Real Inception score: {}".format(inception_score))
+                    LOGGER.info("Generator iter: {}".format(g_iter))
+                    LOGGER.info("total_iter: {}".format(total_iter))
+                    LOGGER.info("Time {}".format(time))
+                    z = self.get_torch_variable(
+                        torch.randn(self.batch_size, self.z_dim, 1, 1)
+                    )
+                    with torch.no_grad():
+                        fake_images = self.G(z).detach().cpu()
+
+                    # 保存图片
+                    save_image_path = self.results_folder / f"iter_{total_iter}.png"
+                    vutils.save_image(fake_images, save_image_path, normalize=True)
+                    #
+                    # # 可选：打印保存图片的消息
+                    LOGGER.info(f"Saved images at iteration {total_iter}")
+
+            self.t_end = t.time()
+            LOGGER.info("Time of training-{}".format((self.t_end - self.t_begin)))
+            # Save Real Inception Score
+
+            # Convert to numpy array if it's a list
+            real_inception_scores = np.array(Real_Inception_score)
+        except KeyboardInterrupt as e:
+            LOGGER.warning("Training interrupted. Saving Real Inception Scores...")
+            real_inception_scores = np.array(Real_Inception_score)
+        finally:
+            if real_inception_scores is not None:
+                # Save to pickle file
+                score_save_path = self.results_folder / "real_inception_scores.pkl"
+                os.makedirs(os.path.dirname(score_save_path), exist_ok=True)
+                with open(score_save_path, "wb") as f:
+                    pickle.dump(real_inception_scores, f)
+
+                # Also save as text file for easy reading
+                txt_save_path = self.results_folder / "real_inception_scores.txt"
+                with open(txt_save_path, "w") as f:
+                    f.write("Real Inception Scores:\n")
+                    for i, score in enumerate(real_inception_scores):
+                        f.write(f"Iteration {(i+1)*self.save_interval}: {score:.6f}\n")
+
+                LOGGER.info(f"Real Inception Scores saved to {score_save_path} and {txt_save_path}")
             else:
-                delta_x = None
-            # TODO: deepcopy can be optimized
-            G_old = copy.deepcopy(self.G).cuda()
-            self.g_optimizer.step(delta=delta_x)
-            if delta_x is not None:
-                delta_x.clear()
-
-            # print(f'Generator iteration: {g_iter}/{self.generator_iters}, '
-            #       f'loss_real: {d_loss_real:.4f}, '
-            #       f'loss_fake: {d_loss_fake:.4f}, '
-            #       f'g_loss: {g_loss:.4f}, '
-            #       f'lr_x ={self.lr_x},'
-            #       f'lr_y={self.lr_y}, '
-            #       f'beta = {self.beta_for_VRAda},'
-            #       f'dataset={args.dataset}')
-
-            total_iter += 1
-            # Saving model and sampling images every 1000th generator iterations
-            if (total_iter) % self.save_interval == 0:
-                grad_g = WGAN_GP_Trainer.get_gradient_norm(self.G).item()
-                grad_d = WGAN_GP_Trainer.get_gradient_norm(self.D).item()
-                # self.save_model()
-                # Workaround because graphic card memory can't store more than 830 examples in memory for generating image
-                # Therefore doing loop and generating 800 examples and stacking into list of samples to get 8000 generated images
-                # This way Inception score is more correct since there are different generated examples from every class of Inception model
-                sample_list = []
-                for _ in range(10):
-                    # samples  = self.data.__next__()
-                    z = Variable(torch.randn(800, self.z_dim, 1, 1)).to(self.device)
-                    samples = self.G(z)
-                    # samples = samples.mul(0.5).add(0.5)
-                    sample_list.append(samples.data.cpu().numpy())
-
-                # # Flattening list of list into one list
-                new_sample_list = list(chain.from_iterable(sample_list))
-                print("Calculating Inception Score over 8k generated images")
-                # # Feeding list of numpy arrays
-                inception_score = get_inception_score(
-                    new_sample_list, cuda=True, batch_size=64, resize=True, splits=10
-                )
-
-                z = self.get_torch_variable(
-                    torch.randn(self.number_of_images, self.z_dim, 1, 1)
-                )
-                Real_Inception_score.append(inception_score[0])
-                # Testing
-                time = t.time() - self.t_begin
-                print("Real Inception score: {}".format(inception_score))
-                print("Generator iter: {}".format(g_iter))
-                print("total_iter: {}".format(total_iter))
-                print("Time {}".format(time))
-                z = self.get_torch_variable(
-                    torch.randn(self.batch_size, self.z_dim, 1, 1)
-                )
-                with torch.no_grad():
-                    fake_images = self.G(z).detach().cpu()
-
-                # 保存图片
-                save_image_path = f"./GAN/gan_fake_images_c100/iter_{total_iter}.png"
-                vutils.save_image(fake_images, save_image_path, normalize=True)
-                #
-                # # 可选：打印保存图片的消息
-                print(f"Saved images at iteration {total_iter}")
-
-        self.t_end = t.time()
-        print("Time of training-{}".format((self.t_end - self.t_begin)))
-        # Save Real Inception Score
-
-        # Convert to numpy array if it's a list
-        real_inception_scores = np.array(Real_Inception_score)
-
-        # Save to pickle file
-        score_save_path = "./GAN/gan_fake_images_c100/real_inception_scores.pkl"
-        os.makedirs(os.path.dirname(score_save_path), exist_ok=True)
-        with open(score_save_path, "wb") as f:
-            pickle.dump(real_inception_scores, f)
-
-        # Also save as text file for easy reading
-        txt_save_path = "./GAN/gan_fake_images_c100/real_inception_scores.txt"
-        with open(txt_save_path, "w") as f:
-            f.write("Real Inception Scores:\n")
-            for i, score in enumerate(real_inception_scores):
-                f.write(f"Iteration {(i+1)*self.save_interval}: {score:.6f}\n")
-
-        print(f"Real Inception Scores saved to {score_save_path} and {txt_save_path}")
+                LOGGER.warning("No Real Inception Scores to save.")
+            
+        
 
     @staticmethod
     def get_gradient_norm(model, norm_type=2.0):

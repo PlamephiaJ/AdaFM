@@ -13,8 +13,7 @@ class MSGDA(Optimizer):
         weight_decay=0,
         eps=1e-10,
         foreach: Optional[bool] = None,
-        alpha_param=0.9,
-        beta_param=0.9,
+        beta=0.9,
         m=125,
         k=5,
         opponent_optim=None,
@@ -40,8 +39,8 @@ class MSGDA(Optimizer):
             maximize=maximize,
         )
 
-        self.beta_param = beta_param
-        self.alpha_param = alpha_param
+        self.beta = beta
+
         self.m = m
         self.k = k
 
@@ -59,7 +58,7 @@ class MSGDA(Optimizer):
                 for p in group["params"]:
                     state = self.state[p]
                     state["step"] = torch.tensor(0.0)
-                    state["time_factor"] = self.k / (self.m + state["step"]) ** (1 / 3)
+                    # state["time_factor"] = self.k / (self.m + state["step"]) ** (1 / 3)
 
     def __setstate__(self, state):
         super().__setstate__(state)
@@ -100,11 +99,7 @@ class MSGDA(Optimizer):
                             )
                         grad = p.grad
                         state = self.state[p]
-                        # todo:步骤7,8更新梯度
-                        d_p = state["est"] = torch.clone(grad).detach()
-                        sq_grad = torch.mul(d_p, d_p.conj()) / self.beta  # 梯度的平方
-                        state["sum"].add_(sq_grad)
-                        self.total_sum.add_(sq_grad.sum())
+                        d_p = state["momentum_buffer"] = torch.clone(grad).detach()
         else:
             for group in self.param_groups:
                 for i, (p, delta_x_i) in enumerate(zip(group["params"], delta)):
@@ -116,19 +111,15 @@ class MSGDA(Optimizer):
                             )
                         grad = p.grad
                         state = self.state[p]
-                        # todo:步骤7,8更新梯度
-                        d_p = state["est"]
+                        d_p = state["momentum_buffer"]
                         d_p.sub_(delta_x_i).mul_(1 - self.beta).add_(grad)
-                        sq_grad = torch.mul(d_p, d_p.conj()) / self.beta  # 梯度的平方
-                        state["sum"].add_(sq_grad)
-                        self.total_sum.add_(sq_grad.sum())
 
         # 如果存在对手的优化器，则计算比率。
-        if self.opponent_optim is not None:
-            ratio = self.total_sum.pow(1 / 3)
-            ratio.div_(torch.max(ratio, self.opponent_optim.total_sum.pow(1 / 3)))
-        else:
-            ratio = 1
+        # if self.opponent_optim is not None:
+        #     ratio = self.total_sum.pow(1 / 3)
+        #     ratio.div_(torch.max(ratio, self.opponent_optim.total_sum.pow(1 / 3)))
+        # else:
+        #     ratio = 1
         # 遍历每一个参数组进行参数更新。
         for group in self.param_groups:
             lr = group["lr"]
@@ -141,10 +132,13 @@ class MSGDA(Optimizer):
                 if p.grad is not None:
                     state = self.state[p]
                     # grad = p.grad
-                    grad = state["est"]
-                    state_sum = state["sum"]
+                    grad = state["momentum_buffer"]
+
 
                     step_t = state["step"]
+
+                    time_factor = self.k / (self.m + step_t) ** (1 / 3)
+
                     step_t += 1
                     step = step_t.item()
 
@@ -171,11 +165,6 @@ class MSGDA(Optimizer):
                     clr = lr / (1 + (step - 1) * lr_decay)
 
                     # 根据之前计算的比率更新参数。
-                    ratio_p = state_sum.pow(1 / 3).add_(eps).div_(ratio)
-                    p.data.addcdiv_(grad_m, ratio_p, value=-clr)
-                    # print(clr / ratio_p)
-                    # 如果设置了计算有效的步长大小，计算它。
-                    if self.compute_effective_stepsize:
-                        self.effective_stepsize = (clr / ratio_p).item()
+                    p.data.add_(time_factor * grad_m, alpha=-clr)
 
         return loss

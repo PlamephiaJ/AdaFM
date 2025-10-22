@@ -123,6 +123,19 @@ def run(cfg: DictConfig) -> None:
                 opponent_optim=d_optimizer,
                 lr_x=cfg.optimizers.lr_x,
             )
+        elif cfg.optimizers.name == "msgda":
+            from optimizers.msgda import MSGDA
+
+            d_optimizer = MSGDA(
+                discriminator.parameters(),
+                lr=cfg.optimizers.lr_discriminator,
+                beta=cfg.optimizers.beta_discriminator,
+            )
+            g_optimizer = MSGDA(
+                generator.parameters(),
+                lr=cfg.optimizers.lr_generator,
+                beta=cfg.optimizers.beta_generator,
+            )
         else:
             raise NotImplementedError(
                 f"Optimizer {cfg.optimizers.name} is not implemented."
@@ -138,6 +151,7 @@ def run(cfg: DictConfig) -> None:
             save_interval=cfg.models.training.save_interval,
             z_dim=cfg.models.generator.z_dim,
             batch_size=cfg.models.training.batch_size,
+            cfg=cfg,
             device=device,
         )
         logger.info("Trainer is ready.")
