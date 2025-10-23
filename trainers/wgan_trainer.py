@@ -48,7 +48,7 @@ class WGAN_GP_Trainer:
         self.z_dim = z_dim
         self.batch_size = batch_size
         self.cfg = cfg
-        self.results_folder = Path("GAN") / self.cfg.optimizers.name / f"{self.cfg.datasets.name}"
+        self.results_folder = Path("GAN") / self.cfg.optimizers.name / f"{self.cfg.datasets.name}" / t.strftime("%Y%m%d-%H%M%S")
         self.results_folder.mkdir(parents=True, exist_ok=True)
 
     def calculate_gradient_penalty(self, real_images, fake_images, eta):
