@@ -1,4 +1,5 @@
 import logging
+import os
 from omegaconf import DictConfig
 import argparse
 
@@ -39,6 +40,25 @@ def run(cfg: DictConfig) -> None:
         discriminator = Discriminator(channels=cfg.models.discriminator.channels).to(
             device
         )
+
+        if cfg.models.use_checkpoint:
+            if os.path.isfile(cfg.models.generator.checkpoint_path) and os.path.isfile(
+                cfg.models.discriminator.checkpoint_path
+            ):
+                generator.load_state_dict(
+                    torch.load(cfg.models.generator.checkpoint_path, map_location=device)
+                )
+                logger.info(f"Loaded generator from checkpoints {cfg.models.generator.checkpoint_path}.")
+                discriminator.load_state_dict(
+                    torch.load(
+                        cfg.models.discriminator.checkpoint_path, map_location=device
+                    )
+                )
+                logger.info(f"Loaded discriminator from checkpoints {cfg.models.discriminator.checkpoint_path}.")
+            else:
+                raise FileNotFoundError(
+                    "Checkpoint files not found for generator or discriminator."
+                )
 
         if cfg.optimizers.name == "adam":
             d_optimizer = torch.optim.Adam(

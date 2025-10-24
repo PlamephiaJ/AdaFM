@@ -88,7 +88,30 @@ class WGAN_GP_Trainer:
 
         grad_penalty = ((gradients.norm(2, dim=1) - 1) ** 2).mean() * self.lambda_term
         return grad_penalty, eta
+    
+    def _save_models_checkpoint(self, iteration):
+        checkpoint_dir = self.results_folder / "checkpoints"
+        checkpoint_dir.mkdir(parents=True, exist_ok=True)
 
+        g_checkpoint_path = checkpoint_dir / f"generator_iter_{iteration}.pth"
+        d_checkpoint_path = checkpoint_dir / f"discriminator_iter_{iteration}.pth"
+
+        # Remove old checkpoints for previous iterations
+        for old_checkpoint in checkpoint_dir.glob("generator_iter_*.pth"):
+            if old_checkpoint != g_checkpoint_path:
+                old_checkpoint.unlink()
+                LOGGER.info(f"Removed old generator checkpoint: {old_checkpoint}")
+            
+        for old_checkpoint in checkpoint_dir.glob("discriminator_iter_*.pth"):
+            if old_checkpoint != d_checkpoint_path:
+                old_checkpoint.unlink()
+                LOGGER.info(f"Removed old discriminator checkpoint: {old_checkpoint}")
+
+        torch.save(self.G.state_dict(), g_checkpoint_path)
+        torch.save(self.D.state_dict(), d_checkpoint_path)
+
+        LOGGER.info(f"Saved generator checkpoint to {g_checkpoint_path}")
+        LOGGER.info(f"Saved discriminator checkpoint to {d_checkpoint_path}")
     def train(self, train_loader, Real_Inception_score):
         try:
             self.t_begin = t.time()
@@ -104,6 +127,8 @@ class WGAN_GP_Trainer:
 
             total_iter = 0
             D_old, G_old = None, None
+
+            best_real_inception_score = -float('inf')
 
             for g_iter in range(self.generator_iters):
                 # Requires grad, Generator requires_grad = False
@@ -236,6 +261,8 @@ class WGAN_GP_Trainer:
                     new_sample_list = list(chain.from_iterable(sample_list))
                     LOGGER.info("Calculating Inception Score over 8k generated images")
                     # # Feeding list of numpy arrays
+                    # inception_score is a tuple (mean, std)
+                    # mean IS and std IS
                     inception_score = get_inception_score(
                         new_sample_list, cuda=True, batch_size=64, resize=True, splits=10
                     )
@@ -244,9 +271,17 @@ class WGAN_GP_Trainer:
                         torch.randn(self.number_of_images, self.z_dim, 1, 1)
                     )
                     Real_Inception_score.append(inception_score[0])
+
+                    if inception_score[0] > best_real_inception_score:
+                        best_real_inception_score = inception_score[0]
+                        self._save_models_checkpoint(total_iter)
+                        LOGGER.info(f"New best Inception Score: {best_real_inception_score:.4f}. Checkpoints saved.")
+
+                    
+
                     # Testing
                     time = t.time() - self.t_begin
-                    LOGGER.info("Real Inception score: {}".format(inception_score))
+                    LOGGER.info("Real Inception score (mean, std): {}".format(inception_score))
                     LOGGER.info("Generator iter: {}".format(g_iter))
                     LOGGER.info("total_iter: {}".format(total_iter))
                     LOGGER.info("Time {}".format(time))
