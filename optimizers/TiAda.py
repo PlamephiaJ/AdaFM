@@ -435,6 +435,7 @@ class TiAda(Optimizer):
         eps=1e-10,
         foreach: Optional[bool] = None,
         alpha=0.5,
+        beta=0.4,
         opponent_optim=None,
         compute_effective_stepsize=False,
         *,
@@ -513,7 +514,7 @@ class TiAda(Optimizer):
                 state["sum"].share_memory_()
 
     @torch.no_grad()
-    def step(self, closure=None):
+    def step(self, closure=None, delta=None):
         """Performs a single optimization step.
         Args:
             closure (callable, optional): A closure that reevaluates the model

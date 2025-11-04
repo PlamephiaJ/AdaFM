@@ -31,10 +31,11 @@ class WGAN_GP_Trainer:
         z_dim: int,
         batch_size: int,
         cfg: DictConfig,
+        results_folder: Path,
         device=None,
     ):
         if device is None:
-            device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+            raise ValueError("Device must be specified for the trainer.")
         self.G = generator.to(device)
         self.D = discriminator.to(device)
         self.g_optimizer = g_optimizer
@@ -48,8 +49,7 @@ class WGAN_GP_Trainer:
         self.z_dim = z_dim
         self.batch_size = batch_size
         self.cfg = cfg
-        self.results_folder = Path("GAN") / self.cfg.optimizers.name / f"{self.cfg.datasets.name}" / t.strftime("%Y%m%d-%H%M%S")
-        self.results_folder.mkdir(parents=True, exist_ok=True)
+        self.results_folder = results_folder
 
     def calculate_gradient_penalty(self, real_images, fake_images, eta):
         # eta = torch.FloatTensor(self.batch_size,1,1,1).uniform_(0,1)
@@ -193,7 +193,7 @@ class WGAN_GP_Trainer:
                         d_loss_real_old = d_loss_fake_old = gradient_penalty_old = None
                     else:
                         delta_y = None
-                    D_old = copy.deepcopy(self.D).cuda()
+                    D_old = copy.deepcopy(self.D).to(self.device)
                     self.d_optimizer.step(delta=delta_y)
                     if delta_y is not None:
                         delta_y.clear()
@@ -226,7 +226,7 @@ class WGAN_GP_Trainer:
                 else:
                     delta_x = None
                 # TODO: deepcopy can be optimized
-                G_old = copy.deepcopy(self.G).cuda()
+                G_old = copy.deepcopy(self.G).to(self.device)
                 self.g_optimizer.step(delta=delta_x)
                 if delta_x is not None:
                     delta_x.clear()
