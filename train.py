@@ -115,12 +115,14 @@ def run(cfg: DictConfig) -> None:
                 discriminator.parameters(),
                 beta=cfg.optimizers.beta,
                 lr=cfg.optimizers.lr_y,
+                results_folder=results_folder,
             )
             g_optimizer = TiAda(
                 generator.parameters(),
                 beta=cfg.optimizers.beta,
                 opponent_optim=d_optimizer,
                 lr=cfg.optimizers.lr_x,
+                results_folder=results_folder,
             )
         # elif cfg.optimizers.name == "RSGDA":
         #     from optimizers.RSGDA import RSGDA

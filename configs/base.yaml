@@ -12,7 +12,7 @@ setup:
     seed: 8
   numpy:
     seed: 8
-  device: cuda:1
+  device: cuda:0
 
 hydra:
   run:
