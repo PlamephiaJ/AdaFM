@@ -1,6 +1,7 @@
 import torch
 from torch.optim import Optimizer
 from typing import Optional
+from pathlib import Path
 
 
 class MSGDA(Optimizer):
@@ -18,6 +19,7 @@ class MSGDA(Optimizer):
         k=5,
         opponent_optim=None,
         compute_effective_stepsize=False,
+        results_folder=None,
         *,
         maximize: bool = False,
     ):
@@ -49,6 +51,15 @@ class MSGDA(Optimizer):
         self.compute_effective_stepsize = compute_effective_stepsize
 
         super().__init__(params, defaults)
+        self.results_folder = results_folder
+        if self.results_folder is None:
+            raise ValueError("results_folder must be provided.")
+        if opponent_optim is not None:
+            self.optimizer_log_path = Path(self.results_folder) / "optimizer_log_x.txt"
+        else:
+            self.optimizer_log_path = Path(self.results_folder) / "optimizer_log_y.txt"
+        self.optimizer_log_file = open(self.optimizer_log_path, "w")
+        self.optimizer_log_file.write("step,learning_rate\n")
 
         # store the total_sum in the same device as the first parameter
         self.total_sum = self.param_groups[0]["params"][0].new_zeros(1)
@@ -163,6 +174,10 @@ class MSGDA(Optimizer):
 
                     # 计算学习率的衰减
                     clr = lr / (1 + (step - 1) * lr_decay)
+
+                    adap_lr = clr * time_factor # lr * time_factor
+                    adap_lr_norm = torch.norm(adap_lr, p=2)
+                    self.optimizer_log_file.write(f"{step},{adap_lr_norm.item()}\n")
 
                     # 根据之前计算的比率更新参数。
                     p.data.add_(time_factor * grad_m, alpha=-clr)

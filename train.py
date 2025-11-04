@@ -157,11 +157,14 @@ def run(cfg: DictConfig) -> None:
                 discriminator.parameters(),
                 lr=cfg.optimizers.lr_discriminator,
                 beta=cfg.optimizers.beta_discriminator,
+                results_folder=results_folder,
             )
             g_optimizer = MSGDA(
                 generator.parameters(),
                 lr=cfg.optimizers.lr_generator,
+                opponent_optim=d_optimizer,
                 beta=cfg.optimizers.beta_generator,
+                results_folder=results_folder,
             )
         else:
             raise NotImplementedError(
