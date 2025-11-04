@@ -168,6 +168,34 @@ def run(cfg: DictConfig) -> None:
                 beta=cfg.optimizers.beta_generator,
                 results_folder=results_folder,
             )
+        elif cfg.optimizers.name == "pesg":
+            from optimizers.pesg import PESG
+
+            d_optimizer = PESG(
+                discriminator.parameters(),
+                total_iter=cfg.models.training.generator_iters * cfg.models.training.critic_iters,
+                lr=cfg.optimizers.lr,
+                clip_value=cfg.optimizers.clip_value,
+                weight_decay=cfg.optimizers.weight_decay,
+                epoch_decay=cfg.optimizers.epoch_decay,
+                momentum=cfg.optimizers.momentum,
+                decay_iters=cfg.optimizers.decay_iters,
+                decay_factor=cfg.optimizers.decay_factor,
+                results_folder=results_folder,
+            )
+            g_optimizer = PESG(
+                generator.parameters(),
+                total_iter=cfg.models.training.generator_iters,
+                lr=cfg.optimizers.lr,
+                clip_value=cfg.optimizers.clip_value,
+                weight_decay=cfg.optimizers.weight_decay,
+                epoch_decay=cfg.optimizers.epoch_decay,
+                momentum=cfg.optimizers.momentum,
+                decay_iters=cfg.optimizers.decay_iters,
+                decay_factor=cfg.optimizers.decay_factor,
+                opponent_optim=d_optimizer,
+                results_folder=results_folder,
+            )
         else:
             raise NotImplementedError(
                 f"Optimizer {cfg.optimizers.name} is not implemented."

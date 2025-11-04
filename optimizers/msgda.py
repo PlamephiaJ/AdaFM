@@ -55,9 +55,9 @@ class MSGDA(Optimizer):
         if self.results_folder is None:
             raise ValueError("results_folder must be provided.")
         if opponent_optim is not None:
-            self.optimizer_log_path = Path(self.results_folder) / "optimizer_log_x.txt"
+            self.optimizer_log_path = Path(self.results_folder) / "optimizer_log_x.csv"
         else:
-            self.optimizer_log_path = Path(self.results_folder) / "optimizer_log_y.txt"
+            self.optimizer_log_path = Path(self.results_folder) / "optimizer_log_y.csv"
         self.optimizer_log_file = open(self.optimizer_log_path, "w")
         self.optimizer_log_file.write("step,learning_rate\n")
 

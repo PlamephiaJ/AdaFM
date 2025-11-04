@@ -5,6 +5,7 @@ import torch.optim as optim
 import torch.autograd as autograd
 from torch.autograd import Variable
 import time as t
+from datetime import timedelta
 from itertools import chain
 import copy
 from .utils.inception_score import get_inception_score
@@ -14,6 +15,7 @@ import pickle
 import numpy as np
 from pathlib import Path
 import logging
+from tqdm import tqdm
 
 LOGGER = logging.getLogger(__name__)
 
@@ -50,6 +52,8 @@ class WGAN_GP_Trainer:
         self.batch_size = batch_size
         self.cfg = cfg
         self.results_folder = results_folder
+        self.images_folder = results_folder / "images"
+        os.makedirs(self.images_folder, exist_ok=True)
 
     def calculate_gradient_penalty(self, real_images, fake_images, eta):
         # eta = torch.FloatTensor(self.batch_size,1,1,1).uniform_(0,1)
@@ -130,7 +134,7 @@ class WGAN_GP_Trainer:
 
             best_real_inception_score = -float('inf')
 
-            for g_iter in range(self.generator_iters):
+            for g_iter in tqdm(range(self.generator_iters)):
                 # Requires grad, Generator requires_grad = False
                 for p in self.D.parameters():
                     p.requires_grad = True
@@ -280,11 +284,11 @@ class WGAN_GP_Trainer:
                     
 
                     # Testing
-                    time = t.time() - self.t_begin
+                    elapsed_time = t.time() - self.t_begin
                     LOGGER.info("Real Inception score (mean, std): {}".format(inception_score))
                     LOGGER.info("Generator iter: {}".format(g_iter))
-                    LOGGER.info("total_iter: {}".format(total_iter))
-                    LOGGER.info("Time {}".format(time))
+                    LOGGER.info("total_iter_finished: {}".format(total_iter))
+                    LOGGER.info("Time elapsed: {}".format(str(timedelta(seconds=int(elapsed_time)))))
                     z = self.get_torch_variable(
                         torch.randn(self.batch_size, self.z_dim, 1, 1)
                     )
@@ -292,7 +296,7 @@ class WGAN_GP_Trainer:
                         fake_images = self.G(z).detach().cpu()
 
                     # 保存图片
-                    save_image_path = self.results_folder / f"iter_{total_iter}.png"
+                    save_image_path = self.images_folder / f"iter_{total_iter}.png"
                     vutils.save_image(fake_images, save_image_path, normalize=True)
                     #
                     # # 可选：打印保存图片的消息
@@ -316,11 +320,11 @@ class WGAN_GP_Trainer:
                     pickle.dump(real_inception_scores, f)
 
                 # Also save as text file for easy reading
-                txt_save_path = self.results_folder / "real_inception_scores.txt"
+                txt_save_path = self.results_folder / "real_inception_scores.csv"
                 with open(txt_save_path, "w") as f:
-                    f.write("Real Inception Scores:\n")
+                    f.write("Iteration,IS\n")
                     for i, score in enumerate(real_inception_scores):
-                        f.write(f"Iteration {(i+1)*self.save_interval}: {score:.6f}\n")
+                        f.write(f"{(i+1)*self.save_interval},{score:.6f}\n")
 
                 LOGGER.info(f"Real Inception Scores saved to {score_save_path} and {txt_save_path}")
             else:
