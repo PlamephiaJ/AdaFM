@@ -178,8 +178,7 @@ class PESG(torch.optim.Optimizer):
     def update_regularizer(self, decay_factor=None):
         if decay_factor != None:
             self.param_groups[0]['lr'] = self.param_groups[0]['lr'] / decay_factor
-            if self.verbose:
-               LOGGER.info('Reducing learning rate to %.5f @ T=%s!', self.param_groups[0]['lr'], self.steps)
+            LOGGER.info('Reducing learning rate to %.5f @ T=%s!', self.param_groups[0]['lr'], self.steps)
 
         LOGGER.info('Updating regularizer @ T=%s!', self.steps)
         for i, param in enumerate(self.model_ref):
