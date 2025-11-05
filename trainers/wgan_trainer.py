@@ -325,6 +325,11 @@ class WGAN_GP_Trainer:
                     f.write("Iteration,IS\n")
                     for i, score in enumerate(real_inception_scores):
                         f.write(f"{(i+1)*self.save_interval},{score:.6f}\n")
+                
+                best_IS_save_path = self.results_folder / "best_real_inception_score.csv"
+                with open(best_IS_save_path, "w") as f:
+                    f.write(f"BestIS,AvgIS\n")
+                    f.write(f"{real_inception_scores.max()},{real_inception_scores.mean()}\n")
 
                 LOGGER.info(f"Real Inception Scores saved to {score_save_path} and {txt_save_path}")
             else:
