@@ -1,6 +1,6 @@
 import logging
 import os
-from omegaconf import DictConfig
+from omegaconf import DictConfig, OmegaConf
 import argparse
 
 import torch
@@ -34,6 +34,14 @@ def run(cfg: DictConfig) -> None:
 
     results_folder = Path("GAN") / cfg.optimizers.name / f"{cfg.datasets.name}" / t.strftime("%Y%m%d-%H%M%S")
     results_folder.mkdir(parents=True, exist_ok=True)
+
+    # Save configuration snapshot
+    config_file = results_folder / "config_snapshot.yaml"
+    with open(config_file, 'w') as f:
+        OmegaConf.save(cfg, f)
+    logger.info(f"Configuration snapshot saved to {config_file}")
+
+    
 
     if cfg.models.name == "wgan":
         from trainers.wgan_trainer import WGAN_GP_Trainer

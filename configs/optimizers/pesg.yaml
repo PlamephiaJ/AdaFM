@@ -1,5 +1,5 @@
 name: pesg
-lr: 0.1
+lr: 0.1 # 0.2 3e-2 5e-2 1e-3 3e-3 1e-2
 clip_value: 1.0
 weight_decay: 1e-5
 epoch_decay: 2e-3

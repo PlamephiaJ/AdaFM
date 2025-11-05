@@ -1,0 +1,94 @@
+[2025-11-04 17:15:27,071][__main__][INFO] - Starting training...
+[2025-11-04 17:15:27,072][__main__][INFO] - setup:
+  torch:
+    seed: 8
+  random:
+    seed: 8
+  numpy:
+    seed: 8
+  device: cuda:0
+optimizers:
+  name: pesg
+  lr: 0.2
+  clip_value: 1.0
+  weight_decay: 1.0e-05
+  epoch_decay: 0.002
+  momentum: 0.9
+  decay_iters: null
+  decay_factor: 10
+datasets:
+  name: cifar10
+  dataroot: /mnt/cnlab/
+  download: false
+  batch_size: 64
+models:
+  name: wgan
+  channels: 3
+  critic_iters: 1
+  generator_iters: 100000
+  lambda_term: 0.0001
+  number_of_images: 100
+  use_checkpoint: false
+  generator:
+    channels: 3
+    z_dim: 50
+    checkpoint_path: null
+  discriminator:
+    channels: 3
+    checkpoint_path: null
+  training:
+    epochs: 50
+    batch_size: 128
+    save_interval: 200
+    device: cuda
+    save_flag: false
+
+[2025-11-04 17:15:27,119][train][INFO] - Using device: cuda:0
+[2025-11-04 17:15:27,613][train][INFO] - Data loaders are ready.
+[2025-11-04 17:15:27,614][train][INFO] - Configuration snapshot saved to GAN/pesg/cifar10/20251104-171527/config_snapshot.yaml
+[2025-11-04 17:15:28,159][train][INFO] - Trainer is ready.
+[2025-11-04 17:15:34,697][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-04 17:15:38,046][trainers.wgan_trainer][INFO] - Saved generator checkpoint to GAN/pesg/cifar10/20251104-171527/checkpoints/generator_iter_200.pth
+[2025-11-04 17:15:38,046][trainers.wgan_trainer][INFO] - Saved discriminator checkpoint to GAN/pesg/cifar10/20251104-171527/checkpoints/discriminator_iter_200.pth
+[2025-11-04 17:15:38,046][trainers.wgan_trainer][INFO] - New best Inception Score: 1.0000. Checkpoints saved.
+[2025-11-04 17:15:38,046][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(1.0000000104126059), np.float64(2.974003623369291e-10))
+[2025-11-04 17:15:38,046][trainers.wgan_trainer][INFO] - Generator iter: 99
+[2025-11-04 17:15:38,046][trainers.wgan_trainer][INFO] - total_iter_finished: 200
+[2025-11-04 17:15:38,046][trainers.wgan_trainer][INFO] - Time elapsed: 0:00:09
+[2025-11-04 17:15:38,056][trainers.wgan_trainer][INFO] - Saved images at iteration 200
+[2025-11-04 17:15:44,097][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-04 17:15:47,294][trainers.wgan_trainer][INFO] - Removed old generator checkpoint: GAN/pesg/cifar10/20251104-171527/checkpoints/generator_iter_200.pth
+[2025-11-04 17:15:47,299][trainers.wgan_trainer][INFO] - Removed old discriminator checkpoint: GAN/pesg/cifar10/20251104-171527/checkpoints/discriminator_iter_200.pth
+[2025-11-04 17:15:47,381][trainers.wgan_trainer][INFO] - Saved generator checkpoint to GAN/pesg/cifar10/20251104-171527/checkpoints/generator_iter_400.pth
+[2025-11-04 17:15:47,381][trainers.wgan_trainer][INFO] - Saved discriminator checkpoint to GAN/pesg/cifar10/20251104-171527/checkpoints/discriminator_iter_400.pth
+[2025-11-04 17:15:47,381][trainers.wgan_trainer][INFO] - New best Inception Score: 1.0000. Checkpoints saved.
+[2025-11-04 17:15:47,382][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(1.000000010995628), np.float64(2.8593171919612735e-10))
+[2025-11-04 17:15:47,382][trainers.wgan_trainer][INFO] - Generator iter: 199
+[2025-11-04 17:15:47,382][trainers.wgan_trainer][INFO] - total_iter_finished: 400
+[2025-11-04 17:15:47,382][trainers.wgan_trainer][INFO] - Time elapsed: 0:00:19
+[2025-11-04 17:15:47,390][trainers.wgan_trainer][INFO] - Saved images at iteration 400
+[2025-11-04 17:15:53,506][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-04 17:15:56,677][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(1.0000000092278722), np.float64(0.0))
+[2025-11-04 17:15:56,677][trainers.wgan_trainer][INFO] - Generator iter: 299
+[2025-11-04 17:15:56,677][trainers.wgan_trainer][INFO] - total_iter_finished: 600
+[2025-11-04 17:15:56,677][trainers.wgan_trainer][INFO] - Time elapsed: 0:00:28
+[2025-11-04 17:15:56,685][trainers.wgan_trainer][INFO] - Saved images at iteration 600
+[2025-11-04 17:16:02,771][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-04 17:16:05,931][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(1.0000000092278722), np.float64(0.0))
+[2025-11-04 17:16:05,931][trainers.wgan_trainer][INFO] - Generator iter: 399
+[2025-11-04 17:16:05,931][trainers.wgan_trainer][INFO] - total_iter_finished: 800
+[2025-11-04 17:16:05,931][trainers.wgan_trainer][INFO] - Time elapsed: 0:00:37
+[2025-11-04 17:16:05,940][trainers.wgan_trainer][INFO] - Saved images at iteration 800
+[2025-11-04 17:16:12,032][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-04 17:16:15,216][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(1.0000000088346725), np.float64(1.9095820002161495e-10))
+[2025-11-04 17:16:15,216][trainers.wgan_trainer][INFO] - Generator iter: 499
+[2025-11-04 17:16:15,216][trainers.wgan_trainer][INFO] - total_iter_finished: 1000
+[2025-11-04 17:16:15,216][trainers.wgan_trainer][INFO] - Time elapsed: 0:00:47
+[2025-11-04 17:16:15,224][trainers.wgan_trainer][INFO] - Saved images at iteration 1000
+[2025-11-04 17:16:21,308][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-04 17:16:24,482][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(1.0000000091468275), np.float64(9.608925364672877e-11))
+[2025-11-04 17:16:24,482][trainers.wgan_trainer][INFO] - Generator iter: 599
+[2025-11-04 17:16:24,482][trainers.wgan_trainer][INFO] - total_iter_finished: 1200
+[2025-11-04 17:16:24,482][trainers.wgan_trainer][INFO] - Time elapsed: 0:00:56
+[2025-11-04 17:16:24,490][trainers.wgan_trainer][INFO] - Saved images at iteration 1200
+[2025-11-04 17:16:30,631][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
