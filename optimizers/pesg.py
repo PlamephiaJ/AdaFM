@@ -1,6 +1,7 @@
 import torch
 from pathlib import Path
 from typing import Optional
+import copy
 import logging
 
 LOGGER = logging.getLogger(__name__)
@@ -35,8 +36,12 @@ class PESG(torch.optim.Optimizer):
         if momentum < 0.0:
             raise ValueError("Invalid momentum: {}".format(momentum))
 
-        self.model_ref = self.init_model_ref(params)
-        self.model_acc = self.init_model_acc(params)
+        params = list(params)
+
+        self.model_ref = []
+        self.init_model_ref(params=params)
+        self.model_acc = []
+        self.init_model_acc(params=params)
 
         if not decay_iters:
             self.decay_iters = [total_iter // 2, (3 * total_iter) // 4]
@@ -75,20 +80,16 @@ class PESG(torch.optim.Optimizer):
         self.optimizer_log_file.write("step,learning_rate\n")
 
 
-    def init_model_ref(params):
-        model_ref = []
-        for var in list(params):
+    def init_model_ref(self, params):
+        for var in params:
             if var is not None:
-                model_ref.append(torch.empty(var.shape).normal_(mean=0, std=0.01).to(var.device))
-        return model_ref
+                self.model_ref.append(torch.empty(var.shape).normal_(mean=0, std=0.01).to(var.device))
 
-    def init_model_acc(params):
-        model_acc = []
-        for var in list(params):
+    def init_model_acc(self, params):
+        for var in params:
             if var is not None:
-                model_acc.append(torch.zeros(var.shape, dtype=torch.float32, device=var.device, requires_grad=False))
-        return model_acc
-    
+                self.model_acc.append(torch.zeros(var.shape, dtype=torch.float32, device=var.device, requires_grad=False))
+
     def __setstate__(self, state):
         super(PESG, self).__setstate__(state)
         for group in self.param_groups:

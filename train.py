@@ -173,7 +173,7 @@ def run(cfg: DictConfig) -> None:
 
             d_optimizer = PESG(
                 discriminator.parameters(),
-                total_iter=cfg.models.training.generator_iters * cfg.models.training.critic_iters,
+                total_iter=cfg.models.generator_iters * cfg.models.critic_iters,
                 lr=cfg.optimizers.lr,
                 clip_value=cfg.optimizers.clip_value,
                 weight_decay=cfg.optimizers.weight_decay,
@@ -185,7 +185,7 @@ def run(cfg: DictConfig) -> None:
             )
             g_optimizer = PESG(
                 generator.parameters(),
-                total_iter=cfg.models.training.generator_iters,
+                total_iter=cfg.models.generator_iters,
                 lr=cfg.optimizers.lr,
                 clip_value=cfg.optimizers.clip_value,
                 weight_decay=cfg.optimizers.weight_decay,
