@@ -7,6 +7,10 @@ import glob
 from scipy import signal
 from scipy.ndimage import uniform_filter1d
 
+FIGURE_FOLDER = Path("figures")
+IS_FOLDER = FIGURE_FOLDER / "IS"
+os.makedirs(IS_FOLDER, exist_ok=True)
+
 def find_inception_score_files(gan_dir="GAN"):
     """
     Find all real_inception_scores.pkl files in the GAN directory
@@ -140,7 +144,7 @@ def load_inception_scores(file_path):
         print(f"Error loading {file_path}: {e}")
         return None
 
-def plot_inception_scores(inception_files, save_interval=1000, save_path="inception_scores_plot.png", 
+def plot_inception_scores(inception_files, save_interval=1000, save_path=IS_FOLDER / "inception_scores_plot.png", 
                          smooth_method='exponential', show_envelope=True, show_raw=False):
     """
     Plot inception scores for all experiments with smoothing and envelope
@@ -298,7 +302,7 @@ def plot_comparison_by_optimizer(inception_files, save_interval=1000, smooth_met
         plt.tight_layout()
         
         # Save optimizer-specific plot
-        save_path = f"inception_scores_{optimizer}_smoothed.png"
+        save_path = IS_FOLDER / f"inception_scores_{optimizer}_smoothed.png"
         plt.savefig(save_path, dpi=300, bbox_inches='tight')
         print(f"Optimizer-specific smoothed plot saved to: {save_path}")
         
@@ -327,7 +331,7 @@ def main():
     # Create overall comparison plot
     print("Creating overall comparison plot with smoothing...")
     plot_inception_scores(inception_files, save_interval=1000, 
-                         save_path="inception_scores_comparison_smoothed.png",
+                         save_path=IS_FOLDER / "inception_scores_comparison_smoothed.png",
                          smooth_method='exponential', 
                          show_envelope=True, 
                          show_raw=False)

@@ -134,7 +134,7 @@ class WGAN_GP_Trainer:
 
             best_real_inception_score = -float('inf')
 
-            for g_iter in tqdm(range(self.generator_iters)):
+            for g_iter in tqdm(range(self.generator_iters), desc=f"Training: optimizer {self.cfg.optimizers.name}"):
                 # Requires grad, Generator requires_grad = False
                 for p in self.D.parameters():
                     p.requires_grad = True
