@@ -572,3 +572,1897 @@ models:
 [2025-11-05 09:59:05,297][trainers.wgan_trainer][INFO] - Time elapsed: 0:12:49
 [2025-11-05 09:59:05,313][trainers.wgan_trainer][INFO] - Saved images at iteration 16200
 [2025-11-05 09:59:11,514][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 09:59:14,802][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.245610740077032), np.float64(0.07616712570741148))
+[2025-11-05 09:59:14,802][trainers.wgan_trainer][INFO] - Generator iter: 8199
+[2025-11-05 09:59:14,802][trainers.wgan_trainer][INFO] - total_iter_finished: 16400
+[2025-11-05 09:59:14,803][trainers.wgan_trainer][INFO] - Time elapsed: 0:12:58
+[2025-11-05 09:59:14,818][trainers.wgan_trainer][INFO] - Saved images at iteration 16400
+[2025-11-05 09:59:21,002][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 09:59:24,297][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.6613001382721073), np.float64(0.05436631688898852))
+[2025-11-05 09:59:24,297][trainers.wgan_trainer][INFO] - Generator iter: 8299
+[2025-11-05 09:59:24,297][trainers.wgan_trainer][INFO] - total_iter_finished: 16600
+[2025-11-05 09:59:24,297][trainers.wgan_trainer][INFO] - Time elapsed: 0:13:08
+[2025-11-05 09:59:24,314][trainers.wgan_trainer][INFO] - Saved images at iteration 16600
+[2025-11-05 09:59:30,514][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 09:59:33,828][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.055004576844829), np.float64(0.0710015060891397))
+[2025-11-05 09:59:33,828][trainers.wgan_trainer][INFO] - Generator iter: 8399
+[2025-11-05 09:59:33,828][trainers.wgan_trainer][INFO] - total_iter_finished: 16800
+[2025-11-05 09:59:33,828][trainers.wgan_trainer][INFO] - Time elapsed: 0:13:17
+[2025-11-05 09:59:33,844][trainers.wgan_trainer][INFO] - Saved images at iteration 16800
+[2025-11-05 09:59:40,042][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 09:59:43,327][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.033278193451078), np.float64(0.06271317883681515))
+[2025-11-05 09:59:43,327][trainers.wgan_trainer][INFO] - Generator iter: 8499
+[2025-11-05 09:59:43,327][trainers.wgan_trainer][INFO] - total_iter_finished: 17000
+[2025-11-05 09:59:43,327][trainers.wgan_trainer][INFO] - Time elapsed: 0:13:27
+[2025-11-05 09:59:43,344][trainers.wgan_trainer][INFO] - Saved images at iteration 17000
+[2025-11-05 09:59:49,543][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 09:59:52,816][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.9955969598959973), np.float64(0.10717868556500859))
+[2025-11-05 09:59:52,816][trainers.wgan_trainer][INFO] - Generator iter: 8599
+[2025-11-05 09:59:52,816][trainers.wgan_trainer][INFO] - total_iter_finished: 17200
+[2025-11-05 09:59:52,816][trainers.wgan_trainer][INFO] - Time elapsed: 0:13:36
+[2025-11-05 09:59:52,833][trainers.wgan_trainer][INFO] - Saved images at iteration 17200
+[2025-11-05 09:59:59,020][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:00:02,323][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.925048042263926), np.float64(0.08330341793576479))
+[2025-11-05 10:00:02,323][trainers.wgan_trainer][INFO] - Generator iter: 8699
+[2025-11-05 10:00:02,323][trainers.wgan_trainer][INFO] - total_iter_finished: 17400
+[2025-11-05 10:00:02,323][trainers.wgan_trainer][INFO] - Time elapsed: 0:13:46
+[2025-11-05 10:00:02,341][trainers.wgan_trainer][INFO] - Saved images at iteration 17400
+[2025-11-05 10:00:08,541][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:00:11,830][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.871072924628015), np.float64(0.0757682963988264))
+[2025-11-05 10:00:11,830][trainers.wgan_trainer][INFO] - Generator iter: 8799
+[2025-11-05 10:00:11,830][trainers.wgan_trainer][INFO] - total_iter_finished: 17600
+[2025-11-05 10:00:11,830][trainers.wgan_trainer][INFO] - Time elapsed: 0:13:55
+[2025-11-05 10:00:11,847][trainers.wgan_trainer][INFO] - Saved images at iteration 17600
+[2025-11-05 10:00:18,053][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:00:21,336][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.152935180188227), np.float64(0.06081263853272773))
+[2025-11-05 10:00:21,336][trainers.wgan_trainer][INFO] - Generator iter: 8899
+[2025-11-05 10:00:21,336][trainers.wgan_trainer][INFO] - total_iter_finished: 17800
+[2025-11-05 10:00:21,336][trainers.wgan_trainer][INFO] - Time elapsed: 0:14:05
+[2025-11-05 10:00:21,352][trainers.wgan_trainer][INFO] - Saved images at iteration 17800
+[2025-11-05 10:00:27,539][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:00:30,830][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.0309534959329056), np.float64(0.0750502965242984))
+[2025-11-05 10:00:30,830][trainers.wgan_trainer][INFO] - Generator iter: 8999
+[2025-11-05 10:00:30,830][trainers.wgan_trainer][INFO] - total_iter_finished: 18000
+[2025-11-05 10:00:30,830][trainers.wgan_trainer][INFO] - Time elapsed: 0:14:14
+[2025-11-05 10:00:30,847][trainers.wgan_trainer][INFO] - Saved images at iteration 18000
+[2025-11-05 10:00:37,047][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:00:40,345][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.9112159170739127), np.float64(0.07106332732353873))
+[2025-11-05 10:00:40,345][trainers.wgan_trainer][INFO] - Generator iter: 9099
+[2025-11-05 10:00:40,345][trainers.wgan_trainer][INFO] - total_iter_finished: 18200
+[2025-11-05 10:00:40,345][trainers.wgan_trainer][INFO] - Time elapsed: 0:14:24
+[2025-11-05 10:00:40,362][trainers.wgan_trainer][INFO] - Saved images at iteration 18200
+[2025-11-05 10:00:46,561][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:00:49,851][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.958635110015988), np.float64(0.043273278742141465))
+[2025-11-05 10:00:49,851][trainers.wgan_trainer][INFO] - Generator iter: 9199
+[2025-11-05 10:00:49,851][trainers.wgan_trainer][INFO] - total_iter_finished: 18400
+[2025-11-05 10:00:49,851][trainers.wgan_trainer][INFO] - Time elapsed: 0:14:33
+[2025-11-05 10:00:49,867][trainers.wgan_trainer][INFO] - Saved images at iteration 18400
+[2025-11-05 10:00:56,067][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:00:59,352][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.702074681062329), np.float64(0.06910833665738791))
+[2025-11-05 10:00:59,352][trainers.wgan_trainer][INFO] - Generator iter: 9299
+[2025-11-05 10:00:59,352][trainers.wgan_trainer][INFO] - total_iter_finished: 18600
+[2025-11-05 10:00:59,352][trainers.wgan_trainer][INFO] - Time elapsed: 0:14:43
+[2025-11-05 10:00:59,369][trainers.wgan_trainer][INFO] - Saved images at iteration 18600
+[2025-11-05 10:01:05,553][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:01:08,949][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.5419896678146388), np.float64(0.055763040090531756))
+[2025-11-05 10:01:08,949][trainers.wgan_trainer][INFO] - Generator iter: 9399
+[2025-11-05 10:01:08,949][trainers.wgan_trainer][INFO] - total_iter_finished: 18800
+[2025-11-05 10:01:08,949][trainers.wgan_trainer][INFO] - Time elapsed: 0:14:52
+[2025-11-05 10:01:08,965][trainers.wgan_trainer][INFO] - Saved images at iteration 18800
+[2025-11-05 10:01:15,175][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:01:18,454][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.062956602908832), np.float64(0.08401480494435727))
+[2025-11-05 10:01:18,454][trainers.wgan_trainer][INFO] - Generator iter: 9499
+[2025-11-05 10:01:18,454][trainers.wgan_trainer][INFO] - total_iter_finished: 19000
+[2025-11-05 10:01:18,454][trainers.wgan_trainer][INFO] - Time elapsed: 0:15:02
+[2025-11-05 10:01:18,474][trainers.wgan_trainer][INFO] - Saved images at iteration 19000
+[2025-11-05 10:01:24,679][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:01:27,950][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8369292807135778), np.float64(0.07245406761116507))
+[2025-11-05 10:01:27,950][trainers.wgan_trainer][INFO] - Generator iter: 9599
+[2025-11-05 10:01:27,950][trainers.wgan_trainer][INFO] - total_iter_finished: 19200
+[2025-11-05 10:01:27,950][trainers.wgan_trainer][INFO] - Time elapsed: 0:15:11
+[2025-11-05 10:01:27,968][trainers.wgan_trainer][INFO] - Saved images at iteration 19200
+[2025-11-05 10:01:34,165][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:01:37,454][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.1118290629078493), np.float64(0.05370936140566321))
+[2025-11-05 10:01:37,454][trainers.wgan_trainer][INFO] - Generator iter: 9699
+[2025-11-05 10:01:37,454][trainers.wgan_trainer][INFO] - total_iter_finished: 19400
+[2025-11-05 10:01:37,454][trainers.wgan_trainer][INFO] - Time elapsed: 0:15:21
+[2025-11-05 10:01:37,470][trainers.wgan_trainer][INFO] - Saved images at iteration 19400
+[2025-11-05 10:01:43,693][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:01:46,983][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.9802731821273554), np.float64(0.040927566759886666))
+[2025-11-05 10:01:46,983][trainers.wgan_trainer][INFO] - Generator iter: 9799
+[2025-11-05 10:01:46,983][trainers.wgan_trainer][INFO] - total_iter_finished: 19600
+[2025-11-05 10:01:46,983][trainers.wgan_trainer][INFO] - Time elapsed: 0:15:30
+[2025-11-05 10:01:46,999][trainers.wgan_trainer][INFO] - Saved images at iteration 19600
+[2025-11-05 10:01:53,201][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:01:56,471][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8879299843536748), np.float64(0.052921413896449256))
+[2025-11-05 10:01:56,471][trainers.wgan_trainer][INFO] - Generator iter: 9899
+[2025-11-05 10:01:56,471][trainers.wgan_trainer][INFO] - total_iter_finished: 19800
+[2025-11-05 10:01:56,471][trainers.wgan_trainer][INFO] - Time elapsed: 0:15:40
+[2025-11-05 10:01:56,488][trainers.wgan_trainer][INFO] - Saved images at iteration 19800
+[2025-11-05 10:02:02,687][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:02:05,972][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.9703449506239017), np.float64(0.08729820584780655))
+[2025-11-05 10:02:05,972][trainers.wgan_trainer][INFO] - Generator iter: 9999
+[2025-11-05 10:02:05,972][trainers.wgan_trainer][INFO] - total_iter_finished: 20000
+[2025-11-05 10:02:05,972][trainers.wgan_trainer][INFO] - Time elapsed: 0:15:49
+[2025-11-05 10:02:05,990][trainers.wgan_trainer][INFO] - Saved images at iteration 20000
+[2025-11-05 10:02:12,200][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:02:15,465][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.239667488655344), np.float64(0.05741479289458406))
+[2025-11-05 10:02:15,466][trainers.wgan_trainer][INFO] - Generator iter: 10099
+[2025-11-05 10:02:15,466][trainers.wgan_trainer][INFO] - total_iter_finished: 20200
+[2025-11-05 10:02:15,466][trainers.wgan_trainer][INFO] - Time elapsed: 0:15:59
+[2025-11-05 10:02:15,483][trainers.wgan_trainer][INFO] - Saved images at iteration 20200
+[2025-11-05 10:02:21,666][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:02:24,953][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.771246252540073), np.float64(0.030964043828132993))
+[2025-11-05 10:02:24,953][trainers.wgan_trainer][INFO] - Generator iter: 10199
+[2025-11-05 10:02:24,953][trainers.wgan_trainer][INFO] - total_iter_finished: 20400
+[2025-11-05 10:02:24,953][trainers.wgan_trainer][INFO] - Time elapsed: 0:16:08
+[2025-11-05 10:02:24,969][trainers.wgan_trainer][INFO] - Saved images at iteration 20400
+[2025-11-05 10:02:31,190][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:02:34,453][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8808390546694023), np.float64(0.0691326872682519))
+[2025-11-05 10:02:34,454][trainers.wgan_trainer][INFO] - Generator iter: 10299
+[2025-11-05 10:02:34,454][trainers.wgan_trainer][INFO] - total_iter_finished: 20600
+[2025-11-05 10:02:34,454][trainers.wgan_trainer][INFO] - Time elapsed: 0:16:18
+[2025-11-05 10:02:34,471][trainers.wgan_trainer][INFO] - Saved images at iteration 20600
+[2025-11-05 10:02:40,668][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:02:43,948][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.9441781057594936), np.float64(0.05914051905711514))
+[2025-11-05 10:02:43,948][trainers.wgan_trainer][INFO] - Generator iter: 10399
+[2025-11-05 10:02:43,948][trainers.wgan_trainer][INFO] - total_iter_finished: 20800
+[2025-11-05 10:02:43,948][trainers.wgan_trainer][INFO] - Time elapsed: 0:16:27
+[2025-11-05 10:02:43,965][trainers.wgan_trainer][INFO] - Saved images at iteration 20800
+[2025-11-05 10:02:50,162][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:02:53,443][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.985329553529043), np.float64(0.09095001317426445))
+[2025-11-05 10:02:53,443][trainers.wgan_trainer][INFO] - Generator iter: 10499
+[2025-11-05 10:02:53,443][trainers.wgan_trainer][INFO] - total_iter_finished: 21000
+[2025-11-05 10:02:53,443][trainers.wgan_trainer][INFO] - Time elapsed: 0:16:37
+[2025-11-05 10:02:53,460][trainers.wgan_trainer][INFO] - Saved images at iteration 21000
+[2025-11-05 10:02:59,641][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:03:02,920][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.1104700366223264), np.float64(0.08490452684655503))
+[2025-11-05 10:03:02,920][trainers.wgan_trainer][INFO] - Generator iter: 10599
+[2025-11-05 10:03:02,920][trainers.wgan_trainer][INFO] - total_iter_finished: 21200
+[2025-11-05 10:03:02,920][trainers.wgan_trainer][INFO] - Time elapsed: 0:16:46
+[2025-11-05 10:03:02,938][trainers.wgan_trainer][INFO] - Saved images at iteration 21200
+[2025-11-05 10:03:09,194][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:03:12,469][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.2448059948247083), np.float64(0.07948763043793483))
+[2025-11-05 10:03:12,469][trainers.wgan_trainer][INFO] - Generator iter: 10699
+[2025-11-05 10:03:12,469][trainers.wgan_trainer][INFO] - total_iter_finished: 21400
+[2025-11-05 10:03:12,469][trainers.wgan_trainer][INFO] - Time elapsed: 0:16:56
+[2025-11-05 10:03:12,487][trainers.wgan_trainer][INFO] - Saved images at iteration 21400
+[2025-11-05 10:03:18,688][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:03:21,971][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.116029397103761), np.float64(0.08157054336824242))
+[2025-11-05 10:03:21,971][trainers.wgan_trainer][INFO] - Generator iter: 10799
+[2025-11-05 10:03:21,971][trainers.wgan_trainer][INFO] - total_iter_finished: 21600
+[2025-11-05 10:03:21,971][trainers.wgan_trainer][INFO] - Time elapsed: 0:17:05
+[2025-11-05 10:03:21,989][trainers.wgan_trainer][INFO] - Saved images at iteration 21600
+[2025-11-05 10:03:28,222][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:03:31,509][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.7314646549895722), np.float64(0.060159106521576425))
+[2025-11-05 10:03:31,509][trainers.wgan_trainer][INFO] - Generator iter: 10899
+[2025-11-05 10:03:31,509][trainers.wgan_trainer][INFO] - total_iter_finished: 21800
+[2025-11-05 10:03:31,509][trainers.wgan_trainer][INFO] - Time elapsed: 0:17:15
+[2025-11-05 10:03:31,525][trainers.wgan_trainer][INFO] - Saved images at iteration 21800
+[2025-11-05 10:03:37,723][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:03:41,005][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.9283843043547484), np.float64(0.10403969064746399))
+[2025-11-05 10:03:41,005][trainers.wgan_trainer][INFO] - Generator iter: 10999
+[2025-11-05 10:03:41,005][trainers.wgan_trainer][INFO] - total_iter_finished: 22000
+[2025-11-05 10:03:41,005][trainers.wgan_trainer][INFO] - Time elapsed: 0:17:24
+[2025-11-05 10:03:41,021][trainers.wgan_trainer][INFO] - Saved images at iteration 22000
+[2025-11-05 10:03:47,216][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:03:50,485][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.0533984728318386), np.float64(0.09102654069739492))
+[2025-11-05 10:03:50,485][trainers.wgan_trainer][INFO] - Generator iter: 11099
+[2025-11-05 10:03:50,485][trainers.wgan_trainer][INFO] - total_iter_finished: 22200
+[2025-11-05 10:03:50,485][trainers.wgan_trainer][INFO] - Time elapsed: 0:17:34
+[2025-11-05 10:03:50,503][trainers.wgan_trainer][INFO] - Saved images at iteration 22200
+[2025-11-05 10:03:56,704][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:03:59,975][trainers.wgan_trainer][INFO] - Removed old generator checkpoint: GAN/pesg/cifar10/20251105-094615/checkpoints/generator_iter_7800.pth
+[2025-11-05 10:03:59,981][trainers.wgan_trainer][INFO] - Removed old discriminator checkpoint: GAN/pesg/cifar10/20251105-094615/checkpoints/discriminator_iter_7800.pth
+[2025-11-05 10:04:00,074][trainers.wgan_trainer][INFO] - Saved generator checkpoint to GAN/pesg/cifar10/20251105-094615/checkpoints/generator_iter_22400.pth
+[2025-11-05 10:04:00,074][trainers.wgan_trainer][INFO] - Saved discriminator checkpoint to GAN/pesg/cifar10/20251105-094615/checkpoints/discriminator_iter_22400.pth
+[2025-11-05 10:04:00,074][trainers.wgan_trainer][INFO] - New best Inception Score: 3.5606. Checkpoints saved.
+[2025-11-05 10:04:00,074][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.560637360329802), np.float64(0.07631130785297977))
+[2025-11-05 10:04:00,074][trainers.wgan_trainer][INFO] - Generator iter: 11199
+[2025-11-05 10:04:00,074][trainers.wgan_trainer][INFO] - total_iter_finished: 22400
+[2025-11-05 10:04:00,075][trainers.wgan_trainer][INFO] - Time elapsed: 0:17:43
+[2025-11-05 10:04:00,091][trainers.wgan_trainer][INFO] - Saved images at iteration 22400
+[2025-11-05 10:04:06,300][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:04:09,573][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.122983462247091), np.float64(0.053639227617735215))
+[2025-11-05 10:04:09,573][trainers.wgan_trainer][INFO] - Generator iter: 11299
+[2025-11-05 10:04:09,573][trainers.wgan_trainer][INFO] - total_iter_finished: 22600
+[2025-11-05 10:04:09,573][trainers.wgan_trainer][INFO] - Time elapsed: 0:17:53
+[2025-11-05 10:04:09,593][trainers.wgan_trainer][INFO] - Saved images at iteration 22600
+[2025-11-05 10:04:15,780][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:04:19,063][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.600089108840585), np.float64(0.06443984654986187))
+[2025-11-05 10:04:19,063][trainers.wgan_trainer][INFO] - Generator iter: 11399
+[2025-11-05 10:04:19,063][trainers.wgan_trainer][INFO] - total_iter_finished: 22800
+[2025-11-05 10:04:19,063][trainers.wgan_trainer][INFO] - Time elapsed: 0:18:02
+[2025-11-05 10:04:19,080][trainers.wgan_trainer][INFO] - Saved images at iteration 22800
+[2025-11-05 10:04:25,291][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:04:28,577][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.962357525573016), np.float64(0.04776001171034587))
+[2025-11-05 10:04:28,577][trainers.wgan_trainer][INFO] - Generator iter: 11499
+[2025-11-05 10:04:28,577][trainers.wgan_trainer][INFO] - total_iter_finished: 23000
+[2025-11-05 10:04:28,577][trainers.wgan_trainer][INFO] - Time elapsed: 0:18:12
+[2025-11-05 10:04:28,595][trainers.wgan_trainer][INFO] - Saved images at iteration 23000
+[2025-11-05 10:04:34,824][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:04:38,097][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.863757181434737), np.float64(0.10530453855941041))
+[2025-11-05 10:04:38,098][trainers.wgan_trainer][INFO] - Generator iter: 11599
+[2025-11-05 10:04:38,098][trainers.wgan_trainer][INFO] - total_iter_finished: 23200
+[2025-11-05 10:04:38,098][trainers.wgan_trainer][INFO] - Time elapsed: 0:18:21
+[2025-11-05 10:04:38,115][trainers.wgan_trainer][INFO] - Saved images at iteration 23200
+[2025-11-05 10:04:44,336][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:04:47,608][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.1324089173937804), np.float64(0.036212651974352056))
+[2025-11-05 10:04:47,608][trainers.wgan_trainer][INFO] - Generator iter: 11699
+[2025-11-05 10:04:47,608][trainers.wgan_trainer][INFO] - total_iter_finished: 23400
+[2025-11-05 10:04:47,608][trainers.wgan_trainer][INFO] - Time elapsed: 0:18:31
+[2025-11-05 10:04:47,625][trainers.wgan_trainer][INFO] - Saved images at iteration 23400
+[2025-11-05 10:04:53,809][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:04:57,089][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.291650316954744), np.float64(0.10302257042574237))
+[2025-11-05 10:04:57,089][trainers.wgan_trainer][INFO] - Generator iter: 11799
+[2025-11-05 10:04:57,089][trainers.wgan_trainer][INFO] - total_iter_finished: 23600
+[2025-11-05 10:04:57,089][trainers.wgan_trainer][INFO] - Time elapsed: 0:18:40
+[2025-11-05 10:04:57,107][trainers.wgan_trainer][INFO] - Saved images at iteration 23600
+[2025-11-05 10:05:03,368][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:05:06,651][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.558991837431494), np.float64(0.09339945609859149))
+[2025-11-05 10:05:06,651][trainers.wgan_trainer][INFO] - Generator iter: 11899
+[2025-11-05 10:05:06,651][trainers.wgan_trainer][INFO] - total_iter_finished: 23800
+[2025-11-05 10:05:06,651][trainers.wgan_trainer][INFO] - Time elapsed: 0:18:50
+[2025-11-05 10:05:06,668][trainers.wgan_trainer][INFO] - Saved images at iteration 23800
+[2025-11-05 10:05:12,868][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:05:16,158][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.134846035778075), np.float64(0.08409922388848043))
+[2025-11-05 10:05:16,158][trainers.wgan_trainer][INFO] - Generator iter: 11999
+[2025-11-05 10:05:16,158][trainers.wgan_trainer][INFO] - total_iter_finished: 24000
+[2025-11-05 10:05:16,158][trainers.wgan_trainer][INFO] - Time elapsed: 0:18:59
+[2025-11-05 10:05:16,174][trainers.wgan_trainer][INFO] - Saved images at iteration 24000
+[2025-11-05 10:05:22,374][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:05:25,648][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.185317688929764), np.float64(0.0569020313169603))
+[2025-11-05 10:05:25,648][trainers.wgan_trainer][INFO] - Generator iter: 12099
+[2025-11-05 10:05:25,648][trainers.wgan_trainer][INFO] - total_iter_finished: 24200
+[2025-11-05 10:05:25,648][trainers.wgan_trainer][INFO] - Time elapsed: 0:19:09
+[2025-11-05 10:05:25,665][trainers.wgan_trainer][INFO] - Saved images at iteration 24200
+[2025-11-05 10:05:31,873][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:05:35,166][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.1048730090908663), np.float64(0.06567395984191142))
+[2025-11-05 10:05:35,166][trainers.wgan_trainer][INFO] - Generator iter: 12199
+[2025-11-05 10:05:35,166][trainers.wgan_trainer][INFO] - total_iter_finished: 24400
+[2025-11-05 10:05:35,166][trainers.wgan_trainer][INFO] - Time elapsed: 0:19:18
+[2025-11-05 10:05:35,193][trainers.wgan_trainer][INFO] - Saved images at iteration 24400
+[2025-11-05 10:05:41,404][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:05:44,677][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.31846153134926), np.float64(0.07803394158848607))
+[2025-11-05 10:05:44,677][trainers.wgan_trainer][INFO] - Generator iter: 12299
+[2025-11-05 10:05:44,677][trainers.wgan_trainer][INFO] - total_iter_finished: 24600
+[2025-11-05 10:05:44,677][trainers.wgan_trainer][INFO] - Time elapsed: 0:19:28
+[2025-11-05 10:05:44,694][trainers.wgan_trainer][INFO] - Saved images at iteration 24600
+[2025-11-05 10:05:50,916][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:05:54,193][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.1711964533102788), np.float64(0.11340020994163479))
+[2025-11-05 10:05:54,193][trainers.wgan_trainer][INFO] - Generator iter: 12399
+[2025-11-05 10:05:54,193][trainers.wgan_trainer][INFO] - total_iter_finished: 24800
+[2025-11-05 10:05:54,193][trainers.wgan_trainer][INFO] - Time elapsed: 0:19:37
+[2025-11-05 10:05:54,210][trainers.wgan_trainer][INFO] - Saved images at iteration 24800
+[2025-11-05 10:06:00,409][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:06:03,695][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.2552728780036118), np.float64(0.08280271012244449))
+[2025-11-05 10:06:03,695][trainers.wgan_trainer][INFO] - Generator iter: 12499
+[2025-11-05 10:06:03,695][trainers.wgan_trainer][INFO] - total_iter_finished: 25000
+[2025-11-05 10:06:03,695][trainers.wgan_trainer][INFO] - Time elapsed: 0:19:47
+[2025-11-05 10:06:03,712][trainers.wgan_trainer][INFO] - Saved images at iteration 25000
+[2025-11-05 10:06:09,922][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:06:13,204][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.2074507677699406), np.float64(0.09449290791199166))
+[2025-11-05 10:06:13,204][trainers.wgan_trainer][INFO] - Generator iter: 12599
+[2025-11-05 10:06:13,204][trainers.wgan_trainer][INFO] - total_iter_finished: 25200
+[2025-11-05 10:06:13,204][trainers.wgan_trainer][INFO] - Time elapsed: 0:19:56
+[2025-11-05 10:06:13,220][trainers.wgan_trainer][INFO] - Saved images at iteration 25200
+[2025-11-05 10:06:19,445][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:06:22,726][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.777188509245283), np.float64(0.04747026419362438))
+[2025-11-05 10:06:22,726][trainers.wgan_trainer][INFO] - Generator iter: 12699
+[2025-11-05 10:06:22,726][trainers.wgan_trainer][INFO] - total_iter_finished: 25400
+[2025-11-05 10:06:22,726][trainers.wgan_trainer][INFO] - Time elapsed: 0:20:06
+[2025-11-05 10:06:22,743][trainers.wgan_trainer][INFO] - Saved images at iteration 25400
+[2025-11-05 10:06:28,974][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:06:32,246][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.718652110462384), np.float64(0.0556661275325017))
+[2025-11-05 10:06:32,246][trainers.wgan_trainer][INFO] - Generator iter: 12799
+[2025-11-05 10:06:32,246][trainers.wgan_trainer][INFO] - total_iter_finished: 25600
+[2025-11-05 10:06:32,246][trainers.wgan_trainer][INFO] - Time elapsed: 0:20:16
+[2025-11-05 10:06:32,263][trainers.wgan_trainer][INFO] - Saved images at iteration 25600
+[2025-11-05 10:06:39,028][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:06:42,341][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.84066828089343), np.float64(0.07899747117812801))
+[2025-11-05 10:06:42,341][trainers.wgan_trainer][INFO] - Generator iter: 12899
+[2025-11-05 10:06:42,341][trainers.wgan_trainer][INFO] - total_iter_finished: 25800
+[2025-11-05 10:06:42,341][trainers.wgan_trainer][INFO] - Time elapsed: 0:20:26
+[2025-11-05 10:06:42,358][trainers.wgan_trainer][INFO] - Saved images at iteration 25800
+[2025-11-05 10:06:48,538][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:06:51,835][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8393355146646178), np.float64(0.08997733063974044))
+[2025-11-05 10:06:51,835][trainers.wgan_trainer][INFO] - Generator iter: 12999
+[2025-11-05 10:06:51,835][trainers.wgan_trainer][INFO] - total_iter_finished: 26000
+[2025-11-05 10:06:51,835][trainers.wgan_trainer][INFO] - Time elapsed: 0:20:35
+[2025-11-05 10:06:51,851][trainers.wgan_trainer][INFO] - Saved images at iteration 26000
+[2025-11-05 10:06:58,045][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:07:01,332][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.608772314584476), np.float64(0.0629404664917611))
+[2025-11-05 10:07:01,332][trainers.wgan_trainer][INFO] - Generator iter: 13099
+[2025-11-05 10:07:01,332][trainers.wgan_trainer][INFO] - total_iter_finished: 26200
+[2025-11-05 10:07:01,332][trainers.wgan_trainer][INFO] - Time elapsed: 0:20:45
+[2025-11-05 10:07:01,349][trainers.wgan_trainer][INFO] - Saved images at iteration 26200
+[2025-11-05 10:07:07,545][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:07:10,831][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.9009193760215335), np.float64(0.07010848020762986))
+[2025-11-05 10:07:10,831][trainers.wgan_trainer][INFO] - Generator iter: 13199
+[2025-11-05 10:07:10,831][trainers.wgan_trainer][INFO] - total_iter_finished: 26400
+[2025-11-05 10:07:10,831][trainers.wgan_trainer][INFO] - Time elapsed: 0:20:54
+[2025-11-05 10:07:10,848][trainers.wgan_trainer][INFO] - Saved images at iteration 26400
+[2025-11-05 10:07:17,034][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:07:20,325][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.5707375769932908), np.float64(0.06768632156538305))
+[2025-11-05 10:07:20,325][trainers.wgan_trainer][INFO] - Generator iter: 13299
+[2025-11-05 10:07:20,325][trainers.wgan_trainer][INFO] - total_iter_finished: 26600
+[2025-11-05 10:07:20,325][trainers.wgan_trainer][INFO] - Time elapsed: 0:21:04
+[2025-11-05 10:07:20,341][trainers.wgan_trainer][INFO] - Saved images at iteration 26600
+[2025-11-05 10:07:26,539][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:07:29,822][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.742488419781585), np.float64(0.048556499071381605))
+[2025-11-05 10:07:29,822][trainers.wgan_trainer][INFO] - Generator iter: 13399
+[2025-11-05 10:07:29,822][trainers.wgan_trainer][INFO] - total_iter_finished: 26800
+[2025-11-05 10:07:29,822][trainers.wgan_trainer][INFO] - Time elapsed: 0:21:13
+[2025-11-05 10:07:29,839][trainers.wgan_trainer][INFO] - Saved images at iteration 26800
+[2025-11-05 10:07:36,038][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:07:39,311][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.792538352663974), np.float64(0.04392243843604351))
+[2025-11-05 10:07:39,311][trainers.wgan_trainer][INFO] - Generator iter: 13499
+[2025-11-05 10:07:39,311][trainers.wgan_trainer][INFO] - total_iter_finished: 27000
+[2025-11-05 10:07:39,311][trainers.wgan_trainer][INFO] - Time elapsed: 0:21:23
+[2025-11-05 10:07:39,327][trainers.wgan_trainer][INFO] - Saved images at iteration 27000
+[2025-11-05 10:07:45,552][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:07:48,840][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.890635864014224), np.float64(0.06995877633083913))
+[2025-11-05 10:07:48,840][trainers.wgan_trainer][INFO] - Generator iter: 13599
+[2025-11-05 10:07:48,840][trainers.wgan_trainer][INFO] - total_iter_finished: 27200
+[2025-11-05 10:07:48,840][trainers.wgan_trainer][INFO] - Time elapsed: 0:21:32
+[2025-11-05 10:07:48,856][trainers.wgan_trainer][INFO] - Saved images at iteration 27200
+[2025-11-05 10:07:55,110][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:07:58,387][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.347588463210882), np.float64(0.053406521040574605))
+[2025-11-05 10:07:58,387][trainers.wgan_trainer][INFO] - Generator iter: 13699
+[2025-11-05 10:07:58,387][trainers.wgan_trainer][INFO] - total_iter_finished: 27400
+[2025-11-05 10:07:58,387][trainers.wgan_trainer][INFO] - Time elapsed: 0:21:42
+[2025-11-05 10:07:58,404][trainers.wgan_trainer][INFO] - Saved images at iteration 27400
+[2025-11-05 10:08:04,663][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:08:07,937][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.830520513910394), np.float64(0.06257288037046342))
+[2025-11-05 10:08:07,938][trainers.wgan_trainer][INFO] - Generator iter: 13799
+[2025-11-05 10:08:07,938][trainers.wgan_trainer][INFO] - total_iter_finished: 27600
+[2025-11-05 10:08:07,938][trainers.wgan_trainer][INFO] - Time elapsed: 0:21:51
+[2025-11-05 10:08:07,955][trainers.wgan_trainer][INFO] - Saved images at iteration 27600
+[2025-11-05 10:08:14,211][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:08:17,495][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.6086432532709094), np.float64(0.04904258584791282))
+[2025-11-05 10:08:17,496][trainers.wgan_trainer][INFO] - Generator iter: 13899
+[2025-11-05 10:08:17,496][trainers.wgan_trainer][INFO] - total_iter_finished: 27800
+[2025-11-05 10:08:17,496][trainers.wgan_trainer][INFO] - Time elapsed: 0:22:01
+[2025-11-05 10:08:17,514][trainers.wgan_trainer][INFO] - Saved images at iteration 27800
+[2025-11-05 10:08:23,721][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:08:27,012][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.0142115444720083), np.float64(0.10319674590632599))
+[2025-11-05 10:08:27,012][trainers.wgan_trainer][INFO] - Generator iter: 13999
+[2025-11-05 10:08:27,012][trainers.wgan_trainer][INFO] - total_iter_finished: 28000
+[2025-11-05 10:08:27,012][trainers.wgan_trainer][INFO] - Time elapsed: 0:22:10
+[2025-11-05 10:08:27,029][trainers.wgan_trainer][INFO] - Saved images at iteration 28000
+[2025-11-05 10:08:33,216][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:08:36,503][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.929550201388404), np.float64(0.05745683259005896))
+[2025-11-05 10:08:36,503][trainers.wgan_trainer][INFO] - Generator iter: 14099
+[2025-11-05 10:08:36,503][trainers.wgan_trainer][INFO] - total_iter_finished: 28200
+[2025-11-05 10:08:36,503][trainers.wgan_trainer][INFO] - Time elapsed: 0:22:20
+[2025-11-05 10:08:36,520][trainers.wgan_trainer][INFO] - Saved images at iteration 28200
+[2025-11-05 10:08:42,720][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:08:46,012][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.6677495632970447), np.float64(0.06357568143908997))
+[2025-11-05 10:08:46,012][trainers.wgan_trainer][INFO] - Generator iter: 14199
+[2025-11-05 10:08:46,012][trainers.wgan_trainer][INFO] - total_iter_finished: 28400
+[2025-11-05 10:08:46,012][trainers.wgan_trainer][INFO] - Time elapsed: 0:22:29
+[2025-11-05 10:08:46,028][trainers.wgan_trainer][INFO] - Saved images at iteration 28400
+[2025-11-05 10:08:52,226][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:08:55,498][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.0141060780897333), np.float64(0.08593308891783526))
+[2025-11-05 10:08:55,498][trainers.wgan_trainer][INFO] - Generator iter: 14299
+[2025-11-05 10:08:55,498][trainers.wgan_trainer][INFO] - total_iter_finished: 28600
+[2025-11-05 10:08:55,498][trainers.wgan_trainer][INFO] - Time elapsed: 0:22:39
+[2025-11-05 10:08:55,514][trainers.wgan_trainer][INFO] - Saved images at iteration 28600
+[2025-11-05 10:09:01,713][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:09:04,992][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.935200477580357), np.float64(0.07763235930376092))
+[2025-11-05 10:09:04,992][trainers.wgan_trainer][INFO] - Generator iter: 14399
+[2025-11-05 10:09:04,992][trainers.wgan_trainer][INFO] - total_iter_finished: 28800
+[2025-11-05 10:09:04,992][trainers.wgan_trainer][INFO] - Time elapsed: 0:22:48
+[2025-11-05 10:09:05,010][trainers.wgan_trainer][INFO] - Saved images at iteration 28800
+[2025-11-05 10:09:11,202][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:09:14,482][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.0703913533223264), np.float64(0.08113854655533881))
+[2025-11-05 10:09:14,482][trainers.wgan_trainer][INFO] - Generator iter: 14499
+[2025-11-05 10:09:14,482][trainers.wgan_trainer][INFO] - total_iter_finished: 29000
+[2025-11-05 10:09:14,483][trainers.wgan_trainer][INFO] - Time elapsed: 0:22:58
+[2025-11-05 10:09:14,499][trainers.wgan_trainer][INFO] - Saved images at iteration 29000
+[2025-11-05 10:09:20,705][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:09:23,982][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8727159651754617), np.float64(0.059252194454660054))
+[2025-11-05 10:09:23,982][trainers.wgan_trainer][INFO] - Generator iter: 14599
+[2025-11-05 10:09:23,982][trainers.wgan_trainer][INFO] - total_iter_finished: 29200
+[2025-11-05 10:09:23,982][trainers.wgan_trainer][INFO] - Time elapsed: 0:23:07
+[2025-11-05 10:09:23,998][trainers.wgan_trainer][INFO] - Saved images at iteration 29200
+[2025-11-05 10:09:30,210][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:09:33,490][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.7562730821760244), np.float64(0.09124918399138383))
+[2025-11-05 10:09:33,490][trainers.wgan_trainer][INFO] - Generator iter: 14699
+[2025-11-05 10:09:33,490][trainers.wgan_trainer][INFO] - total_iter_finished: 29400
+[2025-11-05 10:09:33,490][trainers.wgan_trainer][INFO] - Time elapsed: 0:23:17
+[2025-11-05 10:09:33,506][trainers.wgan_trainer][INFO] - Saved images at iteration 29400
+[2025-11-05 10:09:39,703][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:09:42,984][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.787391239977007), np.float64(0.07191740607135105))
+[2025-11-05 10:09:42,984][trainers.wgan_trainer][INFO] - Generator iter: 14799
+[2025-11-05 10:09:42,984][trainers.wgan_trainer][INFO] - total_iter_finished: 29600
+[2025-11-05 10:09:42,985][trainers.wgan_trainer][INFO] - Time elapsed: 0:23:26
+[2025-11-05 10:09:43,001][trainers.wgan_trainer][INFO] - Saved images at iteration 29600
+[2025-11-05 10:09:49,183][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:09:52,479][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.975864158685157), np.float64(0.07092993352465869))
+[2025-11-05 10:09:52,479][trainers.wgan_trainer][INFO] - Generator iter: 14899
+[2025-11-05 10:09:52,479][trainers.wgan_trainer][INFO] - total_iter_finished: 29800
+[2025-11-05 10:09:52,479][trainers.wgan_trainer][INFO] - Time elapsed: 0:23:36
+[2025-11-05 10:09:52,495][trainers.wgan_trainer][INFO] - Saved images at iteration 29800
+[2025-11-05 10:09:58,707][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:10:02,080][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.753019510426325), np.float64(0.07020117952745376))
+[2025-11-05 10:10:02,080][trainers.wgan_trainer][INFO] - Generator iter: 14999
+[2025-11-05 10:10:02,080][trainers.wgan_trainer][INFO] - total_iter_finished: 30000
+[2025-11-05 10:10:02,080][trainers.wgan_trainer][INFO] - Time elapsed: 0:23:45
+[2025-11-05 10:10:02,099][trainers.wgan_trainer][INFO] - Saved images at iteration 30000
+[2025-11-05 10:10:08,299][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:10:11,565][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.982759469263539), np.float64(0.045519932162752554))
+[2025-11-05 10:10:11,565][trainers.wgan_trainer][INFO] - Generator iter: 15099
+[2025-11-05 10:10:11,565][trainers.wgan_trainer][INFO] - total_iter_finished: 30200
+[2025-11-05 10:10:11,565][trainers.wgan_trainer][INFO] - Time elapsed: 0:23:55
+[2025-11-05 10:10:11,582][trainers.wgan_trainer][INFO] - Saved images at iteration 30200
+[2025-11-05 10:10:17,799][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:10:21,067][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.9809422458557355), np.float64(0.057084822231253655))
+[2025-11-05 10:10:21,067][trainers.wgan_trainer][INFO] - Generator iter: 15199
+[2025-11-05 10:10:21,067][trainers.wgan_trainer][INFO] - total_iter_finished: 30400
+[2025-11-05 10:10:21,067][trainers.wgan_trainer][INFO] - Time elapsed: 0:24:04
+[2025-11-05 10:10:21,084][trainers.wgan_trainer][INFO] - Saved images at iteration 30400
+[2025-11-05 10:10:27,272][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:10:30,542][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.0719010328427716), np.float64(0.08070320250280773))
+[2025-11-05 10:10:30,542][trainers.wgan_trainer][INFO] - Generator iter: 15299
+[2025-11-05 10:10:30,542][trainers.wgan_trainer][INFO] - total_iter_finished: 30600
+[2025-11-05 10:10:30,542][trainers.wgan_trainer][INFO] - Time elapsed: 0:24:14
+[2025-11-05 10:10:30,559][trainers.wgan_trainer][INFO] - Saved images at iteration 30600
+[2025-11-05 10:10:36,762][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:10:40,047][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.0348460757223745), np.float64(0.10662239864115018))
+[2025-11-05 10:10:40,047][trainers.wgan_trainer][INFO] - Generator iter: 15399
+[2025-11-05 10:10:40,047][trainers.wgan_trainer][INFO] - total_iter_finished: 30800
+[2025-11-05 10:10:40,047][trainers.wgan_trainer][INFO] - Time elapsed: 0:24:23
+[2025-11-05 10:10:40,064][trainers.wgan_trainer][INFO] - Saved images at iteration 30800
+[2025-11-05 10:10:46,282][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:10:49,568][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.729083233758586), np.float64(0.062157078777508146))
+[2025-11-05 10:10:49,568][trainers.wgan_trainer][INFO] - Generator iter: 15499
+[2025-11-05 10:10:49,568][trainers.wgan_trainer][INFO] - total_iter_finished: 31000
+[2025-11-05 10:10:49,568][trainers.wgan_trainer][INFO] - Time elapsed: 0:24:33
+[2025-11-05 10:10:49,584][trainers.wgan_trainer][INFO] - Saved images at iteration 31000
+[2025-11-05 10:10:55,781][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:10:59,053][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8046273544736513), np.float64(0.06011164637210395))
+[2025-11-05 10:10:59,053][trainers.wgan_trainer][INFO] - Generator iter: 15599
+[2025-11-05 10:10:59,053][trainers.wgan_trainer][INFO] - total_iter_finished: 31200
+[2025-11-05 10:10:59,053][trainers.wgan_trainer][INFO] - Time elapsed: 0:24:42
+[2025-11-05 10:10:59,069][trainers.wgan_trainer][INFO] - Saved images at iteration 31200
+[2025-11-05 10:11:05,252][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:11:08,514][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.6965622546800665), np.float64(0.05963863387699138))
+[2025-11-05 10:11:08,514][trainers.wgan_trainer][INFO] - Generator iter: 15699
+[2025-11-05 10:11:08,514][trainers.wgan_trainer][INFO] - total_iter_finished: 31400
+[2025-11-05 10:11:08,514][trainers.wgan_trainer][INFO] - Time elapsed: 0:24:52
+[2025-11-05 10:11:08,531][trainers.wgan_trainer][INFO] - Saved images at iteration 31400
+[2025-11-05 10:11:14,728][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:11:18,016][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.7799806247230565), np.float64(0.06758094261376567))
+[2025-11-05 10:11:18,016][trainers.wgan_trainer][INFO] - Generator iter: 15799
+[2025-11-05 10:11:18,016][trainers.wgan_trainer][INFO] - total_iter_finished: 31600
+[2025-11-05 10:11:18,016][trainers.wgan_trainer][INFO] - Time elapsed: 0:25:01
+[2025-11-05 10:11:18,034][trainers.wgan_trainer][INFO] - Saved images at iteration 31600
+[2025-11-05 10:11:24,235][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:11:27,515][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.7494892549836014), np.float64(0.06128296644953012))
+[2025-11-05 10:11:27,516][trainers.wgan_trainer][INFO] - Generator iter: 15899
+[2025-11-05 10:11:27,516][trainers.wgan_trainer][INFO] - total_iter_finished: 31800
+[2025-11-05 10:11:27,516][trainers.wgan_trainer][INFO] - Time elapsed: 0:25:11
+[2025-11-05 10:11:27,532][trainers.wgan_trainer][INFO] - Saved images at iteration 31800
+[2025-11-05 10:11:33,740][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:11:37,026][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8470146166421877), np.float64(0.07832474651416069))
+[2025-11-05 10:11:37,026][trainers.wgan_trainer][INFO] - Generator iter: 15999
+[2025-11-05 10:11:37,026][trainers.wgan_trainer][INFO] - total_iter_finished: 32000
+[2025-11-05 10:11:37,026][trainers.wgan_trainer][INFO] - Time elapsed: 0:25:20
+[2025-11-05 10:11:37,041][trainers.wgan_trainer][INFO] - Saved images at iteration 32000
+[2025-11-05 10:11:43,229][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:11:46,513][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.7209483804388293), np.float64(0.0704567383396195))
+[2025-11-05 10:11:46,513][trainers.wgan_trainer][INFO] - Generator iter: 16099
+[2025-11-05 10:11:46,513][trainers.wgan_trainer][INFO] - total_iter_finished: 32200
+[2025-11-05 10:11:46,513][trainers.wgan_trainer][INFO] - Time elapsed: 0:25:30
+[2025-11-05 10:11:46,529][trainers.wgan_trainer][INFO] - Saved images at iteration 32200
+[2025-11-05 10:11:52,728][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:11:56,010][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8514114330735323), np.float64(0.0614143101271539))
+[2025-11-05 10:11:56,010][trainers.wgan_trainer][INFO] - Generator iter: 16199
+[2025-11-05 10:11:56,010][trainers.wgan_trainer][INFO] - total_iter_finished: 32400
+[2025-11-05 10:11:56,010][trainers.wgan_trainer][INFO] - Time elapsed: 0:25:39
+[2025-11-05 10:11:56,027][trainers.wgan_trainer][INFO] - Saved images at iteration 32400
+[2025-11-05 10:12:02,227][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:12:05,520][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.7148856765936253), np.float64(0.06581851196464532))
+[2025-11-05 10:12:05,521][trainers.wgan_trainer][INFO] - Generator iter: 16299
+[2025-11-05 10:12:05,521][trainers.wgan_trainer][INFO] - total_iter_finished: 32600
+[2025-11-05 10:12:05,521][trainers.wgan_trainer][INFO] - Time elapsed: 0:25:49
+[2025-11-05 10:12:05,537][trainers.wgan_trainer][INFO] - Saved images at iteration 32600
+[2025-11-05 10:12:11,745][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:12:15,025][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8336777115311147), np.float64(0.05253726748114006))
+[2025-11-05 10:12:15,025][trainers.wgan_trainer][INFO] - Generator iter: 16399
+[2025-11-05 10:12:15,025][trainers.wgan_trainer][INFO] - total_iter_finished: 32800
+[2025-11-05 10:12:15,025][trainers.wgan_trainer][INFO] - Time elapsed: 0:25:58
+[2025-11-05 10:12:15,043][trainers.wgan_trainer][INFO] - Saved images at iteration 32800
+[2025-11-05 10:12:21,232][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:12:24,517][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.6329848595363248), np.float64(0.08374397858817899))
+[2025-11-05 10:12:24,517][trainers.wgan_trainer][INFO] - Generator iter: 16499
+[2025-11-05 10:12:24,517][trainers.wgan_trainer][INFO] - total_iter_finished: 33000
+[2025-11-05 10:12:24,517][trainers.wgan_trainer][INFO] - Time elapsed: 0:26:08
+[2025-11-05 10:12:24,535][trainers.wgan_trainer][INFO] - Saved images at iteration 33000
+[2025-11-05 10:12:30,735][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:12:34,011][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.6302673706871174), np.float64(0.06813292103653856))
+[2025-11-05 10:12:34,011][trainers.wgan_trainer][INFO] - Generator iter: 16599
+[2025-11-05 10:12:34,011][trainers.wgan_trainer][INFO] - total_iter_finished: 33200
+[2025-11-05 10:12:34,011][trainers.wgan_trainer][INFO] - Time elapsed: 0:26:17
+[2025-11-05 10:12:34,028][trainers.wgan_trainer][INFO] - Saved images at iteration 33200
+[2025-11-05 10:12:40,225][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:12:43,514][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.914374137859711), np.float64(0.04347663833201217))
+[2025-11-05 10:12:43,514][trainers.wgan_trainer][INFO] - Generator iter: 16699
+[2025-11-05 10:12:43,514][trainers.wgan_trainer][INFO] - total_iter_finished: 33400
+[2025-11-05 10:12:43,514][trainers.wgan_trainer][INFO] - Time elapsed: 0:26:27
+[2025-11-05 10:12:43,532][trainers.wgan_trainer][INFO] - Saved images at iteration 33400
+[2025-11-05 10:12:49,730][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:12:53,030][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.232609366422301), np.float64(0.06708381261670812))
+[2025-11-05 10:12:53,030][trainers.wgan_trainer][INFO] - Generator iter: 16799
+[2025-11-05 10:12:53,030][trainers.wgan_trainer][INFO] - total_iter_finished: 33600
+[2025-11-05 10:12:53,030][trainers.wgan_trainer][INFO] - Time elapsed: 0:26:36
+[2025-11-05 10:12:53,045][trainers.wgan_trainer][INFO] - Saved images at iteration 33600
+[2025-11-05 10:12:59,287][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:13:02,575][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.979457195006476), np.float64(0.061449586437974345))
+[2025-11-05 10:13:02,575][trainers.wgan_trainer][INFO] - Generator iter: 16899
+[2025-11-05 10:13:02,575][trainers.wgan_trainer][INFO] - total_iter_finished: 33800
+[2025-11-05 10:13:02,575][trainers.wgan_trainer][INFO] - Time elapsed: 0:26:46
+[2025-11-05 10:13:02,590][trainers.wgan_trainer][INFO] - Saved images at iteration 33800
+[2025-11-05 10:13:08,843][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:13:12,162][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.068585188731975), np.float64(0.08057755910007385))
+[2025-11-05 10:13:12,162][trainers.wgan_trainer][INFO] - Generator iter: 16999
+[2025-11-05 10:13:12,162][trainers.wgan_trainer][INFO] - total_iter_finished: 34000
+[2025-11-05 10:13:12,162][trainers.wgan_trainer][INFO] - Time elapsed: 0:26:55
+[2025-11-05 10:13:12,180][trainers.wgan_trainer][INFO] - Saved images at iteration 34000
+[2025-11-05 10:13:18,425][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:13:21,711][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.9864881700559938), np.float64(0.07066247078300852))
+[2025-11-05 10:13:21,711][trainers.wgan_trainer][INFO] - Generator iter: 17099
+[2025-11-05 10:13:21,711][trainers.wgan_trainer][INFO] - total_iter_finished: 34200
+[2025-11-05 10:13:21,711][trainers.wgan_trainer][INFO] - Time elapsed: 0:27:05
+[2025-11-05 10:13:21,728][trainers.wgan_trainer][INFO] - Saved images at iteration 34200
+[2025-11-05 10:13:27,969][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:13:31,258][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.912870732921145), np.float64(0.054964612820310434))
+[2025-11-05 10:13:31,258][trainers.wgan_trainer][INFO] - Generator iter: 17199
+[2025-11-05 10:13:31,258][trainers.wgan_trainer][INFO] - total_iter_finished: 34400
+[2025-11-05 10:13:31,258][trainers.wgan_trainer][INFO] - Time elapsed: 0:27:15
+[2025-11-05 10:13:31,273][trainers.wgan_trainer][INFO] - Saved images at iteration 34400
+[2025-11-05 10:13:37,472][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:13:40,759][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8510339327149383), np.float64(0.05917950938860192))
+[2025-11-05 10:13:40,759][trainers.wgan_trainer][INFO] - Generator iter: 17299
+[2025-11-05 10:13:40,759][trainers.wgan_trainer][INFO] - total_iter_finished: 34600
+[2025-11-05 10:13:40,759][trainers.wgan_trainer][INFO] - Time elapsed: 0:27:24
+[2025-11-05 10:13:40,776][trainers.wgan_trainer][INFO] - Saved images at iteration 34600
+[2025-11-05 10:13:46,987][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:13:50,268][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8410191841851824), np.float64(0.06497190939860627))
+[2025-11-05 10:13:50,268][trainers.wgan_trainer][INFO] - Generator iter: 17399
+[2025-11-05 10:13:50,268][trainers.wgan_trainer][INFO] - total_iter_finished: 34800
+[2025-11-05 10:13:50,268][trainers.wgan_trainer][INFO] - Time elapsed: 0:27:34
+[2025-11-05 10:13:50,285][trainers.wgan_trainer][INFO] - Saved images at iteration 34800
+[2025-11-05 10:13:56,485][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:13:59,773][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.864487135510207), np.float64(0.05478604168810548))
+[2025-11-05 10:13:59,773][trainers.wgan_trainer][INFO] - Generator iter: 17499
+[2025-11-05 10:13:59,773][trainers.wgan_trainer][INFO] - total_iter_finished: 35000
+[2025-11-05 10:13:59,773][trainers.wgan_trainer][INFO] - Time elapsed: 0:27:43
+[2025-11-05 10:13:59,790][trainers.wgan_trainer][INFO] - Saved images at iteration 35000
+[2025-11-05 10:14:05,974][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:14:09,251][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.068506280168282), np.float64(0.05428611780505307))
+[2025-11-05 10:14:09,251][trainers.wgan_trainer][INFO] - Generator iter: 17599
+[2025-11-05 10:14:09,251][trainers.wgan_trainer][INFO] - total_iter_finished: 35200
+[2025-11-05 10:14:09,251][trainers.wgan_trainer][INFO] - Time elapsed: 0:27:53
+[2025-11-05 10:14:09,268][trainers.wgan_trainer][INFO] - Saved images at iteration 35200
+[2025-11-05 10:14:15,463][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:14:18,745][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.6499910036906926), np.float64(0.06631197815892999))
+[2025-11-05 10:14:18,745][trainers.wgan_trainer][INFO] - Generator iter: 17699
+[2025-11-05 10:14:18,745][trainers.wgan_trainer][INFO] - total_iter_finished: 35400
+[2025-11-05 10:14:18,745][trainers.wgan_trainer][INFO] - Time elapsed: 0:28:02
+[2025-11-05 10:14:18,761][trainers.wgan_trainer][INFO] - Saved images at iteration 35400
+[2025-11-05 10:14:24,966][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:14:28,249][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8938609848944004), np.float64(0.04796221512893656))
+[2025-11-05 10:14:28,249][trainers.wgan_trainer][INFO] - Generator iter: 17799
+[2025-11-05 10:14:28,249][trainers.wgan_trainer][INFO] - total_iter_finished: 35600
+[2025-11-05 10:14:28,249][trainers.wgan_trainer][INFO] - Time elapsed: 0:28:12
+[2025-11-05 10:14:28,266][trainers.wgan_trainer][INFO] - Saved images at iteration 35600
+[2025-11-05 10:14:34,473][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:14:37,781][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.757271813013095), np.float64(0.0997259286760553))
+[2025-11-05 10:14:37,781][trainers.wgan_trainer][INFO] - Generator iter: 17899
+[2025-11-05 10:14:37,781][trainers.wgan_trainer][INFO] - total_iter_finished: 35800
+[2025-11-05 10:14:37,781][trainers.wgan_trainer][INFO] - Time elapsed: 0:28:21
+[2025-11-05 10:14:37,797][trainers.wgan_trainer][INFO] - Saved images at iteration 35800
+[2025-11-05 10:14:43,982][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:14:47,270][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.1725166257038864), np.float64(0.07046274940721846))
+[2025-11-05 10:14:47,270][trainers.wgan_trainer][INFO] - Generator iter: 17999
+[2025-11-05 10:14:47,270][trainers.wgan_trainer][INFO] - total_iter_finished: 36000
+[2025-11-05 10:14:47,270][trainers.wgan_trainer][INFO] - Time elapsed: 0:28:31
+[2025-11-05 10:14:47,289][trainers.wgan_trainer][INFO] - Saved images at iteration 36000
+[2025-11-05 10:14:53,490][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:14:56,776][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.20838545389422), np.float64(0.09940562368593386))
+[2025-11-05 10:14:56,776][trainers.wgan_trainer][INFO] - Generator iter: 18099
+[2025-11-05 10:14:56,776][trainers.wgan_trainer][INFO] - total_iter_finished: 36200
+[2025-11-05 10:14:56,776][trainers.wgan_trainer][INFO] - Time elapsed: 0:28:40
+[2025-11-05 10:14:56,796][trainers.wgan_trainer][INFO] - Saved images at iteration 36200
+[2025-11-05 10:15:02,997][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:15:06,263][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.1221582228036175), np.float64(0.08486410847740071))
+[2025-11-05 10:15:06,264][trainers.wgan_trainer][INFO] - Generator iter: 18199
+[2025-11-05 10:15:06,264][trainers.wgan_trainer][INFO] - total_iter_finished: 36400
+[2025-11-05 10:15:06,264][trainers.wgan_trainer][INFO] - Time elapsed: 0:28:50
+[2025-11-05 10:15:06,281][trainers.wgan_trainer][INFO] - Saved images at iteration 36400
+[2025-11-05 10:15:12,484][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:15:15,765][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.926167866981239), np.float64(0.08203269977522512))
+[2025-11-05 10:15:15,765][trainers.wgan_trainer][INFO] - Generator iter: 18299
+[2025-11-05 10:15:15,765][trainers.wgan_trainer][INFO] - total_iter_finished: 36600
+[2025-11-05 10:15:15,765][trainers.wgan_trainer][INFO] - Time elapsed: 0:28:59
+[2025-11-05 10:15:15,783][trainers.wgan_trainer][INFO] - Saved images at iteration 36600
+[2025-11-05 10:15:22,006][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:15:25,302][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8555906666087214), np.float64(0.03405968568597083))
+[2025-11-05 10:15:25,302][trainers.wgan_trainer][INFO] - Generator iter: 18399
+[2025-11-05 10:15:25,302][trainers.wgan_trainer][INFO] - total_iter_finished: 36800
+[2025-11-05 10:15:25,302][trainers.wgan_trainer][INFO] - Time elapsed: 0:29:09
+[2025-11-05 10:15:25,321][trainers.wgan_trainer][INFO] - Saved images at iteration 36800
+[2025-11-05 10:15:31,575][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:15:34,859][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.782695602611663), np.float64(0.06408409353829746))
+[2025-11-05 10:15:34,859][trainers.wgan_trainer][INFO] - Generator iter: 18499
+[2025-11-05 10:15:34,859][trainers.wgan_trainer][INFO] - total_iter_finished: 37000
+[2025-11-05 10:15:34,859][trainers.wgan_trainer][INFO] - Time elapsed: 0:29:18
+[2025-11-05 10:15:34,875][trainers.wgan_trainer][INFO] - Saved images at iteration 37000
+[2025-11-05 10:15:41,077][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:15:44,377][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.95059757489016), np.float64(0.08407101870663962))
+[2025-11-05 10:15:44,377][trainers.wgan_trainer][INFO] - Generator iter: 18599
+[2025-11-05 10:15:44,377][trainers.wgan_trainer][INFO] - total_iter_finished: 37200
+[2025-11-05 10:15:44,377][trainers.wgan_trainer][INFO] - Time elapsed: 0:29:28
+[2025-11-05 10:15:44,393][trainers.wgan_trainer][INFO] - Saved images at iteration 37200
+[2025-11-05 10:15:50,592][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:15:53,881][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.714154539501281), np.float64(0.050195575294973656))
+[2025-11-05 10:15:53,881][trainers.wgan_trainer][INFO] - Generator iter: 18699
+[2025-11-05 10:15:53,881][trainers.wgan_trainer][INFO] - total_iter_finished: 37400
+[2025-11-05 10:15:53,881][trainers.wgan_trainer][INFO] - Time elapsed: 0:29:37
+[2025-11-05 10:15:53,898][trainers.wgan_trainer][INFO] - Saved images at iteration 37400
+[2025-11-05 10:16:00,083][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:16:03,355][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.983232687023435), np.float64(0.09255505088724691))
+[2025-11-05 10:16:03,355][trainers.wgan_trainer][INFO] - Generator iter: 18799
+[2025-11-05 10:16:03,355][trainers.wgan_trainer][INFO] - total_iter_finished: 37600
+[2025-11-05 10:16:03,355][trainers.wgan_trainer][INFO] - Time elapsed: 0:29:47
+[2025-11-05 10:16:03,372][trainers.wgan_trainer][INFO] - Saved images at iteration 37600
+[2025-11-05 10:16:09,572][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:16:12,855][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.240459123897954), np.float64(0.057275951418112085))
+[2025-11-05 10:16:12,855][trainers.wgan_trainer][INFO] - Generator iter: 18899
+[2025-11-05 10:16:12,855][trainers.wgan_trainer][INFO] - total_iter_finished: 37800
+[2025-11-05 10:16:12,855][trainers.wgan_trainer][INFO] - Time elapsed: 0:29:56
+[2025-11-05 10:16:12,871][trainers.wgan_trainer][INFO] - Saved images at iteration 37800
+[2025-11-05 10:16:19,072][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:16:22,347][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.555588399768938), np.float64(0.05182415859724737))
+[2025-11-05 10:16:22,347][trainers.wgan_trainer][INFO] - Generator iter: 18999
+[2025-11-05 10:16:22,347][trainers.wgan_trainer][INFO] - total_iter_finished: 38000
+[2025-11-05 10:16:22,347][trainers.wgan_trainer][INFO] - Time elapsed: 0:30:06
+[2025-11-05 10:16:22,363][trainers.wgan_trainer][INFO] - Saved images at iteration 38000
+[2025-11-05 10:16:28,564][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:16:31,834][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.95995634184511), np.float64(0.07820437783400037))
+[2025-11-05 10:16:31,834][trainers.wgan_trainer][INFO] - Generator iter: 19099
+[2025-11-05 10:16:31,834][trainers.wgan_trainer][INFO] - total_iter_finished: 38200
+[2025-11-05 10:16:31,834][trainers.wgan_trainer][INFO] - Time elapsed: 0:30:15
+[2025-11-05 10:16:31,850][trainers.wgan_trainer][INFO] - Saved images at iteration 38200
+[2025-11-05 10:16:38,036][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:16:41,332][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.0552510275712357), np.float64(0.08710757242756478))
+[2025-11-05 10:16:41,332][trainers.wgan_trainer][INFO] - Generator iter: 19199
+[2025-11-05 10:16:41,332][trainers.wgan_trainer][INFO] - total_iter_finished: 38400
+[2025-11-05 10:16:41,332][trainers.wgan_trainer][INFO] - Time elapsed: 0:30:25
+[2025-11-05 10:16:41,349][trainers.wgan_trainer][INFO] - Saved images at iteration 38400
+[2025-11-05 10:16:47,551][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:16:50,843][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.1650442529487357), np.float64(0.05553825660960511))
+[2025-11-05 10:16:50,843][trainers.wgan_trainer][INFO] - Generator iter: 19299
+[2025-11-05 10:16:50,843][trainers.wgan_trainer][INFO] - total_iter_finished: 38600
+[2025-11-05 10:16:50,843][trainers.wgan_trainer][INFO] - Time elapsed: 0:30:34
+[2025-11-05 10:16:50,861][trainers.wgan_trainer][INFO] - Saved images at iteration 38600
+[2025-11-05 10:16:57,115][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:17:00,394][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.138755121348646), np.float64(0.05722586057073609))
+[2025-11-05 10:17:00,394][trainers.wgan_trainer][INFO] - Generator iter: 19399
+[2025-11-05 10:17:00,394][trainers.wgan_trainer][INFO] - total_iter_finished: 38800
+[2025-11-05 10:17:00,394][trainers.wgan_trainer][INFO] - Time elapsed: 0:30:44
+[2025-11-05 10:17:00,412][trainers.wgan_trainer][INFO] - Saved images at iteration 38800
+[2025-11-05 10:17:06,670][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:17:09,943][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8782727361974745), np.float64(0.05892369854745371))
+[2025-11-05 10:17:09,943][trainers.wgan_trainer][INFO] - Generator iter: 19499
+[2025-11-05 10:17:09,943][trainers.wgan_trainer][INFO] - total_iter_finished: 39000
+[2025-11-05 10:17:09,943][trainers.wgan_trainer][INFO] - Time elapsed: 0:30:53
+[2025-11-05 10:17:09,959][trainers.wgan_trainer][INFO] - Saved images at iteration 39000
+[2025-11-05 10:17:16,148][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:17:19,441][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.7247467796456504), np.float64(0.06437516468685286))
+[2025-11-05 10:17:19,442][trainers.wgan_trainer][INFO] - Generator iter: 19599
+[2025-11-05 10:17:19,442][trainers.wgan_trainer][INFO] - total_iter_finished: 39200
+[2025-11-05 10:17:19,442][trainers.wgan_trainer][INFO] - Time elapsed: 0:31:03
+[2025-11-05 10:17:19,460][trainers.wgan_trainer][INFO] - Saved images at iteration 39200
+[2025-11-05 10:17:25,661][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:17:28,955][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.911053371358488), np.float64(0.07276520375806021))
+[2025-11-05 10:17:28,955][trainers.wgan_trainer][INFO] - Generator iter: 19699
+[2025-11-05 10:17:28,955][trainers.wgan_trainer][INFO] - total_iter_finished: 39400
+[2025-11-05 10:17:28,955][trainers.wgan_trainer][INFO] - Time elapsed: 0:31:12
+[2025-11-05 10:17:28,971][trainers.wgan_trainer][INFO] - Saved images at iteration 39400
+[2025-11-05 10:17:35,173][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:17:38,467][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.9181483097298098), np.float64(0.05098928759088415))
+[2025-11-05 10:17:38,467][trainers.wgan_trainer][INFO] - Generator iter: 19799
+[2025-11-05 10:17:38,467][trainers.wgan_trainer][INFO] - total_iter_finished: 39600
+[2025-11-05 10:17:38,467][trainers.wgan_trainer][INFO] - Time elapsed: 0:31:22
+[2025-11-05 10:17:38,484][trainers.wgan_trainer][INFO] - Saved images at iteration 39600
+[2025-11-05 10:17:44,688][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:17:47,972][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.973652735644956), np.float64(0.08355667001401641))
+[2025-11-05 10:17:47,972][trainers.wgan_trainer][INFO] - Generator iter: 19899
+[2025-11-05 10:17:47,972][trainers.wgan_trainer][INFO] - total_iter_finished: 39800
+[2025-11-05 10:17:47,972][trainers.wgan_trainer][INFO] - Time elapsed: 0:31:31
+[2025-11-05 10:17:47,989][trainers.wgan_trainer][INFO] - Saved images at iteration 39800
+[2025-11-05 10:17:54,233][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:17:57,517][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.018270555716799), np.float64(0.06684568355719478))
+[2025-11-05 10:17:57,517][trainers.wgan_trainer][INFO] - Generator iter: 19999
+[2025-11-05 10:17:57,517][trainers.wgan_trainer][INFO] - total_iter_finished: 40000
+[2025-11-05 10:17:57,517][trainers.wgan_trainer][INFO] - Time elapsed: 0:31:41
+[2025-11-05 10:17:57,534][trainers.wgan_trainer][INFO] - Saved images at iteration 40000
+[2025-11-05 10:18:03,766][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:18:07,040][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.974749606628657), np.float64(0.08896049627781959))
+[2025-11-05 10:18:07,040][trainers.wgan_trainer][INFO] - Generator iter: 20099
+[2025-11-05 10:18:07,040][trainers.wgan_trainer][INFO] - total_iter_finished: 40200
+[2025-11-05 10:18:07,040][trainers.wgan_trainer][INFO] - Time elapsed: 0:31:50
+[2025-11-05 10:18:07,056][trainers.wgan_trainer][INFO] - Saved images at iteration 40200
+[2025-11-05 10:18:13,254][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:18:16,531][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.9446323242340875), np.float64(0.05522844707250006))
+[2025-11-05 10:18:16,531][trainers.wgan_trainer][INFO] - Generator iter: 20199
+[2025-11-05 10:18:16,531][trainers.wgan_trainer][INFO] - total_iter_finished: 40400
+[2025-11-05 10:18:16,531][trainers.wgan_trainer][INFO] - Time elapsed: 0:32:00
+[2025-11-05 10:18:16,549][trainers.wgan_trainer][INFO] - Saved images at iteration 40400
+[2025-11-05 10:18:22,747][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:18:26,034][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.780925526448389), np.float64(0.046907649702927094))
+[2025-11-05 10:18:26,034][trainers.wgan_trainer][INFO] - Generator iter: 20299
+[2025-11-05 10:18:26,034][trainers.wgan_trainer][INFO] - total_iter_finished: 40600
+[2025-11-05 10:18:26,034][trainers.wgan_trainer][INFO] - Time elapsed: 0:32:09
+[2025-11-05 10:18:26,051][trainers.wgan_trainer][INFO] - Saved images at iteration 40600
+[2025-11-05 10:18:32,235][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:18:35,534][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.7377385168553214), np.float64(0.04186758943140135))
+[2025-11-05 10:18:35,534][trainers.wgan_trainer][INFO] - Generator iter: 20399
+[2025-11-05 10:18:35,534][trainers.wgan_trainer][INFO] - total_iter_finished: 40800
+[2025-11-05 10:18:35,534][trainers.wgan_trainer][INFO] - Time elapsed: 0:32:19
+[2025-11-05 10:18:35,552][trainers.wgan_trainer][INFO] - Saved images at iteration 40800
+[2025-11-05 10:18:41,749][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:18:45,041][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.6384592650864884), np.float64(0.05377636365528361))
+[2025-11-05 10:18:45,041][trainers.wgan_trainer][INFO] - Generator iter: 20499
+[2025-11-05 10:18:45,041][trainers.wgan_trainer][INFO] - total_iter_finished: 41000
+[2025-11-05 10:18:45,041][trainers.wgan_trainer][INFO] - Time elapsed: 0:32:28
+[2025-11-05 10:18:45,059][trainers.wgan_trainer][INFO] - Saved images at iteration 41000
+[2025-11-05 10:18:51,261][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:18:54,556][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.6278593373739563), np.float64(0.07561740144392512))
+[2025-11-05 10:18:54,556][trainers.wgan_trainer][INFO] - Generator iter: 20599
+[2025-11-05 10:18:54,556][trainers.wgan_trainer][INFO] - total_iter_finished: 41200
+[2025-11-05 10:18:54,556][trainers.wgan_trainer][INFO] - Time elapsed: 0:32:38
+[2025-11-05 10:18:54,573][trainers.wgan_trainer][INFO] - Saved images at iteration 41200
+[2025-11-05 10:19:00,770][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:19:04,057][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.6829751433077536), np.float64(0.05475722960137908))
+[2025-11-05 10:19:04,057][trainers.wgan_trainer][INFO] - Generator iter: 20699
+[2025-11-05 10:19:04,057][trainers.wgan_trainer][INFO] - total_iter_finished: 41400
+[2025-11-05 10:19:04,057][trainers.wgan_trainer][INFO] - Time elapsed: 0:32:47
+[2025-11-05 10:19:04,075][trainers.wgan_trainer][INFO] - Saved images at iteration 41400
+[2025-11-05 10:19:10,256][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:19:13,554][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.6790669597430634), np.float64(0.0685271751350286))
+[2025-11-05 10:19:13,554][trainers.wgan_trainer][INFO] - Generator iter: 20799
+[2025-11-05 10:19:13,554][trainers.wgan_trainer][INFO] - total_iter_finished: 41600
+[2025-11-05 10:19:13,554][trainers.wgan_trainer][INFO] - Time elapsed: 0:32:57
+[2025-11-05 10:19:13,571][trainers.wgan_trainer][INFO] - Saved images at iteration 41600
+[2025-11-05 10:19:19,768][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:19:23,060][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.789883007042902), np.float64(0.07757664566969409))
+[2025-11-05 10:19:23,060][trainers.wgan_trainer][INFO] - Generator iter: 20899
+[2025-11-05 10:19:23,060][trainers.wgan_trainer][INFO] - total_iter_finished: 41800
+[2025-11-05 10:19:23,060][trainers.wgan_trainer][INFO] - Time elapsed: 0:33:06
+[2025-11-05 10:19:23,076][trainers.wgan_trainer][INFO] - Saved images at iteration 41800
+[2025-11-05 10:19:29,283][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:19:32,572][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.6616353622544304), np.float64(0.06300166664402823))
+[2025-11-05 10:19:32,572][trainers.wgan_trainer][INFO] - Generator iter: 20999
+[2025-11-05 10:19:32,572][trainers.wgan_trainer][INFO] - total_iter_finished: 42000
+[2025-11-05 10:19:32,572][trainers.wgan_trainer][INFO] - Time elapsed: 0:33:16
+[2025-11-05 10:19:32,588][trainers.wgan_trainer][INFO] - Saved images at iteration 42000
+[2025-11-05 10:19:38,827][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:19:42,111][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.73330983098705), np.float64(0.08178264814430154))
+[2025-11-05 10:19:42,111][trainers.wgan_trainer][INFO] - Generator iter: 21099
+[2025-11-05 10:19:42,111][trainers.wgan_trainer][INFO] - total_iter_finished: 42200
+[2025-11-05 10:19:42,111][trainers.wgan_trainer][INFO] - Time elapsed: 0:33:25
+[2025-11-05 10:19:42,127][trainers.wgan_trainer][INFO] - Saved images at iteration 42200
+[2025-11-05 10:19:48,336][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:19:51,624][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.3840067000701373), np.float64(0.05400792183854434))
+[2025-11-05 10:19:51,625][trainers.wgan_trainer][INFO] - Generator iter: 21199
+[2025-11-05 10:19:51,625][trainers.wgan_trainer][INFO] - total_iter_finished: 42400
+[2025-11-05 10:19:51,625][trainers.wgan_trainer][INFO] - Time elapsed: 0:33:35
+[2025-11-05 10:19:51,641][trainers.wgan_trainer][INFO] - Saved images at iteration 42400
+[2025-11-05 10:19:57,900][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:20:01,179][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8735023862509257), np.float64(0.06673847863582325))
+[2025-11-05 10:20:01,179][trainers.wgan_trainer][INFO] - Generator iter: 21299
+[2025-11-05 10:20:01,179][trainers.wgan_trainer][INFO] - total_iter_finished: 42600
+[2025-11-05 10:20:01,179][trainers.wgan_trainer][INFO] - Time elapsed: 0:33:44
+[2025-11-05 10:20:01,196][trainers.wgan_trainer][INFO] - Saved images at iteration 42600
+[2025-11-05 10:20:07,393][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:20:10,684][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.7973885592214014), np.float64(0.07322625694358806))
+[2025-11-05 10:20:10,684][trainers.wgan_trainer][INFO] - Generator iter: 21399
+[2025-11-05 10:20:10,684][trainers.wgan_trainer][INFO] - total_iter_finished: 42800
+[2025-11-05 10:20:10,684][trainers.wgan_trainer][INFO] - Time elapsed: 0:33:54
+[2025-11-05 10:20:10,700][trainers.wgan_trainer][INFO] - Saved images at iteration 42800
+[2025-11-05 10:20:16,968][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:20:20,255][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.0466393499595235), np.float64(0.048078657655602174))
+[2025-11-05 10:20:20,255][trainers.wgan_trainer][INFO] - Generator iter: 21499
+[2025-11-05 10:20:20,255][trainers.wgan_trainer][INFO] - total_iter_finished: 43000
+[2025-11-05 10:20:20,255][trainers.wgan_trainer][INFO] - Time elapsed: 0:34:04
+[2025-11-05 10:20:20,271][trainers.wgan_trainer][INFO] - Saved images at iteration 43000
+[2025-11-05 10:20:26,478][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:20:29,770][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.7834723242108144), np.float64(0.07389708488982778))
+[2025-11-05 10:20:29,770][trainers.wgan_trainer][INFO] - Generator iter: 21599
+[2025-11-05 10:20:29,770][trainers.wgan_trainer][INFO] - total_iter_finished: 43200
+[2025-11-05 10:20:29,770][trainers.wgan_trainer][INFO] - Time elapsed: 0:34:13
+[2025-11-05 10:20:29,786][trainers.wgan_trainer][INFO] - Saved images at iteration 43200
+[2025-11-05 10:20:36,043][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:20:39,337][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.880299192609258), np.float64(0.07932527175346937))
+[2025-11-05 10:20:39,337][trainers.wgan_trainer][INFO] - Generator iter: 21699
+[2025-11-05 10:20:39,337][trainers.wgan_trainer][INFO] - total_iter_finished: 43400
+[2025-11-05 10:20:39,337][trainers.wgan_trainer][INFO] - Time elapsed: 0:34:23
+[2025-11-05 10:20:39,354][trainers.wgan_trainer][INFO] - Saved images at iteration 43400
+[2025-11-05 10:20:45,596][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:20:48,884][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.1525273342984947), np.float64(0.10339496063538697))
+[2025-11-05 10:20:48,884][trainers.wgan_trainer][INFO] - Generator iter: 21799
+[2025-11-05 10:20:48,884][trainers.wgan_trainer][INFO] - total_iter_finished: 43600
+[2025-11-05 10:20:48,884][trainers.wgan_trainer][INFO] - Time elapsed: 0:34:32
+[2025-11-05 10:20:48,902][trainers.wgan_trainer][INFO] - Saved images at iteration 43600
+[2025-11-05 10:20:55,088][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:20:58,370][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.162640382830227), np.float64(0.05976674458457762))
+[2025-11-05 10:20:58,370][trainers.wgan_trainer][INFO] - Generator iter: 21899
+[2025-11-05 10:20:58,370][trainers.wgan_trainer][INFO] - total_iter_finished: 43800
+[2025-11-05 10:20:58,370][trainers.wgan_trainer][INFO] - Time elapsed: 0:34:42
+[2025-11-05 10:20:58,388][trainers.wgan_trainer][INFO] - Saved images at iteration 43800
+[2025-11-05 10:21:04,589][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:21:07,867][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.0432355804948164), np.float64(0.07542118415975255))
+[2025-11-05 10:21:07,867][trainers.wgan_trainer][INFO] - Generator iter: 21999
+[2025-11-05 10:21:07,867][trainers.wgan_trainer][INFO] - total_iter_finished: 44000
+[2025-11-05 10:21:07,867][trainers.wgan_trainer][INFO] - Time elapsed: 0:34:51
+[2025-11-05 10:21:07,883][trainers.wgan_trainer][INFO] - Saved images at iteration 44000
+[2025-11-05 10:21:14,145][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:21:17,457][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.0302860214786542), np.float64(0.07794628915468739))
+[2025-11-05 10:21:17,457][trainers.wgan_trainer][INFO] - Generator iter: 22099
+[2025-11-05 10:21:17,457][trainers.wgan_trainer][INFO] - total_iter_finished: 44200
+[2025-11-05 10:21:17,458][trainers.wgan_trainer][INFO] - Time elapsed: 0:35:01
+[2025-11-05 10:21:17,476][trainers.wgan_trainer][INFO] - Saved images at iteration 44200
+[2025-11-05 10:21:23,705][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:21:27,003][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.784373901695745), np.float64(0.05759340084746338))
+[2025-11-05 10:21:27,003][trainers.wgan_trainer][INFO] - Generator iter: 22199
+[2025-11-05 10:21:27,003][trainers.wgan_trainer][INFO] - total_iter_finished: 44400
+[2025-11-05 10:21:27,003][trainers.wgan_trainer][INFO] - Time elapsed: 0:35:10
+[2025-11-05 10:21:27,020][trainers.wgan_trainer][INFO] - Saved images at iteration 44400
+[2025-11-05 10:21:33,240][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:21:36,536][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.658191982882453), np.float64(0.06332961242068745))
+[2025-11-05 10:21:36,536][trainers.wgan_trainer][INFO] - Generator iter: 22299
+[2025-11-05 10:21:36,536][trainers.wgan_trainer][INFO] - total_iter_finished: 44600
+[2025-11-05 10:21:36,536][trainers.wgan_trainer][INFO] - Time elapsed: 0:35:20
+[2025-11-05 10:21:36,552][trainers.wgan_trainer][INFO] - Saved images at iteration 44600
+[2025-11-05 10:21:42,814][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:21:46,097][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8297814222312), np.float64(0.07303784495232553))
+[2025-11-05 10:21:46,097][trainers.wgan_trainer][INFO] - Generator iter: 22399
+[2025-11-05 10:21:46,097][trainers.wgan_trainer][INFO] - total_iter_finished: 44800
+[2025-11-05 10:21:46,097][trainers.wgan_trainer][INFO] - Time elapsed: 0:35:29
+[2025-11-05 10:21:46,114][trainers.wgan_trainer][INFO] - Saved images at iteration 44800
+[2025-11-05 10:21:52,335][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:21:55,630][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.704131659142133), np.float64(0.05623538640767362))
+[2025-11-05 10:21:55,630][trainers.wgan_trainer][INFO] - Generator iter: 22499
+[2025-11-05 10:21:55,630][trainers.wgan_trainer][INFO] - total_iter_finished: 45000
+[2025-11-05 10:21:55,630][trainers.wgan_trainer][INFO] - Time elapsed: 0:35:39
+[2025-11-05 10:21:55,647][trainers.wgan_trainer][INFO] - Saved images at iteration 45000
+[2025-11-05 10:22:01,915][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:22:05,218][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.7193460541517664), np.float64(0.08083295530559625))
+[2025-11-05 10:22:05,218][trainers.wgan_trainer][INFO] - Generator iter: 22599
+[2025-11-05 10:22:05,218][trainers.wgan_trainer][INFO] - total_iter_finished: 45200
+[2025-11-05 10:22:05,218][trainers.wgan_trainer][INFO] - Time elapsed: 0:35:49
+[2025-11-05 10:22:05,235][trainers.wgan_trainer][INFO] - Saved images at iteration 45200
+[2025-11-05 10:22:11,453][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:22:14,741][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.650336214930802), np.float64(0.043521912918384385))
+[2025-11-05 10:22:14,741][trainers.wgan_trainer][INFO] - Generator iter: 22699
+[2025-11-05 10:22:14,741][trainers.wgan_trainer][INFO] - total_iter_finished: 45400
+[2025-11-05 10:22:14,741][trainers.wgan_trainer][INFO] - Time elapsed: 0:35:58
+[2025-11-05 10:22:14,757][trainers.wgan_trainer][INFO] - Saved images at iteration 45400
+[2025-11-05 10:22:20,980][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:22:24,264][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.267841178284585), np.float64(0.07452352301333821))
+[2025-11-05 10:22:24,264][trainers.wgan_trainer][INFO] - Generator iter: 22799
+[2025-11-05 10:22:24,264][trainers.wgan_trainer][INFO] - total_iter_finished: 45600
+[2025-11-05 10:22:24,264][trainers.wgan_trainer][INFO] - Time elapsed: 0:36:08
+[2025-11-05 10:22:24,280][trainers.wgan_trainer][INFO] - Saved images at iteration 45600
+[2025-11-05 10:22:30,519][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:22:33,812][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.979039802730275), np.float64(0.07913428223761215))
+[2025-11-05 10:22:33,812][trainers.wgan_trainer][INFO] - Generator iter: 22899
+[2025-11-05 10:22:33,812][trainers.wgan_trainer][INFO] - total_iter_finished: 45800
+[2025-11-05 10:22:33,812][trainers.wgan_trainer][INFO] - Time elapsed: 0:36:17
+[2025-11-05 10:22:33,829][trainers.wgan_trainer][INFO] - Saved images at iteration 45800
+[2025-11-05 10:22:40,063][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:22:43,341][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.0371839579269975), np.float64(0.06034406979413226))
+[2025-11-05 10:22:43,341][trainers.wgan_trainer][INFO] - Generator iter: 22999
+[2025-11-05 10:22:43,341][trainers.wgan_trainer][INFO] - total_iter_finished: 46000
+[2025-11-05 10:22:43,341][trainers.wgan_trainer][INFO] - Time elapsed: 0:36:27
+[2025-11-05 10:22:43,357][trainers.wgan_trainer][INFO] - Saved images at iteration 46000
+[2025-11-05 10:22:49,574][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:22:52,854][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.5923451435164986), np.float64(0.07203916467117691))
+[2025-11-05 10:22:52,854][trainers.wgan_trainer][INFO] - Generator iter: 23099
+[2025-11-05 10:22:52,854][trainers.wgan_trainer][INFO] - total_iter_finished: 46200
+[2025-11-05 10:22:52,854][trainers.wgan_trainer][INFO] - Time elapsed: 0:36:36
+[2025-11-05 10:22:52,871][trainers.wgan_trainer][INFO] - Saved images at iteration 46200
+[2025-11-05 10:22:59,102][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:23:02,402][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.9113118591547966), np.float64(0.058951564676800336))
+[2025-11-05 10:23:02,402][trainers.wgan_trainer][INFO] - Generator iter: 23199
+[2025-11-05 10:23:02,402][trainers.wgan_trainer][INFO] - total_iter_finished: 46400
+[2025-11-05 10:23:02,402][trainers.wgan_trainer][INFO] - Time elapsed: 0:36:46
+[2025-11-05 10:23:02,420][trainers.wgan_trainer][INFO] - Saved images at iteration 46400
+[2025-11-05 10:23:08,664][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:23:11,964][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.6902355598611383), np.float64(0.04042410000099188))
+[2025-11-05 10:23:11,964][trainers.wgan_trainer][INFO] - Generator iter: 23299
+[2025-11-05 10:23:11,964][trainers.wgan_trainer][INFO] - total_iter_finished: 46600
+[2025-11-05 10:23:11,964][trainers.wgan_trainer][INFO] - Time elapsed: 0:36:55
+[2025-11-05 10:23:11,980][trainers.wgan_trainer][INFO] - Saved images at iteration 46600
+[2025-11-05 10:23:18,182][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:23:21,460][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.7107052034469916), np.float64(0.06780498143973508))
+[2025-11-05 10:23:21,460][trainers.wgan_trainer][INFO] - Generator iter: 23399
+[2025-11-05 10:23:21,461][trainers.wgan_trainer][INFO] - total_iter_finished: 46800
+[2025-11-05 10:23:21,461][trainers.wgan_trainer][INFO] - Time elapsed: 0:37:05
+[2025-11-05 10:23:21,477][trainers.wgan_trainer][INFO] - Saved images at iteration 46800
+[2025-11-05 10:23:27,681][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:23:30,970][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.6831040718980903), np.float64(0.04967187165835042))
+[2025-11-05 10:23:30,971][trainers.wgan_trainer][INFO] - Generator iter: 23499
+[2025-11-05 10:23:30,971][trainers.wgan_trainer][INFO] - total_iter_finished: 47000
+[2025-11-05 10:23:30,971][trainers.wgan_trainer][INFO] - Time elapsed: 0:37:14
+[2025-11-05 10:23:30,987][trainers.wgan_trainer][INFO] - Saved images at iteration 47000
+[2025-11-05 10:23:37,202][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:23:40,486][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8511706579595204), np.float64(0.061337540452022006))
+[2025-11-05 10:23:40,486][trainers.wgan_trainer][INFO] - Generator iter: 23599
+[2025-11-05 10:23:40,486][trainers.wgan_trainer][INFO] - total_iter_finished: 47200
+[2025-11-05 10:23:40,486][trainers.wgan_trainer][INFO] - Time elapsed: 0:37:24
+[2025-11-05 10:23:40,502][trainers.wgan_trainer][INFO] - Saved images at iteration 47200
+[2025-11-05 10:23:46,702][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:23:49,985][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.9815680582790938), np.float64(0.06729569955916789))
+[2025-11-05 10:23:49,985][trainers.wgan_trainer][INFO] - Generator iter: 23699
+[2025-11-05 10:23:49,985][trainers.wgan_trainer][INFO] - total_iter_finished: 47400
+[2025-11-05 10:23:49,985][trainers.wgan_trainer][INFO] - Time elapsed: 0:37:33
+[2025-11-05 10:23:50,001][trainers.wgan_trainer][INFO] - Saved images at iteration 47400
+[2025-11-05 10:23:56,202][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:23:59,491][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.6284751804997204), np.float64(0.05392469414049962))
+[2025-11-05 10:23:59,491][trainers.wgan_trainer][INFO] - Generator iter: 23799
+[2025-11-05 10:23:59,491][trainers.wgan_trainer][INFO] - total_iter_finished: 47600
+[2025-11-05 10:23:59,491][trainers.wgan_trainer][INFO] - Time elapsed: 0:37:43
+[2025-11-05 10:23:59,508][trainers.wgan_trainer][INFO] - Saved images at iteration 47600
+[2025-11-05 10:24:05,700][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:24:08,985][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.569527067231747), np.float64(0.08722648722422766))
+[2025-11-05 10:24:08,985][trainers.wgan_trainer][INFO] - Generator iter: 23899
+[2025-11-05 10:24:08,986][trainers.wgan_trainer][INFO] - total_iter_finished: 47800
+[2025-11-05 10:24:08,986][trainers.wgan_trainer][INFO] - Time elapsed: 0:37:52
+[2025-11-05 10:24:09,002][trainers.wgan_trainer][INFO] - Saved images at iteration 47800
+[2025-11-05 10:24:15,222][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:24:18,501][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8468852278197865), np.float64(0.07296612232150367))
+[2025-11-05 10:24:18,501][trainers.wgan_trainer][INFO] - Generator iter: 23999
+[2025-11-05 10:24:18,501][trainers.wgan_trainer][INFO] - total_iter_finished: 48000
+[2025-11-05 10:24:18,501][trainers.wgan_trainer][INFO] - Time elapsed: 0:38:02
+[2025-11-05 10:24:18,517][trainers.wgan_trainer][INFO] - Saved images at iteration 48000
+[2025-11-05 10:24:24,748][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:24:28,033][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.7067596158660145), np.float64(0.0657457788817504))
+[2025-11-05 10:24:28,034][trainers.wgan_trainer][INFO] - Generator iter: 24099
+[2025-11-05 10:24:28,034][trainers.wgan_trainer][INFO] - total_iter_finished: 48200
+[2025-11-05 10:24:28,034][trainers.wgan_trainer][INFO] - Time elapsed: 0:38:11
+[2025-11-05 10:24:28,050][trainers.wgan_trainer][INFO] - Saved images at iteration 48200
+[2025-11-05 10:24:34,283][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:24:37,577][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.4876458949505174), np.float64(0.06930586907818789))
+[2025-11-05 10:24:37,577][trainers.wgan_trainer][INFO] - Generator iter: 24199
+[2025-11-05 10:24:37,577][trainers.wgan_trainer][INFO] - total_iter_finished: 48400
+[2025-11-05 10:24:37,577][trainers.wgan_trainer][INFO] - Time elapsed: 0:38:21
+[2025-11-05 10:24:37,594][trainers.wgan_trainer][INFO] - Saved images at iteration 48400
+[2025-11-05 10:24:43,780][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:24:47,066][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.6945220618189625), np.float64(0.06319736709984511))
+[2025-11-05 10:24:47,066][trainers.wgan_trainer][INFO] - Generator iter: 24299
+[2025-11-05 10:24:47,066][trainers.wgan_trainer][INFO] - total_iter_finished: 48600
+[2025-11-05 10:24:47,066][trainers.wgan_trainer][INFO] - Time elapsed: 0:38:30
+[2025-11-05 10:24:47,083][trainers.wgan_trainer][INFO] - Saved images at iteration 48600
+[2025-11-05 10:24:53,282][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:24:56,585][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.2023412296618945), np.float64(0.08937623322982602))
+[2025-11-05 10:24:56,585][trainers.wgan_trainer][INFO] - Generator iter: 24399
+[2025-11-05 10:24:56,585][trainers.wgan_trainer][INFO] - total_iter_finished: 48800
+[2025-11-05 10:24:56,585][trainers.wgan_trainer][INFO] - Time elapsed: 0:38:40
+[2025-11-05 10:24:56,603][trainers.wgan_trainer][INFO] - Saved images at iteration 48800
+[2025-11-05 10:25:02,801][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:25:06,095][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.887054082036246), np.float64(0.05254474397487959))
+[2025-11-05 10:25:06,095][trainers.wgan_trainer][INFO] - Generator iter: 24499
+[2025-11-05 10:25:06,095][trainers.wgan_trainer][INFO] - total_iter_finished: 49000
+[2025-11-05 10:25:06,095][trainers.wgan_trainer][INFO] - Time elapsed: 0:38:49
+[2025-11-05 10:25:06,111][trainers.wgan_trainer][INFO] - Saved images at iteration 49000
+[2025-11-05 10:25:12,320][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:25:15,610][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.102530189671924), np.float64(0.06276816797264635))
+[2025-11-05 10:25:15,610][trainers.wgan_trainer][INFO] - Generator iter: 24599
+[2025-11-05 10:25:15,610][trainers.wgan_trainer][INFO] - total_iter_finished: 49200
+[2025-11-05 10:25:15,610][trainers.wgan_trainer][INFO] - Time elapsed: 0:38:59
+[2025-11-05 10:25:15,627][trainers.wgan_trainer][INFO] - Saved images at iteration 49200
+[2025-11-05 10:25:21,813][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:25:25,104][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.9965422305313285), np.float64(0.05535937573023262))
+[2025-11-05 10:25:25,104][trainers.wgan_trainer][INFO] - Generator iter: 24699
+[2025-11-05 10:25:25,104][trainers.wgan_trainer][INFO] - total_iter_finished: 49400
+[2025-11-05 10:25:25,104][trainers.wgan_trainer][INFO] - Time elapsed: 0:39:08
+[2025-11-05 10:25:25,120][trainers.wgan_trainer][INFO] - Saved images at iteration 49400
+[2025-11-05 10:25:31,323][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:25:34,620][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.997780156656892), np.float64(0.06304355190121283))
+[2025-11-05 10:25:34,620][trainers.wgan_trainer][INFO] - Generator iter: 24799
+[2025-11-05 10:25:34,620][trainers.wgan_trainer][INFO] - total_iter_finished: 49600
+[2025-11-05 10:25:34,620][trainers.wgan_trainer][INFO] - Time elapsed: 0:39:18
+[2025-11-05 10:25:34,637][trainers.wgan_trainer][INFO] - Saved images at iteration 49600
+[2025-11-05 10:25:40,869][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:25:44,154][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8599677684242875), np.float64(0.054719235118502886))
+[2025-11-05 10:25:44,154][trainers.wgan_trainer][INFO] - Generator iter: 24899
+[2025-11-05 10:25:44,154][trainers.wgan_trainer][INFO] - total_iter_finished: 49800
+[2025-11-05 10:25:44,154][trainers.wgan_trainer][INFO] - Time elapsed: 0:39:27
+[2025-11-05 10:25:44,170][trainers.wgan_trainer][INFO] - Saved images at iteration 49800
+[2025-11-05 10:25:50,413][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:25:53,711][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.0762803433582397), np.float64(0.06463318759660429))
+[2025-11-05 10:25:53,711][trainers.wgan_trainer][INFO] - Generator iter: 24999
+[2025-11-05 10:25:53,711][trainers.wgan_trainer][INFO] - total_iter_finished: 50000
+[2025-11-05 10:25:53,711][trainers.wgan_trainer][INFO] - Time elapsed: 0:39:37
+[2025-11-05 10:25:53,728][trainers.wgan_trainer][INFO] - Saved images at iteration 50000
+[2025-11-05 10:25:59,911][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:26:03,193][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.0120523483501676), np.float64(0.060996172795145936))
+[2025-11-05 10:26:03,193][trainers.wgan_trainer][INFO] - Generator iter: 25099
+[2025-11-05 10:26:03,193][trainers.wgan_trainer][INFO] - total_iter_finished: 50200
+[2025-11-05 10:26:03,193][trainers.wgan_trainer][INFO] - Time elapsed: 0:39:46
+[2025-11-05 10:26:03,209][trainers.wgan_trainer][INFO] - Saved images at iteration 50200
+[2025-11-05 10:26:09,408][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:26:12,691][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.953984860798072), np.float64(0.07328032929669788))
+[2025-11-05 10:26:12,691][trainers.wgan_trainer][INFO] - Generator iter: 25199
+[2025-11-05 10:26:12,691][trainers.wgan_trainer][INFO] - total_iter_finished: 50400
+[2025-11-05 10:26:12,691][trainers.wgan_trainer][INFO] - Time elapsed: 0:39:56
+[2025-11-05 10:26:12,706][trainers.wgan_trainer][INFO] - Saved images at iteration 50400
+[2025-11-05 10:26:18,907][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:26:22,178][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.9368663388558867), np.float64(0.05670150486824751))
+[2025-11-05 10:26:22,178][trainers.wgan_trainer][INFO] - Generator iter: 25299
+[2025-11-05 10:26:22,178][trainers.wgan_trainer][INFO] - total_iter_finished: 50600
+[2025-11-05 10:26:22,178][trainers.wgan_trainer][INFO] - Time elapsed: 0:40:05
+[2025-11-05 10:26:22,195][trainers.wgan_trainer][INFO] - Saved images at iteration 50600
+[2025-11-05 10:26:28,399][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:26:31,681][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.7755473994794917), np.float64(0.08696409275061068))
+[2025-11-05 10:26:31,681][trainers.wgan_trainer][INFO] - Generator iter: 25399
+[2025-11-05 10:26:31,681][trainers.wgan_trainer][INFO] - total_iter_finished: 50800
+[2025-11-05 10:26:31,681][trainers.wgan_trainer][INFO] - Time elapsed: 0:40:15
+[2025-11-05 10:26:31,697][trainers.wgan_trainer][INFO] - Saved images at iteration 50800
+[2025-11-05 10:26:37,882][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:26:41,171][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8653532858730033), np.float64(0.06963978789839863))
+[2025-11-05 10:26:41,171][trainers.wgan_trainer][INFO] - Generator iter: 25499
+[2025-11-05 10:26:41,171][trainers.wgan_trainer][INFO] - total_iter_finished: 51000
+[2025-11-05 10:26:41,171][trainers.wgan_trainer][INFO] - Time elapsed: 0:40:24
+[2025-11-05 10:26:41,187][trainers.wgan_trainer][INFO] - Saved images at iteration 51000
+[2025-11-05 10:26:47,386][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:26:50,667][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.1899531443792424), np.float64(0.10843620070774747))
+[2025-11-05 10:26:50,667][trainers.wgan_trainer][INFO] - Generator iter: 25599
+[2025-11-05 10:26:50,667][trainers.wgan_trainer][INFO] - total_iter_finished: 51200
+[2025-11-05 10:26:50,667][trainers.wgan_trainer][INFO] - Time elapsed: 0:40:34
+[2025-11-05 10:26:50,684][trainers.wgan_trainer][INFO] - Saved images at iteration 51200
+[2025-11-05 10:26:56,914][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:27:00,206][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.911440476474724), np.float64(0.057613796067642734))
+[2025-11-05 10:27:00,206][trainers.wgan_trainer][INFO] - Generator iter: 25699
+[2025-11-05 10:27:00,206][trainers.wgan_trainer][INFO] - total_iter_finished: 51400
+[2025-11-05 10:27:00,206][trainers.wgan_trainer][INFO] - Time elapsed: 0:40:43
+[2025-11-05 10:27:00,222][trainers.wgan_trainer][INFO] - Saved images at iteration 51400
+[2025-11-05 10:27:06,425][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:27:09,701][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.894479427390316), np.float64(0.05841619369248266))
+[2025-11-05 10:27:09,701][trainers.wgan_trainer][INFO] - Generator iter: 25799
+[2025-11-05 10:27:09,701][trainers.wgan_trainer][INFO] - total_iter_finished: 51600
+[2025-11-05 10:27:09,701][trainers.wgan_trainer][INFO] - Time elapsed: 0:40:53
+[2025-11-05 10:27:09,718][trainers.wgan_trainer][INFO] - Saved images at iteration 51600
+[2025-11-05 10:27:15,974][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:27:19,254][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.021378499770464), np.float64(0.05856245335025155))
+[2025-11-05 10:27:19,254][trainers.wgan_trainer][INFO] - Generator iter: 25899
+[2025-11-05 10:27:19,254][trainers.wgan_trainer][INFO] - total_iter_finished: 51800
+[2025-11-05 10:27:19,254][trainers.wgan_trainer][INFO] - Time elapsed: 0:41:03
+[2025-11-05 10:27:19,270][trainers.wgan_trainer][INFO] - Saved images at iteration 51800
+[2025-11-05 10:27:25,478][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:27:28,758][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.938529025023494), np.float64(0.06126250259320429))
+[2025-11-05 10:27:28,758][trainers.wgan_trainer][INFO] - Generator iter: 25999
+[2025-11-05 10:27:28,758][trainers.wgan_trainer][INFO] - total_iter_finished: 52000
+[2025-11-05 10:27:28,758][trainers.wgan_trainer][INFO] - Time elapsed: 0:41:12
+[2025-11-05 10:27:28,776][trainers.wgan_trainer][INFO] - Saved images at iteration 52000
+[2025-11-05 10:27:35,020][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:27:38,332][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.682626189179603), np.float64(0.05655806647990572))
+[2025-11-05 10:27:38,332][trainers.wgan_trainer][INFO] - Generator iter: 26099
+[2025-11-05 10:27:38,332][trainers.wgan_trainer][INFO] - total_iter_finished: 52200
+[2025-11-05 10:27:38,332][trainers.wgan_trainer][INFO] - Time elapsed: 0:41:22
+[2025-11-05 10:27:38,348][trainers.wgan_trainer][INFO] - Saved images at iteration 52200
+[2025-11-05 10:27:44,576][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:27:47,854][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.538298518558051), np.float64(0.05048070603353812))
+[2025-11-05 10:27:47,854][trainers.wgan_trainer][INFO] - Generator iter: 26199
+[2025-11-05 10:27:47,854][trainers.wgan_trainer][INFO] - total_iter_finished: 52400
+[2025-11-05 10:27:47,854][trainers.wgan_trainer][INFO] - Time elapsed: 0:41:31
+[2025-11-05 10:27:47,871][trainers.wgan_trainer][INFO] - Saved images at iteration 52400
+[2025-11-05 10:27:54,069][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:27:57,344][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.92926458796483), np.float64(0.08164529332498852))
+[2025-11-05 10:27:57,344][trainers.wgan_trainer][INFO] - Generator iter: 26299
+[2025-11-05 10:27:57,344][trainers.wgan_trainer][INFO] - total_iter_finished: 52600
+[2025-11-05 10:27:57,344][trainers.wgan_trainer][INFO] - Time elapsed: 0:41:41
+[2025-11-05 10:27:57,361][trainers.wgan_trainer][INFO] - Saved images at iteration 52600
+[2025-11-05 10:28:03,629][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:28:06,927][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.6715689054935297), np.float64(0.0833971872204566))
+[2025-11-05 10:28:06,927][trainers.wgan_trainer][INFO] - Generator iter: 26399
+[2025-11-05 10:28:06,927][trainers.wgan_trainer][INFO] - total_iter_finished: 52800
+[2025-11-05 10:28:06,927][trainers.wgan_trainer][INFO] - Time elapsed: 0:41:50
+[2025-11-05 10:28:06,944][trainers.wgan_trainer][INFO] - Saved images at iteration 52800
+[2025-11-05 10:28:13,171][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:28:16,447][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.810738261111417), np.float64(0.0794973560597255))
+[2025-11-05 10:28:16,447][trainers.wgan_trainer][INFO] - Generator iter: 26499
+[2025-11-05 10:28:16,447][trainers.wgan_trainer][INFO] - total_iter_finished: 53000
+[2025-11-05 10:28:16,447][trainers.wgan_trainer][INFO] - Time elapsed: 0:42:00
+[2025-11-05 10:28:16,464][trainers.wgan_trainer][INFO] - Saved images at iteration 53000
+[2025-11-05 10:28:22,675][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:28:25,957][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8603865460327524), np.float64(0.08498468323735767))
+[2025-11-05 10:28:25,957][trainers.wgan_trainer][INFO] - Generator iter: 26599
+[2025-11-05 10:28:25,957][trainers.wgan_trainer][INFO] - total_iter_finished: 53200
+[2025-11-05 10:28:25,957][trainers.wgan_trainer][INFO] - Time elapsed: 0:42:09
+[2025-11-05 10:28:25,975][trainers.wgan_trainer][INFO] - Saved images at iteration 53200
+[2025-11-05 10:28:32,199][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:28:35,497][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.741421141184005), np.float64(0.07905182974134128))
+[2025-11-05 10:28:35,497][trainers.wgan_trainer][INFO] - Generator iter: 26699
+[2025-11-05 10:28:35,497][trainers.wgan_trainer][INFO] - total_iter_finished: 53400
+[2025-11-05 10:28:35,497][trainers.wgan_trainer][INFO] - Time elapsed: 0:42:19
+[2025-11-05 10:28:35,515][trainers.wgan_trainer][INFO] - Saved images at iteration 53400
+[2025-11-05 10:28:41,741][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:28:45,047][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.109879563935329), np.float64(0.06390227002563804))
+[2025-11-05 10:28:45,047][trainers.wgan_trainer][INFO] - Generator iter: 26799
+[2025-11-05 10:28:45,047][trainers.wgan_trainer][INFO] - total_iter_finished: 53600
+[2025-11-05 10:28:45,047][trainers.wgan_trainer][INFO] - Time elapsed: 0:42:28
+[2025-11-05 10:28:45,064][trainers.wgan_trainer][INFO] - Saved images at iteration 53600
+[2025-11-05 10:28:51,273][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:28:54,559][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.782973567291804), np.float64(0.046451174743194414))
+[2025-11-05 10:28:54,559][trainers.wgan_trainer][INFO] - Generator iter: 26899
+[2025-11-05 10:28:54,559][trainers.wgan_trainer][INFO] - total_iter_finished: 53800
+[2025-11-05 10:28:54,559][trainers.wgan_trainer][INFO] - Time elapsed: 0:42:38
+[2025-11-05 10:28:54,576][trainers.wgan_trainer][INFO] - Saved images at iteration 53800
+[2025-11-05 10:29:00,781][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:29:04,061][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.5170436297507663), np.float64(0.06551254107509556))
+[2025-11-05 10:29:04,061][trainers.wgan_trainer][INFO] - Generator iter: 26999
+[2025-11-05 10:29:04,061][trainers.wgan_trainer][INFO] - total_iter_finished: 54000
+[2025-11-05 10:29:04,061][trainers.wgan_trainer][INFO] - Time elapsed: 0:42:47
+[2025-11-05 10:29:04,078][trainers.wgan_trainer][INFO] - Saved images at iteration 54000
+[2025-11-05 10:29:10,305][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:29:13,595][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.664726107807906), np.float64(0.06791616859071473))
+[2025-11-05 10:29:13,595][trainers.wgan_trainer][INFO] - Generator iter: 27099
+[2025-11-05 10:29:13,595][trainers.wgan_trainer][INFO] - total_iter_finished: 54200
+[2025-11-05 10:29:13,595][trainers.wgan_trainer][INFO] - Time elapsed: 0:42:57
+[2025-11-05 10:29:13,611][trainers.wgan_trainer][INFO] - Saved images at iteration 54200
+[2025-11-05 10:29:19,818][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:29:23,102][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.900345912032342), np.float64(0.07741252559409748))
+[2025-11-05 10:29:23,102][trainers.wgan_trainer][INFO] - Generator iter: 27199
+[2025-11-05 10:29:23,102][trainers.wgan_trainer][INFO] - total_iter_finished: 54400
+[2025-11-05 10:29:23,102][trainers.wgan_trainer][INFO] - Time elapsed: 0:43:06
+[2025-11-05 10:29:23,119][trainers.wgan_trainer][INFO] - Saved images at iteration 54400
+[2025-11-05 10:29:29,367][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:29:32,656][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.082209185171313), np.float64(0.10787518858302625))
+[2025-11-05 10:29:32,656][trainers.wgan_trainer][INFO] - Generator iter: 27299
+[2025-11-05 10:29:32,656][trainers.wgan_trainer][INFO] - total_iter_finished: 54600
+[2025-11-05 10:29:32,656][trainers.wgan_trainer][INFO] - Time elapsed: 0:43:16
+[2025-11-05 10:29:32,673][trainers.wgan_trainer][INFO] - Saved images at iteration 54600
+[2025-11-05 10:29:38,897][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:29:42,183][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.787378529357322), np.float64(0.08047147446756847))
+[2025-11-05 10:29:42,183][trainers.wgan_trainer][INFO] - Generator iter: 27399
+[2025-11-05 10:29:42,183][trainers.wgan_trainer][INFO] - total_iter_finished: 54800
+[2025-11-05 10:29:42,183][trainers.wgan_trainer][INFO] - Time elapsed: 0:43:25
+[2025-11-05 10:29:42,199][trainers.wgan_trainer][INFO] - Saved images at iteration 54800
+[2025-11-05 10:29:48,398][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:29:51,686][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.028557704777626), np.float64(0.06973204684602292))
+[2025-11-05 10:29:51,686][trainers.wgan_trainer][INFO] - Generator iter: 27499
+[2025-11-05 10:29:51,686][trainers.wgan_trainer][INFO] - total_iter_finished: 55000
+[2025-11-05 10:29:51,686][trainers.wgan_trainer][INFO] - Time elapsed: 0:43:35
+[2025-11-05 10:29:51,702][trainers.wgan_trainer][INFO] - Saved images at iteration 55000
+[2025-11-05 10:29:57,904][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:30:01,192][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.031108246357596), np.float64(0.03980807525099986))
+[2025-11-05 10:30:01,192][trainers.wgan_trainer][INFO] - Generator iter: 27599
+[2025-11-05 10:30:01,192][trainers.wgan_trainer][INFO] - total_iter_finished: 55200
+[2025-11-05 10:30:01,192][trainers.wgan_trainer][INFO] - Time elapsed: 0:43:44
+[2025-11-05 10:30:01,207][trainers.wgan_trainer][INFO] - Saved images at iteration 55200
+[2025-11-05 10:30:07,414][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:30:10,702][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.0808685768747552), np.float64(0.05827391919667995))
+[2025-11-05 10:30:10,702][trainers.wgan_trainer][INFO] - Generator iter: 27699
+[2025-11-05 10:30:10,702][trainers.wgan_trainer][INFO] - total_iter_finished: 55400
+[2025-11-05 10:30:10,702][trainers.wgan_trainer][INFO] - Time elapsed: 0:43:54
+[2025-11-05 10:30:10,718][trainers.wgan_trainer][INFO] - Saved images at iteration 55400
+[2025-11-05 10:30:16,911][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:30:20,194][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.0361184134236177), np.float64(0.058473154921156574))
+[2025-11-05 10:30:20,194][trainers.wgan_trainer][INFO] - Generator iter: 27799
+[2025-11-05 10:30:20,194][trainers.wgan_trainer][INFO] - total_iter_finished: 55600
+[2025-11-05 10:30:20,194][trainers.wgan_trainer][INFO] - Time elapsed: 0:44:03
+[2025-11-05 10:30:20,211][trainers.wgan_trainer][INFO] - Saved images at iteration 55600
+[2025-11-05 10:30:26,412][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:30:29,690][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.0535790868678823), np.float64(0.08526661906442908))
+[2025-11-05 10:30:29,690][trainers.wgan_trainer][INFO] - Generator iter: 27899
+[2025-11-05 10:30:29,690][trainers.wgan_trainer][INFO] - total_iter_finished: 55800
+[2025-11-05 10:30:29,690][trainers.wgan_trainer][INFO] - Time elapsed: 0:44:13
+[2025-11-05 10:30:29,707][trainers.wgan_trainer][INFO] - Saved images at iteration 55800
+[2025-11-05 10:30:35,908][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:30:39,185][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.608771652496629), np.float64(0.07991613903202996))
+[2025-11-05 10:30:39,185][trainers.wgan_trainer][INFO] - Generator iter: 27999
+[2025-11-05 10:30:39,185][trainers.wgan_trainer][INFO] - total_iter_finished: 56000
+[2025-11-05 10:30:39,185][trainers.wgan_trainer][INFO] - Time elapsed: 0:44:22
+[2025-11-05 10:30:39,200][trainers.wgan_trainer][INFO] - Saved images at iteration 56000
+[2025-11-05 10:30:45,404][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:30:48,687][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.4556326393595636), np.float64(0.05736944341067656))
+[2025-11-05 10:30:48,687][trainers.wgan_trainer][INFO] - Generator iter: 28099
+[2025-11-05 10:30:48,687][trainers.wgan_trainer][INFO] - total_iter_finished: 56200
+[2025-11-05 10:30:48,687][trainers.wgan_trainer][INFO] - Time elapsed: 0:44:32
+[2025-11-05 10:30:48,703][trainers.wgan_trainer][INFO] - Saved images at iteration 56200
+[2025-11-05 10:30:54,886][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:30:58,170][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8874108329661365), np.float64(0.09047318712135524))
+[2025-11-05 10:30:58,170][trainers.wgan_trainer][INFO] - Generator iter: 28199
+[2025-11-05 10:30:58,170][trainers.wgan_trainer][INFO] - total_iter_finished: 56400
+[2025-11-05 10:30:58,170][trainers.wgan_trainer][INFO] - Time elapsed: 0:44:41
+[2025-11-05 10:30:58,187][trainers.wgan_trainer][INFO] - Saved images at iteration 56400
+[2025-11-05 10:31:04,387][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:31:07,661][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.7846360312227185), np.float64(0.08152661322524717))
+[2025-11-05 10:31:07,661][trainers.wgan_trainer][INFO] - Generator iter: 28299
+[2025-11-05 10:31:07,661][trainers.wgan_trainer][INFO] - total_iter_finished: 56600
+[2025-11-05 10:31:07,661][trainers.wgan_trainer][INFO] - Time elapsed: 0:44:51
+[2025-11-05 10:31:07,679][trainers.wgan_trainer][INFO] - Saved images at iteration 56600
+[2025-11-05 10:31:13,899][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:31:17,170][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.52153655465754), np.float64(0.05153450875857148))
+[2025-11-05 10:31:17,170][trainers.wgan_trainer][INFO] - Generator iter: 28399
+[2025-11-05 10:31:17,170][trainers.wgan_trainer][INFO] - total_iter_finished: 56800
+[2025-11-05 10:31:17,170][trainers.wgan_trainer][INFO] - Time elapsed: 0:45:00
+[2025-11-05 10:31:17,188][trainers.wgan_trainer][INFO] - Saved images at iteration 56800
+[2025-11-05 10:31:23,421][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:31:26,723][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.77235890815201), np.float64(0.033394542472672734))
+[2025-11-05 10:31:26,723][trainers.wgan_trainer][INFO] - Generator iter: 28499
+[2025-11-05 10:31:26,723][trainers.wgan_trainer][INFO] - total_iter_finished: 57000
+[2025-11-05 10:31:26,723][trainers.wgan_trainer][INFO] - Time elapsed: 0:45:10
+[2025-11-05 10:31:26,740][trainers.wgan_trainer][INFO] - Saved images at iteration 57000
+[2025-11-05 10:31:32,969][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:31:36,262][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.0226319897232488), np.float64(0.04575487661722014))
+[2025-11-05 10:31:36,262][trainers.wgan_trainer][INFO] - Generator iter: 28599
+[2025-11-05 10:31:36,262][trainers.wgan_trainer][INFO] - total_iter_finished: 57200
+[2025-11-05 10:31:36,262][trainers.wgan_trainer][INFO] - Time elapsed: 0:45:20
+[2025-11-05 10:31:36,278][trainers.wgan_trainer][INFO] - Saved images at iteration 57200
+[2025-11-05 10:31:42,531][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:31:45,806][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.898658464821488), np.float64(0.06125044769230499))
+[2025-11-05 10:31:45,806][trainers.wgan_trainer][INFO] - Generator iter: 28699
+[2025-11-05 10:31:45,806][trainers.wgan_trainer][INFO] - total_iter_finished: 57400
+[2025-11-05 10:31:45,806][trainers.wgan_trainer][INFO] - Time elapsed: 0:45:29
+[2025-11-05 10:31:45,822][trainers.wgan_trainer][INFO] - Saved images at iteration 57400
+[2025-11-05 10:31:52,077][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:31:55,351][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.788275335367045), np.float64(0.07241736988212805))
+[2025-11-05 10:31:55,351][trainers.wgan_trainer][INFO] - Generator iter: 28799
+[2025-11-05 10:31:55,351][trainers.wgan_trainer][INFO] - total_iter_finished: 57600
+[2025-11-05 10:31:55,351][trainers.wgan_trainer][INFO] - Time elapsed: 0:45:39
+[2025-11-05 10:31:55,368][trainers.wgan_trainer][INFO] - Saved images at iteration 57600
+[2025-11-05 10:32:01,592][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:32:04,961][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.793814100256241), np.float64(0.05550253262889343))
+[2025-11-05 10:32:04,961][trainers.wgan_trainer][INFO] - Generator iter: 28899
+[2025-11-05 10:32:04,961][trainers.wgan_trainer][INFO] - total_iter_finished: 57800
+[2025-11-05 10:32:04,961][trainers.wgan_trainer][INFO] - Time elapsed: 0:45:48
+[2025-11-05 10:32:04,977][trainers.wgan_trainer][INFO] - Saved images at iteration 57800
+[2025-11-05 10:32:11,208][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:32:14,493][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.475508198610399), np.float64(0.13952717385552518))
+[2025-11-05 10:32:14,493][trainers.wgan_trainer][INFO] - Generator iter: 28999
+[2025-11-05 10:32:14,493][trainers.wgan_trainer][INFO] - total_iter_finished: 58000
+[2025-11-05 10:32:14,493][trainers.wgan_trainer][INFO] - Time elapsed: 0:45:58
+[2025-11-05 10:32:14,509][trainers.wgan_trainer][INFO] - Saved images at iteration 58000
+[2025-11-05 10:32:20,765][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:32:24,049][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.6647031310584834), np.float64(0.0552546239504455))
+[2025-11-05 10:32:24,049][trainers.wgan_trainer][INFO] - Generator iter: 29099
+[2025-11-05 10:32:24,049][trainers.wgan_trainer][INFO] - total_iter_finished: 58200
+[2025-11-05 10:32:24,049][trainers.wgan_trainer][INFO] - Time elapsed: 0:46:07
+[2025-11-05 10:32:24,066][trainers.wgan_trainer][INFO] - Saved images at iteration 58200
+[2025-11-05 10:32:30,279][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:32:33,577][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.6621767742530054), np.float64(0.06445056013756956))
+[2025-11-05 10:32:33,577][trainers.wgan_trainer][INFO] - Generator iter: 29199
+[2025-11-05 10:32:33,578][trainers.wgan_trainer][INFO] - total_iter_finished: 58400
+[2025-11-05 10:32:33,578][trainers.wgan_trainer][INFO] - Time elapsed: 0:46:17
+[2025-11-05 10:32:33,594][trainers.wgan_trainer][INFO] - Saved images at iteration 58400
+[2025-11-05 10:32:39,841][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:32:43,113][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.9168439880406387), np.float64(0.06841094464159136))
+[2025-11-05 10:32:43,113][trainers.wgan_trainer][INFO] - Generator iter: 29299
+[2025-11-05 10:32:43,113][trainers.wgan_trainer][INFO] - total_iter_finished: 58600
+[2025-11-05 10:32:43,113][trainers.wgan_trainer][INFO] - Time elapsed: 0:46:26
+[2025-11-05 10:32:43,132][trainers.wgan_trainer][INFO] - Saved images at iteration 58600
+[2025-11-05 10:32:49,329][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:32:52,625][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.0831511168967767), np.float64(0.09545601857734581))
+[2025-11-05 10:32:52,625][trainers.wgan_trainer][INFO] - Generator iter: 29399
+[2025-11-05 10:32:52,625][trainers.wgan_trainer][INFO] - total_iter_finished: 58800
+[2025-11-05 10:32:52,625][trainers.wgan_trainer][INFO] - Time elapsed: 0:46:36
+[2025-11-05 10:32:52,643][trainers.wgan_trainer][INFO] - Saved images at iteration 58800
+[2025-11-05 10:32:58,844][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:33:02,139][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.730947214813251), np.float64(0.05109850594987324))
+[2025-11-05 10:33:02,139][trainers.wgan_trainer][INFO] - Generator iter: 29499
+[2025-11-05 10:33:02,139][trainers.wgan_trainer][INFO] - total_iter_finished: 59000
+[2025-11-05 10:33:02,139][trainers.wgan_trainer][INFO] - Time elapsed: 0:46:45
+[2025-11-05 10:33:02,157][trainers.wgan_trainer][INFO] - Saved images at iteration 59000
+[2025-11-05 10:33:08,358][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:33:11,653][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.7970104098178714), np.float64(0.05246951581172018))
+[2025-11-05 10:33:11,653][trainers.wgan_trainer][INFO] - Generator iter: 29599
+[2025-11-05 10:33:11,653][trainers.wgan_trainer][INFO] - total_iter_finished: 59200
+[2025-11-05 10:33:11,653][trainers.wgan_trainer][INFO] - Time elapsed: 0:46:55
+[2025-11-05 10:33:11,671][trainers.wgan_trainer][INFO] - Saved images at iteration 59200
+[2025-11-05 10:33:17,925][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:33:21,224][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8529727279304247), np.float64(0.07656950131035845))
+[2025-11-05 10:33:21,224][trainers.wgan_trainer][INFO] - Generator iter: 29699
+[2025-11-05 10:33:21,224][trainers.wgan_trainer][INFO] - total_iter_finished: 59400
+[2025-11-05 10:33:21,224][trainers.wgan_trainer][INFO] - Time elapsed: 0:47:05
+[2025-11-05 10:33:21,243][trainers.wgan_trainer][INFO] - Saved images at iteration 59400
+[2025-11-05 10:33:27,456][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:33:30,759][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.0150444053843826), np.float64(0.055272346268015735))
+[2025-11-05 10:33:30,759][trainers.wgan_trainer][INFO] - Generator iter: 29799
+[2025-11-05 10:33:30,759][trainers.wgan_trainer][INFO] - total_iter_finished: 59600
+[2025-11-05 10:33:30,759][trainers.wgan_trainer][INFO] - Time elapsed: 0:47:14
+[2025-11-05 10:33:30,775][trainers.wgan_trainer][INFO] - Saved images at iteration 59600
+[2025-11-05 10:33:36,998][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:33:40,277][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.673101492392983), np.float64(0.05093411812606622))
+[2025-11-05 10:33:40,277][trainers.wgan_trainer][INFO] - Generator iter: 29899
+[2025-11-05 10:33:40,277][trainers.wgan_trainer][INFO] - total_iter_finished: 59800
+[2025-11-05 10:33:40,277][trainers.wgan_trainer][INFO] - Time elapsed: 0:47:24
+[2025-11-05 10:33:40,293][trainers.wgan_trainer][INFO] - Saved images at iteration 59800
+[2025-11-05 10:33:46,506][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:33:49,799][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.5401144803724884), np.float64(0.050310351445065106))
+[2025-11-05 10:33:49,799][trainers.wgan_trainer][INFO] - Generator iter: 29999
+[2025-11-05 10:33:49,799][trainers.wgan_trainer][INFO] - total_iter_finished: 60000
+[2025-11-05 10:33:49,799][trainers.wgan_trainer][INFO] - Time elapsed: 0:47:33
+[2025-11-05 10:33:49,817][trainers.wgan_trainer][INFO] - Saved images at iteration 60000
+[2025-11-05 10:33:56,043][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:33:59,340][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.0336984387059855), np.float64(0.05575012045842385))
+[2025-11-05 10:33:59,340][trainers.wgan_trainer][INFO] - Generator iter: 30099
+[2025-11-05 10:33:59,340][trainers.wgan_trainer][INFO] - total_iter_finished: 60200
+[2025-11-05 10:33:59,340][trainers.wgan_trainer][INFO] - Time elapsed: 0:47:43
+[2025-11-05 10:33:59,357][trainers.wgan_trainer][INFO] - Saved images at iteration 60200
+[2025-11-05 10:34:05,543][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:34:08,849][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.728472951686075), np.float64(0.06259542330649369))
+[2025-11-05 10:34:08,849][trainers.wgan_trainer][INFO] - Generator iter: 30199
+[2025-11-05 10:34:08,849][trainers.wgan_trainer][INFO] - total_iter_finished: 60400
+[2025-11-05 10:34:08,849][trainers.wgan_trainer][INFO] - Time elapsed: 0:47:52
+[2025-11-05 10:34:08,867][trainers.wgan_trainer][INFO] - Saved images at iteration 60400
+[2025-11-05 10:34:15,070][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:34:18,362][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.6330454548606586), np.float64(0.06535311754741684))
+[2025-11-05 10:34:18,362][trainers.wgan_trainer][INFO] - Generator iter: 30299
+[2025-11-05 10:34:18,362][trainers.wgan_trainer][INFO] - total_iter_finished: 60600
+[2025-11-05 10:34:18,362][trainers.wgan_trainer][INFO] - Time elapsed: 0:48:02
+[2025-11-05 10:34:18,380][trainers.wgan_trainer][INFO] - Saved images at iteration 60600
+[2025-11-05 10:34:24,584][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:34:27,880][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.7896401035113287), np.float64(0.05500065638853615))
+[2025-11-05 10:34:27,880][trainers.wgan_trainer][INFO] - Generator iter: 30399
+[2025-11-05 10:34:27,880][trainers.wgan_trainer][INFO] - total_iter_finished: 60800
+[2025-11-05 10:34:27,880][trainers.wgan_trainer][INFO] - Time elapsed: 0:48:11
+[2025-11-05 10:34:27,897][trainers.wgan_trainer][INFO] - Saved images at iteration 60800
+[2025-11-05 10:34:34,119][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:34:37,415][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.7763662768234005), np.float64(0.07977319581044076))
+[2025-11-05 10:34:37,415][trainers.wgan_trainer][INFO] - Generator iter: 30499
+[2025-11-05 10:34:37,415][trainers.wgan_trainer][INFO] - total_iter_finished: 61000
+[2025-11-05 10:34:37,415][trainers.wgan_trainer][INFO] - Time elapsed: 0:48:21
+[2025-11-05 10:34:37,432][trainers.wgan_trainer][INFO] - Saved images at iteration 61000
+[2025-11-05 10:34:43,662][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:34:46,954][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.586262205804721), np.float64(0.05657579032698847))
+[2025-11-05 10:34:46,954][trainers.wgan_trainer][INFO] - Generator iter: 30599
+[2025-11-05 10:34:46,954][trainers.wgan_trainer][INFO] - total_iter_finished: 61200
+[2025-11-05 10:34:46,954][trainers.wgan_trainer][INFO] - Time elapsed: 0:48:30
+[2025-11-05 10:34:46,971][trainers.wgan_trainer][INFO] - Saved images at iteration 61200
+[2025-11-05 10:34:53,191][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:34:56,486][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8836187808028955), np.float64(0.10146600987196983))
+[2025-11-05 10:34:56,487][trainers.wgan_trainer][INFO] - Generator iter: 30699
+[2025-11-05 10:34:56,487][trainers.wgan_trainer][INFO] - total_iter_finished: 61400
+[2025-11-05 10:34:56,487][trainers.wgan_trainer][INFO] - Time elapsed: 0:48:40
+[2025-11-05 10:34:56,503][trainers.wgan_trainer][INFO] - Saved images at iteration 61400
+[2025-11-05 10:35:02,701][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:35:06,001][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.980772697194927), np.float64(0.04528813142773658))
+[2025-11-05 10:35:06,001][trainers.wgan_trainer][INFO] - Generator iter: 30799
+[2025-11-05 10:35:06,001][trainers.wgan_trainer][INFO] - total_iter_finished: 61600
+[2025-11-05 10:35:06,001][trainers.wgan_trainer][INFO] - Time elapsed: 0:48:49
+[2025-11-05 10:35:06,018][trainers.wgan_trainer][INFO] - Saved images at iteration 61600
+[2025-11-05 10:35:12,208][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:35:15,492][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.1929456260365763), np.float64(0.08900535084869791))
+[2025-11-05 10:35:15,492][trainers.wgan_trainer][INFO] - Generator iter: 30899
+[2025-11-05 10:35:15,492][trainers.wgan_trainer][INFO] - total_iter_finished: 61800
+[2025-11-05 10:35:15,492][trainers.wgan_trainer][INFO] - Time elapsed: 0:48:59
+[2025-11-05 10:35:15,510][trainers.wgan_trainer][INFO] - Saved images at iteration 61800
+[2025-11-05 10:35:21,709][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:35:25,005][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8833705259449505), np.float64(0.06926503879619336))
+[2025-11-05 10:35:25,005][trainers.wgan_trainer][INFO] - Generator iter: 30999
+[2025-11-05 10:35:25,005][trainers.wgan_trainer][INFO] - total_iter_finished: 62000
+[2025-11-05 10:35:25,006][trainers.wgan_trainer][INFO] - Time elapsed: 0:49:08
+[2025-11-05 10:35:25,023][trainers.wgan_trainer][INFO] - Saved images at iteration 62000
+[2025-11-05 10:35:31,219][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:35:34,504][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.1299533155291406), np.float64(0.08570543865400838))
+[2025-11-05 10:35:34,504][trainers.wgan_trainer][INFO] - Generator iter: 31099
+[2025-11-05 10:35:34,504][trainers.wgan_trainer][INFO] - total_iter_finished: 62200
+[2025-11-05 10:35:34,504][trainers.wgan_trainer][INFO] - Time elapsed: 0:49:18
+[2025-11-05 10:35:34,521][trainers.wgan_trainer][INFO] - Saved images at iteration 62200
+[2025-11-05 10:35:40,728][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:35:44,023][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.006935531701533), np.float64(0.08703844331146884))
+[2025-11-05 10:35:44,023][trainers.wgan_trainer][INFO] - Generator iter: 31199
+[2025-11-05 10:35:44,023][trainers.wgan_trainer][INFO] - total_iter_finished: 62400
+[2025-11-05 10:35:44,023][trainers.wgan_trainer][INFO] - Time elapsed: 0:49:27
+[2025-11-05 10:35:44,039][trainers.wgan_trainer][INFO] - Saved images at iteration 62400
+[2025-11-05 10:35:50,225][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:35:53,516][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.787773122137451), np.float64(0.05740023853709668))
+[2025-11-05 10:35:53,516][trainers.wgan_trainer][INFO] - Generator iter: 31299
+[2025-11-05 10:35:53,516][trainers.wgan_trainer][INFO] - total_iter_finished: 62600
+[2025-11-05 10:35:53,516][trainers.wgan_trainer][INFO] - Time elapsed: 0:49:37
+[2025-11-05 10:35:53,533][trainers.wgan_trainer][INFO] - Saved images at iteration 62600
+[2025-11-05 10:35:59,745][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:36:03,042][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.7849095454736816), np.float64(0.034659641212098496))
+[2025-11-05 10:36:03,042][trainers.wgan_trainer][INFO] - Generator iter: 31399
+[2025-11-05 10:36:03,042][trainers.wgan_trainer][INFO] - total_iter_finished: 62800
+[2025-11-05 10:36:03,042][trainers.wgan_trainer][INFO] - Time elapsed: 0:49:46
+[2025-11-05 10:36:03,059][trainers.wgan_trainer][INFO] - Saved images at iteration 62800
+[2025-11-05 10:36:09,256][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:36:12,546][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.953840112208758), np.float64(0.06689425699243357))
+[2025-11-05 10:36:12,546][trainers.wgan_trainer][INFO] - Generator iter: 31499
+[2025-11-05 10:36:12,546][trainers.wgan_trainer][INFO] - total_iter_finished: 63000
+[2025-11-05 10:36:12,546][trainers.wgan_trainer][INFO] - Time elapsed: 0:49:56
+[2025-11-05 10:36:12,561][trainers.wgan_trainer][INFO] - Saved images at iteration 63000
+[2025-11-05 10:36:18,757][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:36:22,053][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.88141853430127), np.float64(0.08727879997383589))
+[2025-11-05 10:36:22,053][trainers.wgan_trainer][INFO] - Generator iter: 31599
+[2025-11-05 10:36:22,053][trainers.wgan_trainer][INFO] - total_iter_finished: 63200
+[2025-11-05 10:36:22,053][trainers.wgan_trainer][INFO] - Time elapsed: 0:50:05
+[2025-11-05 10:36:22,070][trainers.wgan_trainer][INFO] - Saved images at iteration 63200
+[2025-11-05 10:36:28,256][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:36:31,553][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.1508608387739008), np.float64(0.05602340844033464))
+[2025-11-05 10:36:31,553][trainers.wgan_trainer][INFO] - Generator iter: 31699
+[2025-11-05 10:36:31,553][trainers.wgan_trainer][INFO] - total_iter_finished: 63400
+[2025-11-05 10:36:31,553][trainers.wgan_trainer][INFO] - Time elapsed: 0:50:15
+[2025-11-05 10:36:31,569][trainers.wgan_trainer][INFO] - Saved images at iteration 63400
+[2025-11-05 10:36:37,810][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:36:41,094][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.095871533417536), np.float64(0.10290664716174332))
+[2025-11-05 10:36:41,094][trainers.wgan_trainer][INFO] - Generator iter: 31799
+[2025-11-05 10:36:41,094][trainers.wgan_trainer][INFO] - total_iter_finished: 63600
+[2025-11-05 10:36:41,094][trainers.wgan_trainer][INFO] - Time elapsed: 0:50:24
+[2025-11-05 10:36:41,110][trainers.wgan_trainer][INFO] - Saved images at iteration 63600
+[2025-11-05 10:36:47,359][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:36:50,657][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.113880841916723), np.float64(0.09389671037955462))
+[2025-11-05 10:36:50,657][trainers.wgan_trainer][INFO] - Generator iter: 31899
+[2025-11-05 10:36:50,657][trainers.wgan_trainer][INFO] - total_iter_finished: 63800
+[2025-11-05 10:36:50,657][trainers.wgan_trainer][INFO] - Time elapsed: 0:50:34
+[2025-11-05 10:36:50,674][trainers.wgan_trainer][INFO] - Saved images at iteration 63800
+[2025-11-05 10:36:56,873][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:37:00,178][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.7782690127537455), np.float64(0.08164581195951782))
+[2025-11-05 10:37:00,178][trainers.wgan_trainer][INFO] - Generator iter: 31999
+[2025-11-05 10:37:00,178][trainers.wgan_trainer][INFO] - total_iter_finished: 64000
+[2025-11-05 10:37:00,178][trainers.wgan_trainer][INFO] - Time elapsed: 0:50:43
+[2025-11-05 10:37:00,195][trainers.wgan_trainer][INFO] - Saved images at iteration 64000
+[2025-11-05 10:37:06,408][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:37:09,684][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.9950640992516226), np.float64(0.07470056457088678))
+[2025-11-05 10:37:09,684][trainers.wgan_trainer][INFO] - Generator iter: 32099
+[2025-11-05 10:37:09,684][trainers.wgan_trainer][INFO] - total_iter_finished: 64200
+[2025-11-05 10:37:09,684][trainers.wgan_trainer][INFO] - Time elapsed: 0:50:53
+[2025-11-05 10:37:09,701][trainers.wgan_trainer][INFO] - Saved images at iteration 64200
+[2025-11-05 10:37:15,923][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:37:19,220][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.933836226984313), np.float64(0.06714197380051255))
+[2025-11-05 10:37:19,220][trainers.wgan_trainer][INFO] - Generator iter: 32199
+[2025-11-05 10:37:19,220][trainers.wgan_trainer][INFO] - total_iter_finished: 64400
+[2025-11-05 10:37:19,220][trainers.wgan_trainer][INFO] - Time elapsed: 0:51:03
+[2025-11-05 10:37:19,236][trainers.wgan_trainer][INFO] - Saved images at iteration 64400
+[2025-11-05 10:37:25,440][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:37:28,734][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.962097537122885), np.float64(0.0606800707873813))
+[2025-11-05 10:37:28,734][trainers.wgan_trainer][INFO] - Generator iter: 32299
+[2025-11-05 10:37:28,735][trainers.wgan_trainer][INFO] - total_iter_finished: 64600
+[2025-11-05 10:37:28,735][trainers.wgan_trainer][INFO] - Time elapsed: 0:51:12
+[2025-11-05 10:37:28,750][trainers.wgan_trainer][INFO] - Saved images at iteration 64600
+[2025-11-05 10:37:34,958][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:37:38,256][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8433708862552414), np.float64(0.07417328705210798))
+[2025-11-05 10:37:38,256][trainers.wgan_trainer][INFO] - Generator iter: 32399
+[2025-11-05 10:37:38,256][trainers.wgan_trainer][INFO] - total_iter_finished: 64800
+[2025-11-05 10:37:38,256][trainers.wgan_trainer][INFO] - Time elapsed: 0:51:22
+[2025-11-05 10:37:38,272][trainers.wgan_trainer][INFO] - Saved images at iteration 64800
+[2025-11-05 10:37:44,459][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:37:47,761][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.1842433877026135), np.float64(0.06141959692761899))
+[2025-11-05 10:37:47,761][trainers.wgan_trainer][INFO] - Generator iter: 32499
+[2025-11-05 10:37:47,761][trainers.wgan_trainer][INFO] - total_iter_finished: 65000
+[2025-11-05 10:37:47,761][trainers.wgan_trainer][INFO] - Time elapsed: 0:51:31
+[2025-11-05 10:37:47,777][trainers.wgan_trainer][INFO] - Saved images at iteration 65000
+[2025-11-05 10:37:53,984][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:37:57,318][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.1848089666554342), np.float64(0.06317012301902097))
+[2025-11-05 10:37:57,318][trainers.wgan_trainer][INFO] - Generator iter: 32599
+[2025-11-05 10:37:57,318][trainers.wgan_trainer][INFO] - total_iter_finished: 65200
+[2025-11-05 10:37:57,319][trainers.wgan_trainer][INFO] - Time elapsed: 0:51:41
+[2025-11-05 10:37:57,335][trainers.wgan_trainer][INFO] - Saved images at iteration 65200
+[2025-11-05 10:38:03,611][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:38:07,023][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8896233688183286), np.float64(0.06525802792241937))
+[2025-11-05 10:38:07,023][trainers.wgan_trainer][INFO] - Generator iter: 32699
+[2025-11-05 10:38:07,023][trainers.wgan_trainer][INFO] - total_iter_finished: 65400
+[2025-11-05 10:38:07,023][trainers.wgan_trainer][INFO] - Time elapsed: 0:51:50
+[2025-11-05 10:38:07,040][trainers.wgan_trainer][INFO] - Saved images at iteration 65400
+[2025-11-05 10:38:13,342][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:38:16,647][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.840234015527278), np.float64(0.06701964222890437))
+[2025-11-05 10:38:16,647][trainers.wgan_trainer][INFO] - Generator iter: 32799
+[2025-11-05 10:38:16,647][trainers.wgan_trainer][INFO] - total_iter_finished: 65600
+[2025-11-05 10:38:16,647][trainers.wgan_trainer][INFO] - Time elapsed: 0:52:00
+[2025-11-05 10:38:16,663][trainers.wgan_trainer][INFO] - Saved images at iteration 65600
+[2025-11-05 10:38:22,878][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:38:26,174][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.675888750478526), np.float64(0.06355760782912856))
+[2025-11-05 10:38:26,174][trainers.wgan_trainer][INFO] - Generator iter: 32899
+[2025-11-05 10:38:26,175][trainers.wgan_trainer][INFO] - total_iter_finished: 65800
+[2025-11-05 10:38:26,175][trainers.wgan_trainer][INFO] - Time elapsed: 0:52:09
+[2025-11-05 10:38:26,191][trainers.wgan_trainer][INFO] - Saved images at iteration 65800
+[2025-11-05 10:38:32,489][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:38:35,778][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.5932736003113077), np.float64(0.10026418326512046))
+[2025-11-05 10:38:35,778][trainers.wgan_trainer][INFO] - Generator iter: 32999
+[2025-11-05 10:38:35,779][trainers.wgan_trainer][INFO] - total_iter_finished: 66000
+[2025-11-05 10:38:35,779][trainers.wgan_trainer][INFO] - Time elapsed: 0:52:19
+[2025-11-05 10:38:35,796][trainers.wgan_trainer][INFO] - Saved images at iteration 66000
+[2025-11-05 10:38:42,043][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:38:45,389][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.0304099900651225), np.float64(0.10784178807749911))
+[2025-11-05 10:38:45,389][trainers.wgan_trainer][INFO] - Generator iter: 33099
+[2025-11-05 10:38:45,389][trainers.wgan_trainer][INFO] - total_iter_finished: 66200
+[2025-11-05 10:38:45,389][trainers.wgan_trainer][INFO] - Time elapsed: 0:52:29
+[2025-11-05 10:38:45,406][trainers.wgan_trainer][INFO] - Saved images at iteration 66200
+[2025-11-05 10:38:51,639][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:38:54,937][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8821926211717175), np.float64(0.0589248399901598))
+[2025-11-05 10:38:54,937][trainers.wgan_trainer][INFO] - Generator iter: 33199
+[2025-11-05 10:38:54,937][trainers.wgan_trainer][INFO] - total_iter_finished: 66400
+[2025-11-05 10:38:54,937][trainers.wgan_trainer][INFO] - Time elapsed: 0:52:38
+[2025-11-05 10:38:54,953][trainers.wgan_trainer][INFO] - Saved images at iteration 66400
+[2025-11-05 10:39:01,168][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:39:04,455][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.7440181016378475), np.float64(0.12241868074010646))
+[2025-11-05 10:39:04,455][trainers.wgan_trainer][INFO] - Generator iter: 33299
+[2025-11-05 10:39:04,455][trainers.wgan_trainer][INFO] - total_iter_finished: 66600
+[2025-11-05 10:39:04,455][trainers.wgan_trainer][INFO] - Time elapsed: 0:52:48
+[2025-11-05 10:39:04,473][trainers.wgan_trainer][INFO] - Saved images at iteration 66600
+[2025-11-05 10:39:10,671][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:39:13,967][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.132155355811112), np.float64(0.09030157875082113))
+[2025-11-05 10:39:13,967][trainers.wgan_trainer][INFO] - Generator iter: 33399
+[2025-11-05 10:39:13,967][trainers.wgan_trainer][INFO] - total_iter_finished: 66800
+[2025-11-05 10:39:13,967][trainers.wgan_trainer][INFO] - Time elapsed: 0:52:57
+[2025-11-05 10:39:13,983][trainers.wgan_trainer][INFO] - Saved images at iteration 66800
+[2025-11-05 10:39:20,260][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:39:23,549][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.9265369706554543), np.float64(0.07633404854249201))
+[2025-11-05 10:39:23,549][trainers.wgan_trainer][INFO] - Generator iter: 33499
+[2025-11-05 10:39:23,549][trainers.wgan_trainer][INFO] - total_iter_finished: 67000
+[2025-11-05 10:39:23,549][trainers.wgan_trainer][INFO] - Time elapsed: 0:53:07
+[2025-11-05 10:39:23,566][trainers.wgan_trainer][INFO] - Saved images at iteration 67000
+[2025-11-05 10:39:29,822][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:39:33,120][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.758326360594334), np.float64(0.0946087455289062))
+[2025-11-05 10:39:33,120][trainers.wgan_trainer][INFO] - Generator iter: 33599
+[2025-11-05 10:39:33,120][trainers.wgan_trainer][INFO] - total_iter_finished: 67200
+[2025-11-05 10:39:33,120][trainers.wgan_trainer][INFO] - Time elapsed: 0:53:16
+[2025-11-05 10:39:33,137][trainers.wgan_trainer][INFO] - Saved images at iteration 67200
+[2025-11-05 10:39:39,344][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:39:42,633][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.9644157301422362), np.float64(0.06326009581257035))
+[2025-11-05 10:39:42,633][trainers.wgan_trainer][INFO] - Generator iter: 33699
+[2025-11-05 10:39:42,633][trainers.wgan_trainer][INFO] - total_iter_finished: 67400
+[2025-11-05 10:39:42,633][trainers.wgan_trainer][INFO] - Time elapsed: 0:53:26
+[2025-11-05 10:39:42,649][trainers.wgan_trainer][INFO] - Saved images at iteration 67400
+[2025-11-05 10:39:48,865][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:39:52,182][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.7154774240345487), np.float64(0.06412277316721846))
+[2025-11-05 10:39:52,182][trainers.wgan_trainer][INFO] - Generator iter: 33799
+[2025-11-05 10:39:52,182][trainers.wgan_trainer][INFO] - total_iter_finished: 67600
+[2025-11-05 10:39:52,182][trainers.wgan_trainer][INFO] - Time elapsed: 0:53:35
+[2025-11-05 10:39:52,198][trainers.wgan_trainer][INFO] - Saved images at iteration 67600
+[2025-11-05 10:39:58,402][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:40:01,706][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.7236701232061544), np.float64(0.06016064664744941))
+[2025-11-05 10:40:01,706][trainers.wgan_trainer][INFO] - Generator iter: 33899
+[2025-11-05 10:40:01,706][trainers.wgan_trainer][INFO] - total_iter_finished: 67800
+[2025-11-05 10:40:01,706][trainers.wgan_trainer][INFO] - Time elapsed: 0:53:45
+[2025-11-05 10:40:01,723][trainers.wgan_trainer][INFO] - Saved images at iteration 67800
+[2025-11-05 10:40:07,961][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:40:11,266][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.852159142498194), np.float64(0.06081934960724323))
+[2025-11-05 10:40:11,266][trainers.wgan_trainer][INFO] - Generator iter: 33999
+[2025-11-05 10:40:11,266][trainers.wgan_trainer][INFO] - total_iter_finished: 68000
+[2025-11-05 10:40:11,266][trainers.wgan_trainer][INFO] - Time elapsed: 0:53:55
+[2025-11-05 10:40:11,283][trainers.wgan_trainer][INFO] - Saved images at iteration 68000
+[2025-11-05 10:40:17,491][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:40:20,757][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(1.5859300149364515), np.float64(0.044887611364856035))
+[2025-11-05 10:40:20,757][trainers.wgan_trainer][INFO] - Generator iter: 34099
+[2025-11-05 10:40:20,757][trainers.wgan_trainer][INFO] - total_iter_finished: 68200
+[2025-11-05 10:40:20,757][trainers.wgan_trainer][INFO] - Time elapsed: 0:54:04
+[2025-11-05 10:40:20,772][trainers.wgan_trainer][INFO] - Saved images at iteration 68200
+[2025-11-05 10:40:26,972][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:40:30,253][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.18524303519943), np.float64(0.06328139673415197))
+[2025-11-05 10:40:30,253][trainers.wgan_trainer][INFO] - Generator iter: 34199
+[2025-11-05 10:40:30,253][trainers.wgan_trainer][INFO] - total_iter_finished: 68400
+[2025-11-05 10:40:30,253][trainers.wgan_trainer][INFO] - Time elapsed: 0:54:14
+[2025-11-05 10:40:30,270][trainers.wgan_trainer][INFO] - Saved images at iteration 68400
+[2025-11-05 10:40:36,498][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:40:39,803][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8995692193354268), np.float64(0.09248927268250666))
+[2025-11-05 10:40:39,803][trainers.wgan_trainer][INFO] - Generator iter: 34299
+[2025-11-05 10:40:39,804][trainers.wgan_trainer][INFO] - total_iter_finished: 68600
+[2025-11-05 10:40:39,804][trainers.wgan_trainer][INFO] - Time elapsed: 0:54:23
+[2025-11-05 10:40:39,821][trainers.wgan_trainer][INFO] - Saved images at iteration 68600
+[2025-11-05 10:40:46,077][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:40:49,410][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.0245701555757503), np.float64(0.05905868807984059))
+[2025-11-05 10:40:49,410][trainers.wgan_trainer][INFO] - Generator iter: 34399
+[2025-11-05 10:40:49,410][trainers.wgan_trainer][INFO] - total_iter_finished: 68800
+[2025-11-05 10:40:49,410][trainers.wgan_trainer][INFO] - Time elapsed: 0:54:33
+[2025-11-05 10:40:49,426][trainers.wgan_trainer][INFO] - Saved images at iteration 68800
+[2025-11-05 10:40:55,670][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:40:59,054][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.1788748204861683), np.float64(0.06044554557081925))
+[2025-11-05 10:40:59,054][trainers.wgan_trainer][INFO] - Generator iter: 34499
+[2025-11-05 10:40:59,054][trainers.wgan_trainer][INFO] - total_iter_finished: 69000
+[2025-11-05 10:40:59,054][trainers.wgan_trainer][INFO] - Time elapsed: 0:54:42
+[2025-11-05 10:40:59,071][trainers.wgan_trainer][INFO] - Saved images at iteration 69000
+[2025-11-05 10:41:05,276][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:41:08,579][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.942834768047861), np.float64(0.07319581212947132))
+[2025-11-05 10:41:08,579][trainers.wgan_trainer][INFO] - Generator iter: 34599
+[2025-11-05 10:41:08,579][trainers.wgan_trainer][INFO] - total_iter_finished: 69200
+[2025-11-05 10:41:08,579][trainers.wgan_trainer][INFO] - Time elapsed: 0:54:52
+[2025-11-05 10:41:08,600][trainers.wgan_trainer][INFO] - Saved images at iteration 69200
+[2025-11-05 10:41:14,826][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:41:18,108][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.951276386269162), np.float64(0.06674387916020438))
+[2025-11-05 10:41:18,109][trainers.wgan_trainer][INFO] - Generator iter: 34699
+[2025-11-05 10:41:18,109][trainers.wgan_trainer][INFO] - total_iter_finished: 69400
+[2025-11-05 10:41:18,109][trainers.wgan_trainer][INFO] - Time elapsed: 0:55:01
+[2025-11-05 10:41:18,126][trainers.wgan_trainer][INFO] - Saved images at iteration 69400
+[2025-11-05 10:41:24,367][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:41:27,662][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.4130672201099035), np.float64(0.0497567041192433))
+[2025-11-05 10:41:27,662][trainers.wgan_trainer][INFO] - Generator iter: 34799
+[2025-11-05 10:41:27,662][trainers.wgan_trainer][INFO] - total_iter_finished: 69600
+[2025-11-05 10:41:27,662][trainers.wgan_trainer][INFO] - Time elapsed: 0:55:11
+[2025-11-05 10:41:27,679][trainers.wgan_trainer][INFO] - Saved images at iteration 69600
+[2025-11-05 10:41:33,876][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:41:37,157][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.83263235646564), np.float64(0.06013949710276393))
+[2025-11-05 10:41:37,157][trainers.wgan_trainer][INFO] - Generator iter: 34899
+[2025-11-05 10:41:37,157][trainers.wgan_trainer][INFO] - total_iter_finished: 69800
+[2025-11-05 10:41:37,157][trainers.wgan_trainer][INFO] - Time elapsed: 0:55:20
+[2025-11-05 10:41:37,175][trainers.wgan_trainer][INFO] - Saved images at iteration 69800
+[2025-11-05 10:41:43,388][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:41:46,670][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8025624562241096), np.float64(0.04658720069276455))
+[2025-11-05 10:41:46,670][trainers.wgan_trainer][INFO] - Generator iter: 34999
+[2025-11-05 10:41:46,670][trainers.wgan_trainer][INFO] - total_iter_finished: 70000
+[2025-11-05 10:41:46,671][trainers.wgan_trainer][INFO] - Time elapsed: 0:55:30
+[2025-11-05 10:41:46,688][trainers.wgan_trainer][INFO] - Saved images at iteration 70000
+[2025-11-05 10:41:52,953][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:41:56,226][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.6922078384698582), np.float64(0.06820165975208531))
+[2025-11-05 10:41:56,226][trainers.wgan_trainer][INFO] - Generator iter: 35099
+[2025-11-05 10:41:56,226][trainers.wgan_trainer][INFO] - total_iter_finished: 70200
+[2025-11-05 10:41:56,226][trainers.wgan_trainer][INFO] - Time elapsed: 0:55:40
+[2025-11-05 10:41:56,242][trainers.wgan_trainer][INFO] - Saved images at iteration 70200
+[2025-11-05 10:42:02,438][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:42:05,722][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.822372054115766), np.float64(0.07153061467001055))
+[2025-11-05 10:42:05,722][trainers.wgan_trainer][INFO] - Generator iter: 35199
+[2025-11-05 10:42:05,722][trainers.wgan_trainer][INFO] - total_iter_finished: 70400
+[2025-11-05 10:42:05,722][trainers.wgan_trainer][INFO] - Time elapsed: 0:55:49
+[2025-11-05 10:42:05,739][trainers.wgan_trainer][INFO] - Saved images at iteration 70400
+[2025-11-05 10:42:11,956][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:42:15,258][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.7189991267275295), np.float64(0.06080833271996989))
+[2025-11-05 10:42:15,258][trainers.wgan_trainer][INFO] - Generator iter: 35299
+[2025-11-05 10:42:15,258][trainers.wgan_trainer][INFO] - total_iter_finished: 70600
+[2025-11-05 10:42:15,258][trainers.wgan_trainer][INFO] - Time elapsed: 0:55:59
+[2025-11-05 10:42:15,274][trainers.wgan_trainer][INFO] - Saved images at iteration 70600
+[2025-11-05 10:42:21,499][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:42:24,785][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.7822100767739526), np.float64(0.07900694500281133))
+[2025-11-05 10:42:24,785][trainers.wgan_trainer][INFO] - Generator iter: 35399
+[2025-11-05 10:42:24,785][trainers.wgan_trainer][INFO] - total_iter_finished: 70800
+[2025-11-05 10:42:24,785][trainers.wgan_trainer][INFO] - Time elapsed: 0:56:08
+[2025-11-05 10:42:24,802][trainers.wgan_trainer][INFO] - Saved images at iteration 70800
+[2025-11-05 10:42:31,006][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:42:34,290][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.7553327290111675), np.float64(0.06392148161103342))
+[2025-11-05 10:42:34,290][trainers.wgan_trainer][INFO] - Generator iter: 35499
+[2025-11-05 10:42:34,290][trainers.wgan_trainer][INFO] - total_iter_finished: 71000
+[2025-11-05 10:42:34,290][trainers.wgan_trainer][INFO] - Time elapsed: 0:56:18
+[2025-11-05 10:42:34,307][trainers.wgan_trainer][INFO] - Saved images at iteration 71000
+[2025-11-05 10:42:40,511][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:42:43,792][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.805780096046994), np.float64(0.055315252683517696))
+[2025-11-05 10:42:43,792][trainers.wgan_trainer][INFO] - Generator iter: 35599
+[2025-11-05 10:42:43,792][trainers.wgan_trainer][INFO] - total_iter_finished: 71200
+[2025-11-05 10:42:43,792][trainers.wgan_trainer][INFO] - Time elapsed: 0:56:27
+[2025-11-05 10:42:43,808][trainers.wgan_trainer][INFO] - Saved images at iteration 71200
+[2025-11-05 10:42:50,035][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:42:53,311][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.6567451049682016), np.float64(0.05957950960300344))
+[2025-11-05 10:42:53,311][trainers.wgan_trainer][INFO] - Generator iter: 35699
+[2025-11-05 10:42:53,311][trainers.wgan_trainer][INFO] - total_iter_finished: 71400
+[2025-11-05 10:42:53,311][trainers.wgan_trainer][INFO] - Time elapsed: 0:56:37
+[2025-11-05 10:42:53,327][trainers.wgan_trainer][INFO] - Saved images at iteration 71400
+[2025-11-05 10:42:59,533][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:43:02,806][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.716415344509208), np.float64(0.027547910051734972))
+[2025-11-05 10:43:02,806][trainers.wgan_trainer][INFO] - Generator iter: 35799
+[2025-11-05 10:43:02,806][trainers.wgan_trainer][INFO] - total_iter_finished: 71600
+[2025-11-05 10:43:02,806][trainers.wgan_trainer][INFO] - Time elapsed: 0:56:46
+[2025-11-05 10:43:02,822][trainers.wgan_trainer][INFO] - Saved images at iteration 71600
+[2025-11-05 10:43:09,020][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:43:12,292][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8409168846484687), np.float64(0.06746730852424675))
+[2025-11-05 10:43:12,292][trainers.wgan_trainer][INFO] - Generator iter: 35899
+[2025-11-05 10:43:12,292][trainers.wgan_trainer][INFO] - total_iter_finished: 71800
+[2025-11-05 10:43:12,292][trainers.wgan_trainer][INFO] - Time elapsed: 0:56:56
+[2025-11-05 10:43:12,308][trainers.wgan_trainer][INFO] - Saved images at iteration 71800
+[2025-11-05 10:43:18,518][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:43:21,808][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.9468677203873344), np.float64(0.030821584881407585))
+[2025-11-05 10:43:21,808][trainers.wgan_trainer][INFO] - Generator iter: 35999
+[2025-11-05 10:43:21,808][trainers.wgan_trainer][INFO] - total_iter_finished: 72000
+[2025-11-05 10:43:21,808][trainers.wgan_trainer][INFO] - Time elapsed: 0:57:05
+[2025-11-05 10:43:21,825][trainers.wgan_trainer][INFO] - Saved images at iteration 72000
+[2025-11-05 10:43:28,090][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:43:31,368][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.894753460762511), np.float64(0.06021148456661592))
+[2025-11-05 10:43:31,368][trainers.wgan_trainer][INFO] - Generator iter: 36099
+[2025-11-05 10:43:31,368][trainers.wgan_trainer][INFO] - total_iter_finished: 72200
+[2025-11-05 10:43:31,368][trainers.wgan_trainer][INFO] - Time elapsed: 0:57:15
+[2025-11-05 10:43:31,385][trainers.wgan_trainer][INFO] - Saved images at iteration 72200
+[2025-11-05 10:43:37,611][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:43:40,902][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(3.0257556819699256), np.float64(0.07108000935309298))
+[2025-11-05 10:43:40,902][trainers.wgan_trainer][INFO] - Generator iter: 36199
+[2025-11-05 10:43:40,902][trainers.wgan_trainer][INFO] - total_iter_finished: 72400
+[2025-11-05 10:43:40,902][trainers.wgan_trainer][INFO] - Time elapsed: 0:57:24
+[2025-11-05 10:43:40,918][trainers.wgan_trainer][INFO] - Saved images at iteration 72400
+[2025-11-05 10:43:47,134][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:43:50,411][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.829126261147105), np.float64(0.0484013738373071))
+[2025-11-05 10:43:50,411][trainers.wgan_trainer][INFO] - Generator iter: 36299
+[2025-11-05 10:43:50,411][trainers.wgan_trainer][INFO] - total_iter_finished: 72600
+[2025-11-05 10:43:50,411][trainers.wgan_trainer][INFO] - Time elapsed: 0:57:34
+[2025-11-05 10:43:50,428][trainers.wgan_trainer][INFO] - Saved images at iteration 72600
+[2025-11-05 10:43:56,657][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:43:59,946][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.7265998583859474), np.float64(0.0445522559202745))
+[2025-11-05 10:43:59,946][trainers.wgan_trainer][INFO] - Generator iter: 36399
+[2025-11-05 10:43:59,946][trainers.wgan_trainer][INFO] - total_iter_finished: 72800
+[2025-11-05 10:43:59,946][trainers.wgan_trainer][INFO] - Time elapsed: 0:57:43
+[2025-11-05 10:43:59,962][trainers.wgan_trainer][INFO] - Saved images at iteration 72800
+[2025-11-05 10:44:06,177][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:44:09,456][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.856286654356638), np.float64(0.040645511143763656))
+[2025-11-05 10:44:09,456][trainers.wgan_trainer][INFO] - Generator iter: 36499
+[2025-11-05 10:44:09,456][trainers.wgan_trainer][INFO] - total_iter_finished: 73000
+[2025-11-05 10:44:09,456][trainers.wgan_trainer][INFO] - Time elapsed: 0:57:53
+[2025-11-05 10:44:09,472][trainers.wgan_trainer][INFO] - Saved images at iteration 73000
+[2025-11-05 10:44:15,679][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:44:18,963][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.893847676242024), np.float64(0.10052887905532248))
+[2025-11-05 10:44:18,964][trainers.wgan_trainer][INFO] - Generator iter: 36599
+[2025-11-05 10:44:18,964][trainers.wgan_trainer][INFO] - total_iter_finished: 73200
+[2025-11-05 10:44:18,964][trainers.wgan_trainer][INFO] - Time elapsed: 0:58:02
+[2025-11-05 10:44:18,980][trainers.wgan_trainer][INFO] - Saved images at iteration 73200
+[2025-11-05 10:44:25,200][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:44:28,479][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.7356161285758605), np.float64(0.046835899689178846))
+[2025-11-05 10:44:28,479][trainers.wgan_trainer][INFO] - Generator iter: 36699
+[2025-11-05 10:44:28,479][trainers.wgan_trainer][INFO] - total_iter_finished: 73400
+[2025-11-05 10:44:28,479][trainers.wgan_trainer][INFO] - Time elapsed: 0:58:12
+[2025-11-05 10:44:28,495][trainers.wgan_trainer][INFO] - Saved images at iteration 73400
+[2025-11-05 10:44:34,683][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:44:37,971][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.919191889465891), np.float64(0.10853388723940197))
+[2025-11-05 10:44:37,971][trainers.wgan_trainer][INFO] - Generator iter: 36799
+[2025-11-05 10:44:37,971][trainers.wgan_trainer][INFO] - total_iter_finished: 73600
+[2025-11-05 10:44:37,971][trainers.wgan_trainer][INFO] - Time elapsed: 0:58:21
+[2025-11-05 10:44:37,988][trainers.wgan_trainer][INFO] - Saved images at iteration 73600
+[2025-11-05 10:44:44,206][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:44:47,487][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.68607368533665), np.float64(0.055957249600334484))
+[2025-11-05 10:44:47,487][trainers.wgan_trainer][INFO] - Generator iter: 36899
+[2025-11-05 10:44:47,487][trainers.wgan_trainer][INFO] - total_iter_finished: 73800
+[2025-11-05 10:44:47,487][trainers.wgan_trainer][INFO] - Time elapsed: 0:58:31
+[2025-11-05 10:44:47,504][trainers.wgan_trainer][INFO] - Saved images at iteration 73800
+[2025-11-05 10:44:53,707][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:44:56,992][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.3712624907226543), np.float64(0.0829967557634432))
+[2025-11-05 10:44:56,992][trainers.wgan_trainer][INFO] - Generator iter: 36999
+[2025-11-05 10:44:56,992][trainers.wgan_trainer][INFO] - total_iter_finished: 74000
+[2025-11-05 10:44:56,992][trainers.wgan_trainer][INFO] - Time elapsed: 0:58:40
+[2025-11-05 10:44:57,009][trainers.wgan_trainer][INFO] - Saved images at iteration 74000
+[2025-11-05 10:45:03,215][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:45:06,501][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.731868154662102), np.float64(0.08089377046559022))
+[2025-11-05 10:45:06,501][trainers.wgan_trainer][INFO] - Generator iter: 37099
+[2025-11-05 10:45:06,501][trainers.wgan_trainer][INFO] - total_iter_finished: 74200
+[2025-11-05 10:45:06,501][trainers.wgan_trainer][INFO] - Time elapsed: 0:58:50
+[2025-11-05 10:45:06,518][trainers.wgan_trainer][INFO] - Saved images at iteration 74200
+[2025-11-05 10:45:12,712][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:45:16,001][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.9223803782690876), np.float64(0.05820607996840402))
+[2025-11-05 10:45:16,001][trainers.wgan_trainer][INFO] - Generator iter: 37199
+[2025-11-05 10:45:16,001][trainers.wgan_trainer][INFO] - total_iter_finished: 74400
+[2025-11-05 10:45:16,001][trainers.wgan_trainer][INFO] - Time elapsed: 0:58:59
+[2025-11-05 10:45:16,018][trainers.wgan_trainer][INFO] - Saved images at iteration 74400
+[2025-11-05 10:45:22,238][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:45:25,518][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.9028166324978866), np.float64(0.08158883234707401))
+[2025-11-05 10:45:25,518][trainers.wgan_trainer][INFO] - Generator iter: 37299
+[2025-11-05 10:45:25,518][trainers.wgan_trainer][INFO] - total_iter_finished: 74600
+[2025-11-05 10:45:25,518][trainers.wgan_trainer][INFO] - Time elapsed: 0:59:09
+[2025-11-05 10:45:25,535][trainers.wgan_trainer][INFO] - Saved images at iteration 74600
+[2025-11-05 10:45:31,734][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:45:35,009][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.774632358835151), np.float64(0.04931848168595603))
+[2025-11-05 10:45:35,009][trainers.wgan_trainer][INFO] - Generator iter: 37399
+[2025-11-05 10:45:35,009][trainers.wgan_trainer][INFO] - total_iter_finished: 74800
+[2025-11-05 10:45:35,009][trainers.wgan_trainer][INFO] - Time elapsed: 0:59:18
+[2025-11-05 10:45:35,027][trainers.wgan_trainer][INFO] - Saved images at iteration 74800
+[2025-11-05 10:45:41,225][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:45:44,500][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8297094709180577), np.float64(0.05546547973939305))
+[2025-11-05 10:45:44,500][trainers.wgan_trainer][INFO] - Generator iter: 37499
+[2025-11-05 10:45:44,500][trainers.wgan_trainer][INFO] - total_iter_finished: 75000
+[2025-11-05 10:45:44,500][trainers.wgan_trainer][INFO] - Time elapsed: 0:59:28
+[2025-11-05 10:45:44,516][trainers.wgan_trainer][INFO] - Saved images at iteration 75000
+[2025-11-05 10:45:50,799][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:45:54,080][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.7410668415412127), np.float64(0.06455226104982438))
+[2025-11-05 10:45:54,080][trainers.wgan_trainer][INFO] - Generator iter: 37599
+[2025-11-05 10:45:54,080][trainers.wgan_trainer][INFO] - total_iter_finished: 75200
+[2025-11-05 10:45:54,080][trainers.wgan_trainer][INFO] - Time elapsed: 0:59:37
+[2025-11-05 10:45:54,096][trainers.wgan_trainer][INFO] - Saved images at iteration 75200
+[2025-11-05 10:46:00,317][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:46:03,598][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.816019385405512), np.float64(0.052920226876465394))
+[2025-11-05 10:46:03,598][trainers.wgan_trainer][INFO] - Generator iter: 37699
+[2025-11-05 10:46:03,598][trainers.wgan_trainer][INFO] - total_iter_finished: 75400
+[2025-11-05 10:46:03,598][trainers.wgan_trainer][INFO] - Time elapsed: 0:59:47
+[2025-11-05 10:46:03,613][trainers.wgan_trainer][INFO] - Saved images at iteration 75400
+[2025-11-05 10:46:09,875][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:46:13,161][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.689780064342058), np.float64(0.07061433418238384))
+[2025-11-05 10:46:13,161][trainers.wgan_trainer][INFO] - Generator iter: 37799
+[2025-11-05 10:46:13,161][trainers.wgan_trainer][INFO] - total_iter_finished: 75600
+[2025-11-05 10:46:13,161][trainers.wgan_trainer][INFO] - Time elapsed: 0:59:56
+[2025-11-05 10:46:13,177][trainers.wgan_trainer][INFO] - Saved images at iteration 75600
+[2025-11-05 10:46:19,414][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:46:22,699][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.761851553377075), np.float64(0.06572346230482715))
+[2025-11-05 10:46:22,699][trainers.wgan_trainer][INFO] - Generator iter: 37899
+[2025-11-05 10:46:22,699][trainers.wgan_trainer][INFO] - total_iter_finished: 75800
+[2025-11-05 10:46:22,699][trainers.wgan_trainer][INFO] - Time elapsed: 1:00:06
+[2025-11-05 10:46:22,715][trainers.wgan_trainer][INFO] - Saved images at iteration 75800
+[2025-11-05 10:46:28,936][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:46:32,213][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.7183129063355485), np.float64(0.06252404613901993))
+[2025-11-05 10:46:32,213][trainers.wgan_trainer][INFO] - Generator iter: 37999
+[2025-11-05 10:46:32,213][trainers.wgan_trainer][INFO] - total_iter_finished: 76000
+[2025-11-05 10:46:32,213][trainers.wgan_trainer][INFO] - Time elapsed: 1:00:15
+[2025-11-05 10:46:32,229][trainers.wgan_trainer][INFO] - Saved images at iteration 76000
+[2025-11-05 10:46:38,455][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:46:41,737][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.7327228481616097), np.float64(0.06010598502500423))
+[2025-11-05 10:46:41,737][trainers.wgan_trainer][INFO] - Generator iter: 38099
+[2025-11-05 10:46:41,737][trainers.wgan_trainer][INFO] - total_iter_finished: 76200
+[2025-11-05 10:46:41,737][trainers.wgan_trainer][INFO] - Time elapsed: 1:00:25
+[2025-11-05 10:46:41,755][trainers.wgan_trainer][INFO] - Saved images at iteration 76200
+[2025-11-05 10:46:47,951][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:46:51,237][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.939525050131224), np.float64(0.07891464901766539))
+[2025-11-05 10:46:51,237][trainers.wgan_trainer][INFO] - Generator iter: 38199
+[2025-11-05 10:46:51,238][trainers.wgan_trainer][INFO] - total_iter_finished: 76400
+[2025-11-05 10:46:51,238][trainers.wgan_trainer][INFO] - Time elapsed: 1:00:35
+[2025-11-05 10:46:51,255][trainers.wgan_trainer][INFO] - Saved images at iteration 76400
+[2025-11-05 10:46:57,451][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:47:00,733][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.6197402554123093), np.float64(0.05840852858598359))
+[2025-11-05 10:47:00,733][trainers.wgan_trainer][INFO] - Generator iter: 38299
+[2025-11-05 10:47:00,733][trainers.wgan_trainer][INFO] - total_iter_finished: 76600
+[2025-11-05 10:47:00,733][trainers.wgan_trainer][INFO] - Time elapsed: 1:00:44
+[2025-11-05 10:47:00,750][trainers.wgan_trainer][INFO] - Saved images at iteration 76600
+[2025-11-05 10:47:06,933][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:47:10,214][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.998146206438469), np.float64(0.0411470871633653))
+[2025-11-05 10:47:10,214][trainers.wgan_trainer][INFO] - Generator iter: 38399
+[2025-11-05 10:47:10,214][trainers.wgan_trainer][INFO] - total_iter_finished: 76800
+[2025-11-05 10:47:10,214][trainers.wgan_trainer][INFO] - Time elapsed: 1:00:53
+[2025-11-05 10:47:10,230][trainers.wgan_trainer][INFO] - Saved images at iteration 76800
+[2025-11-05 10:47:16,521][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:47:19,817][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8468723878150355), np.float64(0.06726008739033473))
+[2025-11-05 10:47:19,817][trainers.wgan_trainer][INFO] - Generator iter: 38499
+[2025-11-05 10:47:19,817][trainers.wgan_trainer][INFO] - total_iter_finished: 77000
+[2025-11-05 10:47:19,817][trainers.wgan_trainer][INFO] - Time elapsed: 1:01:03
+[2025-11-05 10:47:19,833][trainers.wgan_trainer][INFO] - Saved images at iteration 77000
+[2025-11-05 10:47:26,052][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:47:29,331][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.8070771431263406), np.float64(0.08394127131420978))
+[2025-11-05 10:47:29,331][trainers.wgan_trainer][INFO] - Generator iter: 38599
+[2025-11-05 10:47:29,331][trainers.wgan_trainer][INFO] - total_iter_finished: 77200
+[2025-11-05 10:47:29,331][trainers.wgan_trainer][INFO] - Time elapsed: 1:01:13
+[2025-11-05 10:47:29,348][trainers.wgan_trainer][INFO] - Saved images at iteration 77200
+[2025-11-05 10:47:35,576][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:47:38,856][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.4194399864604454), np.float64(0.04829215019455476))
+[2025-11-05 10:47:38,856][trainers.wgan_trainer][INFO] - Generator iter: 38699
+[2025-11-05 10:47:38,856][trainers.wgan_trainer][INFO] - total_iter_finished: 77400
+[2025-11-05 10:47:38,856][trainers.wgan_trainer][INFO] - Time elapsed: 1:01:22
+[2025-11-05 10:47:38,874][trainers.wgan_trainer][INFO] - Saved images at iteration 77400
+[2025-11-05 10:47:45,072][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:47:48,360][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.6534419016885087), np.float64(0.047632586541084446))
+[2025-11-05 10:47:48,360][trainers.wgan_trainer][INFO] - Generator iter: 38799
+[2025-11-05 10:47:48,360][trainers.wgan_trainer][INFO] - total_iter_finished: 77600
+[2025-11-05 10:47:48,360][trainers.wgan_trainer][INFO] - Time elapsed: 1:01:32
+[2025-11-05 10:47:48,378][trainers.wgan_trainer][INFO] - Saved images at iteration 77600
+[2025-11-05 10:47:54,597][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:47:57,878][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.514352009337808), np.float64(0.09154577361166638))
+[2025-11-05 10:47:57,878][trainers.wgan_trainer][INFO] - Generator iter: 38899
+[2025-11-05 10:47:57,878][trainers.wgan_trainer][INFO] - total_iter_finished: 77800
+[2025-11-05 10:47:57,878][trainers.wgan_trainer][INFO] - Time elapsed: 1:01:41
+[2025-11-05 10:47:57,895][trainers.wgan_trainer][INFO] - Saved images at iteration 77800
+[2025-11-05 10:48:04,136][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:48:07,414][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.5960247613044976), np.float64(0.08518021943285456))
+[2025-11-05 10:48:07,414][trainers.wgan_trainer][INFO] - Generator iter: 38999
+[2025-11-05 10:48:07,414][trainers.wgan_trainer][INFO] - total_iter_finished: 78000
+[2025-11-05 10:48:07,414][trainers.wgan_trainer][INFO] - Time elapsed: 1:01:51
+[2025-11-05 10:48:07,429][trainers.wgan_trainer][INFO] - Saved images at iteration 78000
+[2025-11-05 10:48:13,614][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:48:16,908][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.567152172565313), np.float64(0.08230210067507995))
+[2025-11-05 10:48:16,908][trainers.wgan_trainer][INFO] - Generator iter: 39099
+[2025-11-05 10:48:16,908][trainers.wgan_trainer][INFO] - total_iter_finished: 78200
+[2025-11-05 10:48:16,908][trainers.wgan_trainer][INFO] - Time elapsed: 1:02:00
+[2025-11-05 10:48:16,925][trainers.wgan_trainer][INFO] - Saved images at iteration 78200
+[2025-11-05 10:48:23,134][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:48:26,415][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.6097007545996673), np.float64(0.07069284837635251))
+[2025-11-05 10:48:26,415][trainers.wgan_trainer][INFO] - Generator iter: 39199
+[2025-11-05 10:48:26,415][trainers.wgan_trainer][INFO] - total_iter_finished: 78400
+[2025-11-05 10:48:26,415][trainers.wgan_trainer][INFO] - Time elapsed: 1:02:10
+[2025-11-05 10:48:26,432][trainers.wgan_trainer][INFO] - Saved images at iteration 78400
+[2025-11-05 10:48:32,673][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:48:35,956][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.499459920088627), np.float64(0.07596259344027007))
+[2025-11-05 10:48:35,956][trainers.wgan_trainer][INFO] - Generator iter: 39299
+[2025-11-05 10:48:35,956][trainers.wgan_trainer][INFO] - total_iter_finished: 78600
+[2025-11-05 10:48:35,956][trainers.wgan_trainer][INFO] - Time elapsed: 1:02:19
+[2025-11-05 10:48:35,973][trainers.wgan_trainer][INFO] - Saved images at iteration 78600
+[2025-11-05 10:48:42,186][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:48:45,505][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.560732710838572), np.float64(0.038472787731176364))
+[2025-11-05 10:48:45,506][trainers.wgan_trainer][INFO] - Generator iter: 39399
+[2025-11-05 10:48:45,506][trainers.wgan_trainer][INFO] - total_iter_finished: 78800
+[2025-11-05 10:48:45,506][trainers.wgan_trainer][INFO] - Time elapsed: 1:02:29
+[2025-11-05 10:48:45,521][trainers.wgan_trainer][INFO] - Saved images at iteration 78800
+[2025-11-05 10:48:51,734][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:48:55,010][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.658941666739755), np.float64(0.04795630949947112))
+[2025-11-05 10:48:55,011][trainers.wgan_trainer][INFO] - Generator iter: 39499
+[2025-11-05 10:48:55,011][trainers.wgan_trainer][INFO] - total_iter_finished: 79000
+[2025-11-05 10:48:55,011][trainers.wgan_trainer][INFO] - Time elapsed: 1:02:38
+[2025-11-05 10:48:55,028][trainers.wgan_trainer][INFO] - Saved images at iteration 79000
+[2025-11-05 10:49:01,254][trainers.wgan_trainer][INFO] - Calculating Inception Score over 8k generated images
+[2025-11-05 10:49:04,540][trainers.wgan_trainer][INFO] - Real Inception score (mean, std): (np.float64(2.675875657053172), np.float64(0.03239895030127278))
+[2025-11-05 10:49:04,540][trainers.wgan_trainer][INFO] - Generator iter: 39599
+[2025-11-05 10:49:04,540][trainers.wgan_trainer][INFO] - total_iter_finished: 79200
+[2025-11-05 10:49:04,540][trainers.wgan_trainer][INFO] - Time elapsed: 1:02:48
+[2025-11-05 10:49:04,557][trainers.wgan_trainer][INFO] - Saved images at iteration 79200

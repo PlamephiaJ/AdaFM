@@ -53,6 +53,8 @@ class PESG(torch.optim.Optimizer):
         self.T = 0
         self.steps = 0
 
+        self.device = torch.device("cuda:0")
+
         defaults = dict(
             lr=lr,
             clip_value=clip_value,
@@ -184,5 +186,5 @@ class PESG(torch.optim.Optimizer):
         for i, param in enumerate(self.model_ref):
             self.model_ref[i].data = self.model_acc[i].data / self.T
         for i, param in enumerate(self.model_acc):
-            self.model_acc[i].data = torch.zeros(param.shape, dtype=torch.float32, device=self.device,  requires_grad=False).to(self.device)
+            self.model_acc[i].data = torch.zeros(param.shape, dtype=torch.float32, device=self.device,  requires_grad=False)
         self.T = 0

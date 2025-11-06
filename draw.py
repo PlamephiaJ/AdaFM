@@ -1,5 +1,6 @@
 import os
 import pickle
+import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from pathlib import Path
@@ -11,42 +12,190 @@ FIGURE_FOLDER = Path("figures")
 IS_FOLDER = FIGURE_FOLDER / "IS"
 os.makedirs(IS_FOLDER, exist_ok=True)
 
-def find_inception_score_files(gan_dir="GAN"):
+def find_best_experiments_by_stats(gan_dir="GAN"):
     """
-    Find all real_inception_scores.pkl files in the GAN directory
+    Find the best experiments based on best_real_inception_score.csv files
     
     Args:
         gan_dir (str): Directory containing GAN experiments
+        
+    Returns:
+        dict: Dictionary containing best experiments info
+    """
+    best_experiments = {}
+    
+    if not os.path.exists(gan_dir):
+        print(f"GAN directory '{gan_dir}' not found!")
+        return best_experiments
+    
+    # Find all best_real_inception_score.csv files
+    best_files = glob.glob(os.path.join(gan_dir, "**", "best_real_inception_score.csv"), recursive=True)
+    
+    if not best_files:
+        print("No best_real_inception_score.csv files found!")
+        return best_experiments
+    
+    # Group by optimizer
+    optimizer_experiments = {}
+    
+    for best_file in best_files:
+        try:
+            # Read the best scores
+            df = pd.read_csv(best_file)
+            if 'BestIS' not in df.columns or 'AvgIS' not in df.columns:
+                continue
+                
+            best_is = float(df['BestIS'].iloc[0])
+            avg_is = float(df['AvgIS'].iloc[0])
+            
+            # Extract experiment info from path
+            path_parts = Path(best_file).parts
+            if len(path_parts) >= 4:
+                optimizer_name = path_parts[-4]
+                dataset_name = path_parts[-3]
+                timestamp = path_parts[-2]
+                experiment_name = f"{optimizer_name}_{dataset_name}_{timestamp}"
+                
+                if optimizer_name not in optimizer_experiments:
+                    optimizer_experiments[optimizer_name] = []
+                
+                optimizer_experiments[optimizer_name].append({
+                    'experiment_name': experiment_name,
+                    'best_is': best_is,
+                    'avg_is': avg_is,
+                    'folder_path': Path(best_file).parent,
+                    'optimizer': optimizer_name,
+                    'dataset': dataset_name,
+                    'timestamp': timestamp
+                })
+                
+        except Exception as e:
+            print(f"Error processing {best_file}: {e}")
+            continue
+    
+    # Find best experiments for each optimizer
+    for optimizer, experiments in optimizer_experiments.items():
+        if not experiments:
+            continue
+            
+        # Find best by max IS and best by avg IS
+        best_by_max = max(experiments, key=lambda x: x['best_is'])
+        best_by_avg = max(experiments, key=lambda x: x['avg_is'])
+        
+        print(f"\nOptimizer: {optimizer}")
+        print(f"  Best by Max IS: {best_by_max['experiment_name']} (Best: {best_by_max['best_is']:.3f}, Avg: {best_by_max['avg_is']:.3f})")
+        print(f"  Best by Avg IS: {best_by_avg['experiment_name']} (Best: {best_by_avg['best_is']:.3f}, Avg: {best_by_avg['avg_is']:.3f})")
+        
+        # Add to results - avoid duplicates
+        optimizer_best = {}
+        optimizer_best[f"{optimizer}_best_max"] = best_by_max
+        
+        # Only add avg best if it's different from max best
+        if best_by_max['experiment_name'] != best_by_avg['experiment_name']:
+            optimizer_best[f"{optimizer}_best_avg"] = best_by_avg
+            print(f"  -> Will plot both experiments (different)")
+        else:
+            print(f"  -> Will plot single experiment (same for both metrics)")
+        
+        best_experiments.update(optimizer_best)
+    
+    return best_experiments
+
+def find_inception_score_files_for_best(best_experiments):
+    """
+    Find inception score files for the best experiments
+    
+    Args:
+        best_experiments (dict): Dictionary of best experiments
         
     Returns:
         dict: Dictionary mapping experiment names to file paths
     """
     inception_files = {}
     
-    if not os.path.exists(gan_dir):
-        print(f"GAN directory '{gan_dir}' not found!")
-        return inception_files
-    
-    # Search for all real_inception_scores.pkl files recursively
-    pkl_pattern = os.path.join(gan_dir, "**", "real_inception_scores.pkl")
-    pkl_files = glob.glob(pkl_pattern, recursive=True)
-    
-    for pkl_file in pkl_files:
-        # Extract experiment name from path
-        # Path structure: GAN/optimizer_name/dataset_name/timestamp/real_inception_scores.pkl
-        path_parts = Path(pkl_file).parts
-        if len(path_parts) >= 4:
-            optimizer_name = path_parts[-4]
-            dataset_name = path_parts[-3] 
-            timestamp = path_parts[-2]
-            experiment_name = f"{optimizer_name}_{dataset_name}_{timestamp}"
-        else:
-            experiment_name = os.path.basename(os.path.dirname(pkl_file))
+    for exp_key, exp_info in best_experiments.items():
+        folder_path = exp_info['folder_path']
+        experiment_name = exp_info['experiment_name']
         
-        inception_files[experiment_name] = pkl_file
-        print(f"Found experiment: {experiment_name}")
+        # Try to find inception score files in different formats
+        score_file = None
+        
+        # Try CSV first
+        csv_file = folder_path / "real_inception_scores.csv"
+        if csv_file.exists():
+            score_file = csv_file
+            print(f"Found CSV for {experiment_name}")
+        
+        # Try pickle if no CSV
+        if score_file is None:
+            pkl_file = folder_path / "real_inception_scores.pkl"
+            if pkl_file.exists():
+                score_file = pkl_file
+                print(f"Found PKL for {experiment_name}")
+        
+        # Try text if no pickle
+        if score_file is None:
+            txt_file = folder_path / "real_inception_scores.txt"
+            if txt_file.exists():
+                score_file = txt_file
+                print(f"Found TXT for {experiment_name}")
+        
+        if score_file:
+            # Use a descriptive name that includes the selection criterion
+            display_name = f"{experiment_name} ({exp_key.split('_')[-1]} IS)"
+            inception_files[display_name] = str(score_file)
+        else:
+            print(f"No inception score file found for {experiment_name}")
     
     return inception_files
+
+def find_inception_score_files(gan_dir="GAN", use_best_only=True):
+    """
+    Find inception score files in the GAN directory
+    
+    Args:
+        gan_dir (str): Directory containing GAN experiments
+        use_best_only (bool): If True, only return files for best experiments
+        
+    Returns:
+        dict: Dictionary mapping experiment names to file paths
+    """
+    if use_best_only:
+        print("=== Finding Best Experiments by IS Statistics ===")
+        best_experiments = find_best_experiments_by_stats(gan_dir)
+        if best_experiments:
+            return find_inception_score_files_for_best(best_experiments)
+        else:
+            print("No best experiments found, falling back to all experiments")
+            use_best_only = False
+    
+    if not use_best_only:
+        print("=== Finding All Experiments ===")
+        inception_files = {}
+        
+        if not os.path.exists(gan_dir):
+            print(f"GAN directory '{gan_dir}' not found!")
+            return inception_files
+        
+        # Search for all real_inception_scores.pkl files recursively
+        pkl_pattern = os.path.join(gan_dir, "**", "real_inception_scores.pkl")
+        pkl_files = glob.glob(pkl_pattern, recursive=True)
+        
+        for pkl_file in pkl_files:
+            # Extract experiment name from path
+            path_parts = Path(pkl_file).parts
+            if len(path_parts) >= 4:
+                optimizer_name = path_parts[-4]
+                dataset_name = path_parts[-3] 
+                timestamp = path_parts[-2]
+                experiment_name = f"{optimizer_name}_{dataset_name}_{timestamp}"
+            else:
+                experiment_name = os.path.basename(os.path.dirname(pkl_file))
+            
+            inception_files[experiment_name] = pkl_file
+            print(f"Found experiment: {experiment_name}")
+        
+        return inception_files
 
 def smooth_data(data, method='moving_average', window_size=5, alpha=0.3):
     """
@@ -128,18 +277,55 @@ def compute_envelope(data, window_size=10):
 
 def load_inception_scores(file_path):
     """
-    Load inception scores from pickle file
+    Load inception scores from various file formats
     
     Args:
-        file_path (str): Path to the pickle file
+        file_path (str): Path to the score file (CSV, PKL, or TXT)
         
     Returns:
         np.array: Array of inception scores
     """
+    file_path = Path(file_path)
+    
     try:
-        with open(file_path, 'rb') as f:
-            scores = pickle.load(f)
-        return np.array(scores)
+        if file_path.suffix.lower() == '.csv':
+            # Load from CSV
+            df = pd.read_csv(file_path)
+            if 'inception_score' in df.columns:
+                return np.array(df['inception_score'].values)
+            elif 'IS' in df.columns:
+                return np.array(df['IS'].values)
+            else:
+                print(f"No recognized inception score column in {file_path}")
+                return None
+                
+        elif file_path.suffix.lower() == '.pkl':
+            # Load from pickle
+            with open(file_path, 'rb') as f:
+                scores = pickle.load(f)
+            return np.array(scores)
+            
+        elif file_path.suffix.lower() == '.txt':
+            # Load from text file
+            scores = []
+            with open(file_path, 'r') as f:
+                lines = f.readlines()
+            
+            for line in lines[1:]:  # Skip header
+                line = line.strip()
+                if line and 'Iteration' in line:
+                    # Parse "Iteration 200: 1.234567"
+                    parts = line.split(': ')
+                    if len(parts) == 2:
+                        score = float(parts[1])
+                        scores.append(score)
+            
+            return np.array(scores) if scores else None
+            
+        else:
+            print(f"Unsupported file format: {file_path.suffix}")
+            return None
+            
     except Exception as e:
         print(f"Error loading {file_path}: {e}")
         return None
@@ -308,30 +494,34 @@ def plot_comparison_by_optimizer(inception_files, save_interval=1000, smooth_met
         
         plt.show()
 
-def main():
+def main(use_best_only=True):
     """
-    Main function to process all experiments and create plots
+    Main function to process experiments and create plots
+    
+    Args:
+        use_best_only (bool): If True, only plot the best experiments based on IS statistics
     """
     print("Starting Inception Score Analysis...")
     print("=" * 50)
     
-    # Find all inception score files
-    inception_files = find_inception_score_files()
+    # Find inception score files
+    inception_files = find_inception_score_files(use_best_only=use_best_only)
     
     if not inception_files:
         print("No inception score files found!")
         return
     
-    print(f"\nFound {len(inception_files)} experiments:")
+    print(f"\nSelected {len(inception_files)} experiments for plotting:")
     for exp_name in inception_files.keys():
         print(f"  - {exp_name}")
     
     print("\n" + "=" * 50)
     
     # Create overall comparison plot
-    print("Creating overall comparison plot with smoothing...")
+    plot_name = "best_inception_scores_comparison_smoothed.png" if use_best_only else "inception_scores_comparison_smoothed.png"
+    print(f"Creating comparison plot: {plot_name}")
     plot_inception_scores(inception_files, save_interval=1000, 
-                         save_path=IS_FOLDER / "inception_scores_comparison_smoothed.png",
+                         save_path=IS_FOLDER / plot_name,
                          smooth_method='exponential', 
                          show_envelope=True, 
                          show_raw=False)
