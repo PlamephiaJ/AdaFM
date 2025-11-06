@@ -1,5 +1,5 @@
 export CUDA_VISIBLE_DEVICES=0
 python main.py -m \
-    optimizers=adafm \
-    optimizers.lr_x=0.1,0.001,0.05 \
-    optimizers.lr_y=0.1,0.001,0.05
+    optimizers=msgda \
+    optimizers.lr_x=0.0001 \
+    optimizers.lr_y=0.0001

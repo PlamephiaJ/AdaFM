@@ -32,7 +32,7 @@ def run(cfg: DictConfig) -> None:
     Real_Inception_score = []
     logger.info("Data loaders are ready.")
 
-    results_folder = Path("GAN") / cfg.optimizers.name / f"{cfg.datasets.name}" / t.strftime("%Y%m%d-%H%M%S")
+    results_folder = Path("GAN") / "grid_search" / cfg.optimizers.name / f"{cfg.datasets.name}" / t.strftime("%Y%m%d-%H%M%S")
     results_folder.mkdir(parents=True, exist_ok=True)
 
     # Save configuration snapshot

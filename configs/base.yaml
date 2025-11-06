@@ -22,3 +22,5 @@ hydra:
   job_logging:
     level: INFO
   output_subdir: null
+
+worker_id: 0
