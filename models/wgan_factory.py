@@ -1,36 +1,122 @@
+"""
+WGAN Model Factory with Registry Pattern
+
+This module provides a simple and clean model factory for WGAN (Wasserstein GAN) models
+using a registry pattern for dynamic model creation.
+
+Usage Examples:
+    
+    # Basic usage - create models directly
+    generator = create_model("generator", channels=3, in_dim=100)
+    discriminator = create_model("discriminator", channels=3)
+    
+    # Complete example for GAN training
+    import torch
+    
+    # Create models
+    G = create_model("generator", channels=3, in_dim=100)
+    D = create_model("discriminator", channels=3)
+    
+    # Move to device
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    G.to(device)
+    D.to(device)
+    
+    # Generate fake images
+    z = torch.randn(64, 100, 1, 1).to(device)  # Batch of noise vectors
+    fake_images = G(z)  # Shape: (64, 3, 32, 32)
+    
+    # Discriminate real/fake images
+    real_images = torch.randn(64, 3, 32, 32).to(device)  # Real image batch
+    d_real = D(real_images)  # Discriminator output for real images
+    d_fake = D(fake_images)  # Discriminator output for fake images
+
+Available Models:
+    - "generator": WGAN Generator
+        Args:
+            channels (int): Number of output channels (e.g., 3 for RGB, 1 for grayscale)
+            in_dim (int): Input noise dimension (typically 100)
+        
+    - "discriminator": WGAN Discriminator/Critic  
+        Args:
+            channels (int): Number of input channels (e.g., 3 for RGB, 1 for grayscale)
+
+Model Specifications:
+    Generator:
+        - Input: Noise vector (batch_size, in_dim, 1, 1)
+        - Output: Generated images (batch_size, channels, 32, 32)
+        - Architecture: 4-layer transposed convolution with batch normalization
+        - Activation: ReLU for hidden layers, Tanh for output
+        
+    Discriminator:
+        - Input: Images (batch_size, channels, 32, 32)
+        - Output: Critic scores (batch_size, 1, 1, 1)
+        - Architecture: 4-layer convolution with instance normalization
+        - Activation: LeakyReLU throughout (no sigmoid at output for WGAN)
+        - Additional: feature_extraction() method for intermediate features
+
+Registry Pattern:
+    - Use @register("model_name") to register new model classes
+    - Use create_model("model_name", **kwargs) to instantiate models
+    - Models are automatically registered when this module is imported
+"""
+
 import torch
 import torch.nn as nn
 
-
 # Model Registry
-MODEL_REGISTRY = {}
+_MODELS = {}
 
 
-def register_model(name):
-    """Decorator to register model classes."""
+def register(name):
+    """
+    Decorator to register model classes in the factory.
+
+    Args:
+        name (str): Name to register the model under
+
+    Returns:
+        Decorated class that is registered in the model factory
+
+    Example:
+        @register("my_model")
+        class MyModel(nn.Module):
+            def __init__(self, param1, param2):
+                super().__init__()
+                # model definition
+    """
 
     def decorator(cls):
-        MODEL_REGISTRY[name] = cls
+        _MODELS[name] = cls
         return cls
 
     return decorator
 
 
-def get_model(name, **kwargs):
-    """Factory function to get model instance by name."""
-    if name not in MODEL_REGISTRY:
-        raise ValueError(
-            f"Model {name} not found in registry. Available models: {list(MODEL_REGISTRY.keys())}"
-        )
-    return MODEL_REGISTRY[name](**kwargs)
+def create_model(name, **kwargs):
+    """
+    Factory function to create model instances.
+
+    Args:
+        name (str): Name of the registered model
+        **kwargs: Arguments to pass to the model constructor
+
+    Returns:
+        nn.Module: Instantiated model
+
+    Raises:
+        KeyError: If model name is not registered
+
+    Example:
+        model = create_model("generator", channels=3, in_dim=100)
+    """
+    if name not in _MODELS:
+        available = list(_MODELS.keys())
+        raise KeyError(f"Model '{name}' not found. Available models: {available}")
+    return _MODELS[name](**kwargs)
 
 
-def list_models():
-    """List all registered models."""
-    return list(MODEL_REGISTRY.keys())
-
-
-@register_model("wgan_generator")
+@register("generator_default")
 class Generator(nn.Module):
 
     def __init__(self, channels, in_dim):
@@ -79,7 +165,7 @@ class Generator(nn.Module):
         return self.output(x)
 
 
-@register_model("wgan_discriminator")
+@register("discriminator_default")
 class Discriminator(nn.Module):
 
     def __init__(self, channels):
@@ -131,27 +217,3 @@ class Discriminator(nn.Module):
         # Use discriminator for feature extraction then flatten to vector of 16384
         x = self.main_module(x)
         return x.view(-1, 1024 * 4 * 4)
-
-
-# Alternative factory functions for backward compatibility
-def create_generator(channels, in_dim):
-    """Create WGAN Generator instance."""
-    return get_model("wgan_generator", channels=channels, in_dim=in_dim)
-
-
-def create_discriminator(channels):
-    """Create WGAN Discriminator instance."""
-    return get_model("wgan_discriminator", channels=channels)
-
-
-# Model aliases for easier access
-WGAN_MODELS = {"generator": "wgan_generator", "discriminator": "wgan_discriminator"}
-
-
-def get_wgan_model(model_type, **kwargs):
-    """Get WGAN model by type (generator/discriminator)."""
-    if model_type not in WGAN_MODELS:
-        raise ValueError(
-            f"Unknown WGAN model type: {model_type}. Available: {list(WGAN_MODELS.keys())}"
-        )
-    return get_model(WGAN_MODELS[model_type], **kwargs)

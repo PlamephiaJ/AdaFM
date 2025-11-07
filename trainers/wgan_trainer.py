@@ -19,6 +19,7 @@ from tqdm import tqdm
 
 LOGGER = logging.getLogger(__name__)
 
+
 class WGAN_GP_Trainer:
 
     def __init__(
@@ -92,7 +93,7 @@ class WGAN_GP_Trainer:
 
         grad_penalty = ((gradients.norm(2, dim=1) - 1) ** 2).mean() * self.lambda_term
         return grad_penalty, eta
-    
+
     def _save_models_checkpoint(self, iteration):
         checkpoint_dir = self.results_folder / "checkpoints"
         checkpoint_dir.mkdir(parents=True, exist_ok=True)
@@ -105,7 +106,7 @@ class WGAN_GP_Trainer:
             if old_checkpoint != g_checkpoint_path:
                 old_checkpoint.unlink()
                 LOGGER.info(f"Removed old generator checkpoint: {old_checkpoint}")
-            
+
         for old_checkpoint in checkpoint_dir.glob("discriminator_iter_*.pth"):
             if old_checkpoint != d_checkpoint_path:
                 old_checkpoint.unlink()
@@ -116,6 +117,7 @@ class WGAN_GP_Trainer:
 
         LOGGER.info(f"Saved generator checkpoint to {g_checkpoint_path}")
         LOGGER.info(f"Saved discriminator checkpoint to {d_checkpoint_path}")
+
     def train(self, train_loader, Real_Inception_score):
         try:
             self.t_begin = t.time()
@@ -127,14 +129,19 @@ class WGAN_GP_Trainer:
             real_images = real_images.to(self.device)
 
             os.makedirs(self.results_folder, exist_ok=True)
-            vutils.save_image(real_images, self.results_folder / "real_images.png", normalize=True)
+            vutils.save_image(
+                real_images, self.results_folder / "real_images.png", normalize=True
+            )
 
             total_iter = 0
             D_old, G_old = None, None
 
-            best_real_inception_score = -float('inf')
+            best_real_inception_score = -float("inf")
 
-            for g_iter in tqdm(range(self.generator_iters), desc=f"Training: optimizer {self.cfg.optimizers.name}"):
+            for g_iter in tqdm(
+                range(self.generator_iters),
+                desc=f"Training: optimizer {self.cfg.optimizers.name}",
+            ):
                 # Requires grad, Generator requires_grad = False
                 for p in self.D.parameters():
                     p.requires_grad = True
@@ -215,7 +222,9 @@ class WGAN_GP_Trainer:
                     G_old.zero_grad()
                 # train generator
                 # compute loss with fake images
-                z = self.get_torch_variable(torch.randn(self.batch_size, self.z_dim, 1, 1))
+                z = self.get_torch_variable(
+                    torch.randn(self.batch_size, self.z_dim, 1, 1)
+                )
                 fake_images = self.G(z)
                 g_loss = self.D(fake_images)
                 g_loss = g_loss.mean()
@@ -268,7 +277,11 @@ class WGAN_GP_Trainer:
                     # inception_score is a tuple (mean, std)
                     # mean IS and std IS
                     inception_score = get_inception_score(
-                        new_sample_list, cuda=True, batch_size=64, resize=True, splits=10
+                        new_sample_list,
+                        cuda=True,
+                        batch_size=64,
+                        resize=True,
+                        splits=10,
                     )
 
                     z = self.get_torch_variable(
@@ -279,16 +292,22 @@ class WGAN_GP_Trainer:
                     if inception_score[0] > best_real_inception_score:
                         best_real_inception_score = inception_score[0]
                         self._save_models_checkpoint(total_iter)
-                        LOGGER.info(f"New best Inception Score: {best_real_inception_score:.4f}. Checkpoints saved.")
-
-                    
+                        LOGGER.info(
+                            f"New best Inception Score: {best_real_inception_score:.4f}. Checkpoints saved."
+                        )
 
                     # Testing
                     elapsed_time = t.time() - self.t_begin
-                    LOGGER.info("Real Inception score (mean, std): {}".format(inception_score))
+                    LOGGER.info(
+                        "Real Inception score (mean, std): {}".format(inception_score)
+                    )
                     LOGGER.info("Generator iter: {}".format(g_iter))
                     LOGGER.info("total_iter_finished: {}".format(total_iter))
-                    LOGGER.info("Time elapsed: {}".format(str(timedelta(seconds=int(elapsed_time)))))
+                    LOGGER.info(
+                        "Time elapsed: {}".format(
+                            str(timedelta(seconds=int(elapsed_time)))
+                        )
+                    )
                     z = self.get_torch_variable(
                         torch.randn(self.batch_size, self.z_dim, 1, 1)
                     )
@@ -325,17 +344,21 @@ class WGAN_GP_Trainer:
                     f.write("Iteration,IS\n")
                     for i, score in enumerate(real_inception_scores):
                         f.write(f"{(i+1)*self.save_interval},{score:.6f}\n")
-                
-                best_IS_save_path = self.results_folder / "best_real_inception_score.csv"
+
+                best_IS_save_path = (
+                    self.results_folder / "best_real_inception_score.csv"
+                )
                 with open(best_IS_save_path, "w") as f:
                     f.write(f"BestIS,AvgIS\n")
-                    f.write(f"{real_inception_scores.max()},{real_inception_scores.mean()}\n")
+                    f.write(
+                        f"{real_inception_scores.max()},{real_inception_scores.mean()}\n"
+                    )
 
-                LOGGER.info(f"Real Inception Scores saved to {score_save_path} and {txt_save_path}")
+                LOGGER.info(
+                    f"Real Inception Scores saved to {score_save_path} and {txt_save_path}"
+                )
             else:
                 LOGGER.warning("No Real Inception Scores to save.")
-            
-        
 
     @staticmethod
     def get_gradient_norm(model, norm_type=2.0):

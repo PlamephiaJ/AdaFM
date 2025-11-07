@@ -4,6 +4,7 @@ import torch
 from torch.optim import Optimizer
 from pathlib import Path
 
+
 class TiAda_wo_max(Optimizer):
 
     def __init__(
@@ -586,7 +587,7 @@ class TiAda(Optimizer):
                     # already updated sum
                     ratio_p = state_sum.pow(self.alpha).add_(eps).div_(ratio)
 
-                    lr = clr /ratio_p
+                    lr = clr / ratio_p
                     lr = torch.norm(lr, p=2)
                     self.optimizer_log_file.write(f"{step},{lr.item()}\n")
 

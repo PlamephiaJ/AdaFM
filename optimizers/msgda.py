@@ -145,7 +145,6 @@ class MSGDA(Optimizer):
                     # grad = p.grad
                     grad = state["momentum_buffer"]
 
-
                     step_t = state["step"]
 
                     time_factor = self.k / (self.m + step_t) ** (1 / 3)
@@ -175,7 +174,7 @@ class MSGDA(Optimizer):
                     # 计算学习率的衰减
                     clr = lr / (1 + (step - 1) * lr_decay)
 
-                    adap_lr = clr * time_factor # lr * time_factor
+                    adap_lr = clr * time_factor  # lr * time_factor
                     adap_lr_norm = torch.norm(adap_lr, p=2)
                     self.optimizer_log_file.write(f"{step},{adap_lr_norm.item()}\n")
 

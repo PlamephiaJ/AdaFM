@@ -32,42 +32,53 @@ def run(cfg: DictConfig) -> None:
     Real_Inception_score = []
     logger.info("Data loaders are ready.")
 
-    results_folder = Path("GAN") / cfg.optimizers.name / f"{cfg.datasets.name}" / t.strftime("%Y%m%d-%H%M%S")
+    results_folder = (
+        Path("GAN")
+        / cfg.optimizers.name
+        / f"{cfg.datasets.name}"
+        / t.strftime("%Y%m%d-%H%M%S")
+    )
     results_folder.mkdir(parents=True, exist_ok=True)
 
     # Save configuration snapshot
     config_file = results_folder / "config_snapshot.yaml"
-    with open(config_file, 'w') as f:
+    with open(config_file, "w") as f:
         OmegaConf.save(cfg, f)
     logger.info(f"Configuration snapshot saved to {config_file}")
 
-    
-
     if cfg.models.name == "wgan":
         from trainers.wgan_trainer import WGAN_GP_Trainer
-        from models.wgan import Generator, Discriminator
+        from models.wgan_factory import create_model
 
-        generator = Generator(
-            channels=cfg.models.generator.channels, in_dim=cfg.models.generator.z_dim
+        generator = create_model(
+            "generator_default",
+            channels=cfg.models.generator.channels,
+            in_dim=cfg.models.generator.z_dim,
         ).to(device)
-        discriminator = Discriminator(channels=cfg.models.discriminator.channels).to(
-            device
-        )
+        discriminator = create_model(
+            "discriminator_default", channels=cfg.models.discriminator.channels
+        ).to(device)
 
         if cfg.models.use_checkpoint:
             if os.path.isfile(cfg.models.generator.checkpoint_path) and os.path.isfile(
                 cfg.models.discriminator.checkpoint_path
             ):
                 generator.load_state_dict(
-                    torch.load(cfg.models.generator.checkpoint_path, map_location=device)
+                    torch.load(
+                        cfg.models.generator.checkpoint_path, map_location=device
+                    )
                 )
-                logger.info(f"Loaded generator from checkpoints {cfg.models.generator.checkpoint_path}.")
+                logger.info(
+                    f"Loaded generator from checkpoints {cfg.models.generator.checkpoint_path}."
+                )
                 discriminator.load_state_dict(
                     torch.load(
                         cfg.models.discriminator.checkpoint_path, map_location=device
                     )
                 )
-                logger.info(f"Loaded discriminator from checkpoints {cfg.models.discriminator.checkpoint_path}.")
+                logger.info(
+                    f"Loaded discriminator from checkpoints {cfg.models.discriminator.checkpoint_path}."
+                )
             else:
                 raise FileNotFoundError(
                     "Checkpoint files not found for generator or discriminator."
@@ -208,7 +219,6 @@ def run(cfg: DictConfig) -> None:
             raise NotImplementedError(
                 f"Optimizer {cfg.optimizers.name} is not implemented."
             )
-        
 
         trainer = WGAN_GP_Trainer(
             generator=generator,
