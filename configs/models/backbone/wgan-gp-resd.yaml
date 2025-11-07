@@ -1,0 +1,17 @@
+# A2 残差判别器（只改 D 骨干）
+# Tag：WGAN-GP-ResD
+# 用途：验证你的优化器在更深/带跳连的 D 上是否同样稳定。
+
+name: wgan-gp-resd
+
+generator:
+  name: generator_default
+  channels: 3
+  in_dim: 50
+  checkpoint_path: null
+discriminator:
+  name: discriminator_resnet
+  channels: 3
+  use_spectral_norm: false
+  use_normalization: false
+  checkpoint_path: null

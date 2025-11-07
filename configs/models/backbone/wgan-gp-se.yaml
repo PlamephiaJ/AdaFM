@@ -1,0 +1,17 @@
+# A6 SE 生成器（通道注意力）
+
+# Tag：WGAN-GP-SE
+
+# 用途：引入 SE 的 G，考察你优化器在增强通道重标定时的表现。
+
+name: wgan-gp-se
+
+generator:
+  name: generator_squeeze_excite
+  channels: 3
+  in_dim: 50
+  checkpoint_path: null
+discriminator:
+  name: discriminator_wgan_gp
+  channels: 3
+  checkpoint_path: null

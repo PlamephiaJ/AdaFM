@@ -587,9 +587,9 @@ class TiAda(Optimizer):
                     # already updated sum
                     ratio_p = state_sum.pow(self.alpha).add_(eps).div_(ratio)
 
-                    lr = clr / ratio_p
-                    lr = torch.norm(lr, p=2)
-                    self.optimizer_log_file.write(f"{step},{lr.item()}\n")
+                    lr_log = clr / ratio_p
+                    lr_log = torch.norm(lr_log, p=2)
+                    self.optimizer_log_file.write(f"{step},{lr_log.item()}\n")
 
                     p.addcdiv_(grad, ratio_p, value=-clr)
                     if self.compute_effective_stepsize:

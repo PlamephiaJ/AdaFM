@@ -1,0 +1,15 @@
+# A3 残差生成器（只改 G 骨干）
+# Tag：WGAN-GP-ResG
+# 用途：换 G 的表达能力，观察对收敛/IS 的影响，隔离 D 变化。
+
+name: wgan-gp-resg
+
+generator:
+  name: generator_default
+  channels: 3
+  in_dim: 50
+  checkpoint_path: null
+discriminator:
+  name: discriminator_wgan_gp
+  channels: 3
+  checkpoint_path: null

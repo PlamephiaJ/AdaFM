@@ -34,8 +34,9 @@ def run(cfg: DictConfig) -> None:
 
     results_folder = (
         Path("GAN")
+        / "model_factory"
+        / cfg.models.backbone.name
         / cfg.optimizers.name
-        / f"{cfg.datasets.name}"
         / t.strftime("%Y%m%d-%H%M%S")
     )
     results_folder.mkdir(parents=True, exist_ok=True)
@@ -51,12 +52,12 @@ def run(cfg: DictConfig) -> None:
         from models.wgan_factory import create_model
 
         generator = create_model(
-            "generator_default",
-            channels=cfg.models.generator.channels,
-            in_dim=cfg.models.generator.z_dim,
+            cfg.models.backbone.name,
+            cfg.models.backbone.generator
         ).to(device)
         discriminator = create_model(
-            "discriminator_default", channels=cfg.models.discriminator.channels
+            cfg.models.backbone.name,
+            cfg.models.backbone.discriminator
         ).to(device)
 
         if cfg.models.use_checkpoint:
@@ -228,7 +229,7 @@ def run(cfg: DictConfig) -> None:
             generator_iters=cfg.models.generator_iters,
             critic_iters=cfg.models.critic_iters,
             save_interval=cfg.models.training.save_interval,
-            z_dim=cfg.models.generator.z_dim,
+            z_dim=cfg.models.backbone.generator.in_dim,
             batch_size=cfg.models.training.batch_size,
             cfg=cfg,
             results_folder=results_folder,

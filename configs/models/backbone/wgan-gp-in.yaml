@@ -1,0 +1,14 @@
+# WGAN-GP with Instance Normalization
+# 默认双default
+
+name: wgan-gp-in
+
+generator:
+  name: generator_default
+  channels: 3
+  in_dim: 50
+  checkpoint_path: null
+discriminator:
+  name: discriminator_default
+  channels: 3
+  checkpoint_path: null

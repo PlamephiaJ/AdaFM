@@ -1,0 +1,15 @@
+# A1 baseline：WGAN-GP（最标准）
+# Tag：WGAN-GP
+# 用途：最干净的基线。
+
+name: wgan-gp
+
+generator:
+  name: generator_default
+  channels: 3
+  in_dim: 50
+  checkpoint_path: null
+discriminator:
+  name: discriminator_wgan_gp
+  channels: 3
+  checkpoint_path: null

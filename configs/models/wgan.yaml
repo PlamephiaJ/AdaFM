@@ -1,3 +1,7 @@
+defaults:
+  - backbone: wgan-gp-in
+  - _self_
+
 name: wgan
 channels: 3
 critic_iters: 1
@@ -5,14 +9,6 @@ generator_iters: 100000
 lambda_term: 1e-4
 number_of_images: 100
 use_checkpoint: false
-
-generator:
-  channels: 3
-  z_dim: 50
-  checkpoint_path: null
-discriminator:
-  channels: 3
-  checkpoint_path: null
 
 training:
   epochs: 50

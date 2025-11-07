@@ -1,0 +1,16 @@
+# A5 轻量化（Depthwise G+D，全关 SN/Norm）
+# Tag：WGAN-GP-Light
+# 用途：在小模型/资源受限下检验优化器稳健性（梯度更嘈杂）。
+
+name: wgan-gp-light
+
+generator:
+  name: generator_depthwise
+  channels: 3
+  in_dim: 50
+  checkpoint_path: null
+discriminator:
+  name: discriminator_depthwise
+  channels: 3
+  use_spectral_norm: false
+  checkpoint_path: null
