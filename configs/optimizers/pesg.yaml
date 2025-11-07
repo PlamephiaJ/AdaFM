@@ -6,3 +6,4 @@ epoch_decay: 2e-3
 momentum: 0.9
 decay_iters: null  # Iterations at which to decay the regularization
 decay_factor: 10
+use_delta: false

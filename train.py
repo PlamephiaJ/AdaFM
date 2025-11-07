@@ -9,6 +9,8 @@ import time as t
 
 from trainers.utils.data_loader import get_data_loader
 
+from optimizer_factory import create_optimizers
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -84,142 +86,15 @@ def run(cfg: DictConfig) -> None:
                 raise FileNotFoundError(
                     "Checkpoint files not found for generator or discriminator."
                 )
-
-        # if cfg.optimizers.name == "adam":
-        #     d_optimizer = torch.optim.Adam(
-        #         discriminator.parameters(),
-        #         lr=cfg.optimizers.lr,
-        #         betas=(cfg.optimizers.b1, cfg.optimizers.b2),
-        #     )
-        #     g_optimizer = torch.optim.Adam(
-        #         generator.parameters(),
-        #         lr=cfg.optimizers.lr,
-        #         betas=(cfg.optimizers.b1, cfg.optimizers.b2),
-        #     )
-        # elif cfg.optimizers.name == "tiada-adam":
-        #     from optimizers.TiAda import TiAda_Adam
-
-        #     d_optimizer = TiAda_Adam(
-        #         discriminator.parameters(),
-        #         lr=cfg.optimizers.lr,
-        #         alpha=cfg.optimizers.beta,
-        #         betas=(cfg.optimizers.b1, cfg.optimizers.b2),
-        #     )
-        #     g_optimizer = TiAda_Adam(
-        #         generator.parameters(),
-        #         lr=cfg.optimizers.lr,
-        #         alpha=cfg.optimizers.beta,
-        #         opponent_optim=d_optimizer,
-        #         betas=(cfg.optimizers.b1, cfg.optimizers.b2),
-        #     )
-        if cfg.optimizers.name == "adafm":
-            from optimizers.AdaFM import AdaFM
-
-            d_optimizer = AdaFM(
-                discriminator.parameters(),
-                lr=cfg.optimizers.lr_y,
-                beta=cfg.optimizers.beta_for_VRAda,
-                results_folder=results_folder,
-            )
-            g_optimizer = AdaFM(
-                generator.parameters(),
-                lr=cfg.optimizers.lr_x,
-                opponent_optim=d_optimizer,
-                beta=cfg.optimizers.beta_for_VRAda,
-                results_folder=results_folder,
-            )
-        elif cfg.optimizers.name == "tiada":
-            from optimizers.TiAda import TiAda
-
-            d_optimizer = TiAda(
-                discriminator.parameters(),
-                beta=cfg.optimizers.beta,
-                lr=cfg.optimizers.lr_y,
-                results_folder=results_folder,
-            )
-            g_optimizer = TiAda(
-                generator.parameters(),
-                beta=cfg.optimizers.beta,
-                opponent_optim=d_optimizer,
-                lr=cfg.optimizers.lr_x,
-                results_folder=results_folder,
-            )
-        # elif cfg.optimizers.name == "RSGDA":
-        #     from optimizers.RSGDA import RSGDA
-
-        #     d_optimizer = RSGDA(
-        #         discriminator.parameters(),
-        #         beta_y=cfg.optimizers.beta_y,
-        #         lr_y=cfg.optimizers.lr_y,
-        #     )
-        #     g_optimizer = RSGDA(
-        #         generator.parameters(),
-        #         beta_x=cfg.optimizers.beta_x,
-        #         opponent_optim=d_optimizer,
-        #         lr_x=cfg.optimizers.lr_x,
-        #     )
-        # elif cfg.optimizers.name == "VRAdaGDA":
-        #     from optimizers.VRAdaGDA import VRAdaGDA
-
-        #     d_optimizer = VRAdaGDA(
-        #         discriminator.parameters(),
-        #         beta_y=cfg.optimizers.beta_y,
-        #         lr_y=cfg.optimizers.lr_y,
-        #     )
-        #     g_optimizer = VRAdaGDA(
-        #         generator.parameters(),
-        #         beta_x=cfg.optimizers.beta_x,
-        #         opponent_optim=d_optimizer,
-        #         lr_x=cfg.optimizers.lr_x,
-        #     )
-        elif cfg.optimizers.name == "msgda":
-            from optimizers.msgda import MSGDA
-
-            d_optimizer = MSGDA(
-                discriminator.parameters(),
-                lr=cfg.optimizers.lr_discriminator,
-                beta=cfg.optimizers.beta_discriminator,
-                results_folder=results_folder,
-            )
-            g_optimizer = MSGDA(
-                generator.parameters(),
-                lr=cfg.optimizers.lr_generator,
-                opponent_optim=d_optimizer,
-                beta=cfg.optimizers.beta_generator,
-                results_folder=results_folder,
-            )
-        elif cfg.optimizers.name == "pesg":
-            from optimizers.pesg import PESG
-
-            d_optimizer = PESG(
-                discriminator.parameters(),
-                total_iter=cfg.models.generator_iters * cfg.models.critic_iters,
-                lr=cfg.optimizers.lr,
-                clip_value=cfg.optimizers.clip_value,
-                weight_decay=cfg.optimizers.weight_decay,
-                epoch_decay=cfg.optimizers.epoch_decay,
-                momentum=cfg.optimizers.momentum,
-                decay_iters=cfg.optimizers.decay_iters,
-                decay_factor=cfg.optimizers.decay_factor,
-                results_folder=results_folder,
-            )
-            g_optimizer = PESG(
-                generator.parameters(),
-                total_iter=cfg.models.generator_iters,
-                lr=cfg.optimizers.lr,
-                clip_value=cfg.optimizers.clip_value,
-                weight_decay=cfg.optimizers.weight_decay,
-                epoch_decay=cfg.optimizers.epoch_decay,
-                momentum=cfg.optimizers.momentum,
-                decay_iters=cfg.optimizers.decay_iters,
-                decay_factor=cfg.optimizers.decay_factor,
-                opponent_optim=d_optimizer,
-                results_folder=results_folder,
-            )
-        else:
-            raise NotImplementedError(
-                f"Optimizer {cfg.optimizers.name} is not implemented."
-            )
+        
+        
+        # 使用优化器工厂创建优化器
+        g_optimizer, d_optimizer = create_optimizers(
+            generator=generator,
+            discriminator=discriminator,
+            cfg=cfg,
+            results_folder=results_folder
+        )
 
         trainer = WGAN_GP_Trainer(
             generator=generator,

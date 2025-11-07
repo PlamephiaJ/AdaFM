@@ -702,7 +702,7 @@ class WGANGPDiscriminator(nn.Module):
         self.output = nn.Conv2d(1024, 1, 4, 1, 0)
         
         # WGAN-GP判别器特殊初始化
-        initialize_weights(self, init_type='dcgan')
+        initialize_weights(self, init_type='kaiming')
 
     def forward(self, x):
         x = self.main_module(x)
