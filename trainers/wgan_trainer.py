@@ -16,6 +16,8 @@ import numpy as np
 from pathlib import Path
 import logging
 from tqdm import tqdm
+from torchvision.utils import save_image, make_grid
+from torch.utils.tensorboard import SummaryWriter
 
 LOGGER = logging.getLogger(__name__)
 
@@ -47,7 +49,7 @@ class WGAN_GP_Trainer:
         self.number_of_images = 100
         self.generator_iters = generator_iters
         self.critic_iters = critic_iters
-        self.lambda_term = 1e-4
+        self.lambda_term = 10.0  # 标准值
         self.save_interval = save_interval
         self.z_dim = z_dim
         self.batch_size = batch_size
@@ -55,6 +57,8 @@ class WGAN_GP_Trainer:
         self.results_folder = results_folder
         self.images_folder = results_folder / "images"
         os.makedirs(self.images_folder, exist_ok=True)
+        tb_log_dir = Path(cfg.tensorboard.log_dir_root) / str(results_folder).replace("/", "_")
+        self.writer = SummaryWriter(log_dir=tb_log_dir)
 
     def calculate_gradient_penalty(self, real_images, fake_images, eta):
         # eta = torch.FloatTensor(self.batch_size,1,1,1).uniform_(0,1)
@@ -86,12 +90,15 @@ class WGAN_GP_Trainer:
         gradients = autograd.grad(
             outputs=prob_interpolated,
             inputs=interpolated,
-            grad_outputs=torch.ones(prob_interpolated.size()).to(self.device),
+            grad_outputs=torch.ones_like(prob_interpolated, device=self.device),
             create_graph=True,
-            retain_graph=True,
+            retain_graph=False,
         )[0]
 
+        B = gradients.size(0)
+        gradients = gradients.view(B, -1)
         grad_penalty = ((gradients.norm(2, dim=1) - 1) ** 2).mean() * self.lambda_term
+
         return grad_penalty, eta
 
     def _save_models_checkpoint(self, iteration):
@@ -180,11 +187,12 @@ class WGAN_GP_Trainer:
 
                     # Train with gradient penalty
                     gradient_penalty, eta = self.calculate_gradient_penalty(
-                        images.data, fake_images.data, eta=None
+                        images.detach(), fake_images.detach(), eta=None
                     )
                     gradient_penalty.backward()
 
                     d_loss = d_loss_fake - d_loss_real + gradient_penalty
+                    self.writer.add_scalar('Discriminator Loss', d_loss.item(), total_iter)
                     Wasserstein_D = (d_loss_real - d_loss_fake).item()
 
                     if D_old is not None:
@@ -197,7 +205,7 @@ class WGAN_GP_Trainer:
 
                         # Train with gradient penalty
                         gradient_penalty_old, _ = self.calculate_gradient_penalty(
-                            images.data, fake_images_.data, eta=eta
+                            images.detach(), fake_images_.detach(), eta=eta
                         )
                         gradient_penalty_old.backward()
                         delta_y = [g.grad.data.clone() for g in D_old.parameters()]
@@ -229,6 +237,7 @@ class WGAN_GP_Trainer:
                 g_loss = self.D(fake_images)
                 g_loss = g_loss.mean()
                 g_loss.backward(mone)
+                self.writer.add_scalar('Generator Loss', g_loss.item(), total_iter)
                 g_cost = -g_loss
                 if G_old is not None:
                     fake_images_ = G_old(z)
@@ -308,6 +317,7 @@ class WGAN_GP_Trainer:
                             str(timedelta(seconds=int(elapsed_time)))
                         )
                     )
+
                     z = self.get_torch_variable(
                         torch.randn(self.batch_size, self.z_dim, 1, 1)
                     )
@@ -317,6 +327,11 @@ class WGAN_GP_Trainer:
                     # 保存图片
                     save_image_path = self.images_folder / f"iter_{total_iter}.png"
                     vutils.save_image(fake_images, save_image_path, normalize=True)
+
+                    # Log to TensorBoard
+                    grid = make_grid(fake_images, nrow=8, normalize=True, value_range=(-1, 1))
+                    self.writer.add_image('Generated Images', grid, total_iter)
+                    self.writer.add_scalar('Inception Score', inception_score[0], total_iter)
                     #
                     # # 可选：打印保存图片的消息
                     LOGGER.info(f"Saved images at iteration {total_iter}")

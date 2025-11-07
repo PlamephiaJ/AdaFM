@@ -22,3 +22,6 @@ hydra:
   job_logging:
     level: INFO
   output_subdir: null
+
+tensorboard:
+  log_dir_root: ./tensorboard_logs

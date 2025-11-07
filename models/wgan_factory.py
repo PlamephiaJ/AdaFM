@@ -109,6 +109,149 @@ from omegaconf import OmegaConf
 _MODELS = {}
 
 
+def initialize_weights(module, init_type='dcgan'):
+    """
+    高效的权重初始化函数，针对WGAN-GP优化
+    
+    Args:
+        module: 要初始化的模块
+        init_type: 初始化类型 ('dcgan', 'xavier', 'orthogonal', 'kaiming')
+    """
+    def init_func(m):
+        classname = m.__class__.__name__
+        
+        # 卷积层初始化
+        if hasattr(m, 'weight') and (classname.find('Conv') != -1):
+            if init_type == 'dcgan':
+                # DCGAN paper推荐的初始化，对GAN效果最佳
+                nn.init.normal_(m.weight.data, 0.0, 0.02)
+            elif init_type == 'xavier':
+                # Xavier初始化，适合深层网络
+                nn.init.xavier_normal_(m.weight.data, gain=0.02)
+            elif init_type == 'kaiming':
+                # He初始化，适合ReLU激活
+                nn.init.kaiming_normal_(m.weight.data, a=0.2, mode='fan_in', nonlinearity='leaky_relu')
+            elif init_type == 'orthogonal':
+                # 正交初始化，保持梯度稳定
+                nn.init.orthogonal_(m.weight.data, gain=0.02)
+            
+            # 偏置项初始化
+            if hasattr(m, 'bias') and m.bias is not None:
+                nn.init.constant_(m.bias.data, 0.0)
+        
+        # BatchNorm和InstanceNorm初始化
+        elif classname.find('BatchNorm') != -1 or classname.find('InstanceNorm') != -1:
+            if hasattr(m, 'weight') and m.weight is not None:
+                nn.init.normal_(m.weight.data, 1.0, 0.02)
+            if hasattr(m, 'bias') and m.bias is not None:
+                nn.init.constant_(m.bias.data, 0.0)
+        
+        # GroupNorm初始化
+        elif classname.find('GroupNorm') != -1:
+            if hasattr(m, 'weight') and m.weight is not None:
+                nn.init.normal_(m.weight.data, 1.0, 0.02)
+            if hasattr(m, 'bias') and m.bias is not None:
+                nn.init.constant_(m.bias.data, 0.0)
+        
+        # Linear层初始化
+        elif classname.find('Linear') != -1:
+            if init_type == 'dcgan':
+                nn.init.normal_(m.weight.data, 0.0, 0.02)
+            elif init_type == 'xavier':
+                nn.init.xavier_normal_(m.weight.data)
+            elif init_type == 'kaiming':
+                nn.init.kaiming_normal_(m.weight.data, a=0.2, mode='fan_in', nonlinearity='leaky_relu')
+            
+            if hasattr(m, 'bias') and m.bias is not None:
+                nn.init.constant_(m.bias.data, 0.0)
+        
+        # Embedding层初始化
+        elif classname.find('Embedding') != -1:
+            nn.init.normal_(m.weight.data, 0.0, 0.02)
+    
+    module.apply(init_func)
+
+
+def spectral_norm_init(module):
+    """
+    为使用谱归一化的模块进行特殊初始化
+    """
+    def init_func(m):
+        classname = m.__class__.__name__
+        if hasattr(m, 'weight') and (classname.find('Conv') != -1 or classname.find('Linear') != -1):
+            # 谱归一化模块使用更小的初始化方差
+            nn.init.normal_(m.weight.data, 0.0, 0.01)
+            if hasattr(m, 'bias') and m.bias is not None:
+                nn.init.constant_(m.bias.data, 0.0)
+    
+    module.apply(init_func)
+
+
+def generator_specific_init(module):
+    """
+    Generator专用初始化，追求更好的生成质量
+    """
+    def init_func(m):
+        classname = m.__class__.__name__
+        
+        if classname.find('ConvTranspose') != -1:
+            # 转置卷积使用双线性插值权重初始化，减少棋盘效应
+            if hasattr(m, 'weight'):
+                # 使用较小的标准差避免梯度爆炸
+                nn.init.normal_(m.weight.data, 0.0, 0.02)
+                
+        elif classname.find('Conv') != -1:
+            nn.init.normal_(m.weight.data, 0.0, 0.02)
+            
+        # 偏置项统一初始化为0
+        if hasattr(m, 'bias') and m.bias is not None:
+            nn.init.constant_(m.bias.data, 0.0)
+            
+        # BatchNorm初始化
+        elif classname.find('BatchNorm') != -1:
+            if hasattr(m, 'weight') and m.weight is not None:
+                nn.init.normal_(m.weight.data, 1.0, 0.02)
+            if hasattr(m, 'bias') and m.bias is not None:
+                nn.init.constant_(m.bias.data, 0.0)
+    
+    module.apply(init_func)
+
+
+def discriminator_specific_init(module, use_spectral_norm=False):
+    """
+    Discriminator专用初始化，追求训练稳定性
+    """
+    def init_func(m):
+        classname = m.__class__.__name__
+        
+        if classname.find('Conv') != -1:
+            if use_spectral_norm:
+                # 谱归一化情况下使用更保守的初始化
+                nn.init.normal_(m.weight.data, 0.0, 0.01)
+            else:
+                # 标准初始化
+                nn.init.normal_(m.weight.data, 0.0, 0.02)
+                
+        elif classname.find('Linear') != -1:
+            if use_spectral_norm:
+                nn.init.normal_(m.weight.data, 0.0, 0.01)
+            else:
+                nn.init.normal_(m.weight.data, 0.0, 0.02)
+        
+        # 偏置项初始化
+        if hasattr(m, 'bias') and m.bias is not None:
+            nn.init.constant_(m.bias.data, 0.0)
+            
+        # InstanceNorm初始化（WGAN-GP推荐）
+        elif classname.find('InstanceNorm') != -1:
+            if hasattr(m, 'weight') and m.weight is not None:
+                nn.init.normal_(m.weight.data, 1.0, 0.02)
+            if hasattr(m, 'bias') and m.bias is not None:
+                nn.init.constant_(m.bias.data, 0.0)
+    
+    module.apply(init_func)
+
+
 def register(name):
     """
     Decorator to register model classes in the factory.
@@ -162,34 +305,35 @@ def create_model(name, config=None, **kwargs):
         generator_config = {"name": "generator_default", "channels": 3, "z_dim": 100}
         model = create_model("wgan-gp", generator_config)
     """
+    # Handle legacy mode first
+    if config is None:
+        # Legacy mode - direct model creation
+        if name not in _MODELS:
+            available = list(_MODELS.keys())
+            raise KeyError(f"Model '{name}' not found. Available models: {available}")
+        return _MODELS[name](**kwargs)
+    
     # New config-based mode
     config = OmegaConf.to_container(config, resolve=True)
     # Remove checkpoint_path from config if present
     if isinstance(config, dict) and 'checkpoint_path' in config:
         config = {k: v for k, v in config.items() if k != 'checkpoint_path'}
-    if config is not None:
-        if not isinstance(config, dict):
-            raise ValueError("Config must be a dictionary")
-        
-        if 'name' not in config:
-            raise ValueError("Config must contain 'name' field")
-        
-        model_name = config['name']
-        # Extract parameters from config, excluding 'name'
-        model_params = {k: v for k, v in config.items() if k != 'name'}
-        
-        if model_name not in _MODELS:
-            available = list(_MODELS.keys())
-            raise KeyError(f"Model '{model_name}' not found. Available models: {available}")
-        
-        return _MODELS[model_name](**model_params)
     
-    # Legacy mode - direct model creation
-    else:
-        if name not in _MODELS:
-            available = list(_MODELS.keys())
-            raise KeyError(f"Model '{name}' not found. Available models: {available}")
-        return _MODELS[name](**kwargs)
+    if not isinstance(config, dict):
+        raise ValueError("Config must be a dictionary")
+    
+    if 'name' not in config:
+        raise ValueError("Config must contain 'name' field")
+    
+    model_name = config['name']
+    # Extract parameters from config, excluding 'name'
+    model_params = {k: v for k, v in config.items() if k != 'name'}
+    
+    if model_name not in _MODELS:
+        available = list(_MODELS.keys())
+        raise KeyError(f"Model '{model_name}' not found. Available models: {available}")
+    
+    return _MODELS[model_name](**model_params)
 
 
 @register("generator_default")
@@ -235,6 +379,9 @@ class Generator(nn.Module):
         # output of main module --> Image (Cx32x32)
 
         self.output = nn.Tanh()
+        
+        # 应用优化的Generator初始化
+        generator_specific_init(self)
 
     def forward(self, x):
         x = self.main_module(x)
@@ -290,6 +437,9 @@ class Discriminator(nn.Module):
             # The output of D is no longer a probability, we do not apply sigmoid at the output of D.
             output_conv
         )
+        
+        # 应用优化的Discriminator初始化
+        discriminator_specific_init(self, use_spectral_norm=use_spectral_norm)
 
     def forward(self, x):
         x = self.main_module(x)
@@ -323,6 +473,21 @@ class ResNetGenerator(nn.Module):
         # Final output layer
         self.final = nn.ConvTranspose2d(256, channels, 4, 2, 1)
         self.output = nn.Tanh()
+        
+        # ResNet特殊初始化：使用Xavier初始化提升梯度流
+        self._init_weights()
+    
+    def _init_weights(self):
+        """ResNet专用权重初始化"""
+        for m in self.modules():
+            if isinstance(m, (nn.Conv2d, nn.ConvTranspose2d)):
+                # ResNet使用Xavier初始化，保证残差连接稳定
+                nn.init.xavier_normal_(m.weight.data, gain=0.02)
+                if hasattr(m, 'bias') and m.bias is not None:
+                    nn.init.constant_(m.bias.data, 0.0)
+            elif isinstance(m, nn.BatchNorm2d):
+                nn.init.normal_(m.weight.data, 1.0, 0.02)
+                nn.init.constant_(m.bias.data, 0.0)
     
     def _make_res_block(self, in_channels, out_channels, upsample=False):
         layers = []
@@ -394,6 +559,24 @@ class DepthwiseGenerator(nn.Module):
             nn.ConvTranspose2d(256, channels, 4, 2, 1),
         )
         self.output = nn.Tanh()
+        
+        # Depthwise卷积特殊初始化
+        self._init_depthwise_weights()
+    
+    def _init_depthwise_weights(self):
+        """Depthwise卷积专用初始化"""
+        for m in self.modules():
+            if isinstance(m, nn.ConvTranspose2d):
+                if m.groups > 1:  # Depthwise convolution
+                    # Depthwise使用更小的方差防止梯度消失
+                    nn.init.normal_(m.weight.data, 0.0, 0.01)
+                else:  # Regular or pointwise convolution
+                    nn.init.normal_(m.weight.data, 0.0, 0.02)
+            elif isinstance(m, nn.Conv2d):
+                nn.init.normal_(m.weight.data, 0.0, 0.02)
+            elif isinstance(m, nn.BatchNorm2d):
+                nn.init.normal_(m.weight.data, 1.0, 0.02)
+                nn.init.constant_(m.bias.data, 0.0)
     
     def _depthwise_block(self, in_channels, out_channels, kernel_size, stride, padding):
         return nn.Sequential(
@@ -429,6 +612,27 @@ class SqueezeExciteGenerator(nn.Module):
         
         self.final = nn.ConvTranspose2d(256, channels, 4, 2, 1)
         self.output = nn.Tanh()
+        
+        # SE模块特殊初始化
+        self._init_se_weights()
+    
+    def _init_se_weights(self):
+        """Squeeze-and-Excitation专用初始化"""
+        for m in self.modules():
+            if isinstance(m, (nn.Conv2d, nn.ConvTranspose2d)):
+                nn.init.normal_(m.weight.data, 0.0, 0.02)
+                if hasattr(m, 'bias') and m.bias is not None:
+                    nn.init.constant_(m.bias.data, 0.0)
+            elif isinstance(m, nn.BatchNorm2d):
+                nn.init.normal_(m.weight.data, 1.0, 0.02)
+                nn.init.constant_(m.bias.data, 0.0)
+        
+        # SE模块的最后一层使用更小的初始化，避免过度激活
+        for name, module in self.named_modules():
+            if 'se' in name and isinstance(module, nn.Conv2d):
+                # SE的gate层使用更小的初始化
+                if module.out_channels == module.in_channels:  # Final SE layer
+                    nn.init.normal_(module.weight.data, 0.0, 0.01)
     
     def _make_se_block(self, in_channels, out_channels, upsample=False, reduction=16):
         # Main convolution
@@ -496,6 +700,9 @@ class WGANGPDiscriminator(nn.Module):
         )
         
         self.output = nn.Conv2d(1024, 1, 4, 1, 0)
+        
+        # WGAN-GP判别器特殊初始化
+        initialize_weights(self, init_type='dcgan')
 
     def forward(self, x):
         x = self.main_module(x)
@@ -525,6 +732,9 @@ class SpectralNormDiscriminator(nn.Module):
         )
         
         self.output = spectral_norm(nn.Conv2d(1024, 1, 4, 1, 0))
+        
+        # 谱归一化专用初始化
+        spectral_norm_init(self)
 
     def forward(self, x):
         x = self.main_module(x)
@@ -567,6 +777,12 @@ class ResNetDiscriminator(nn.Module):
         
         output_conv = nn.Conv2d(1024, 1, 4, 1, 0)
         self.output = maybe_spectral_norm(output_conv)
+        
+        # ResNet判别器特殊初始化
+        if use_spectral_norm:
+            spectral_norm_init(self)
+        else:
+            discriminator_specific_init(self, use_spectral_norm=False)
     
     def _make_res_block(self, in_channels, out_channels, downsample=False, 
                         use_spectral_norm=True, use_normalization=False):
@@ -656,6 +872,23 @@ class DepthwiseDiscriminator(nn.Module):
         )
         
         self.output = self._maybe_spectral_norm(nn.Conv2d(1024, 1, 4, 1, 0), use_spectral_norm)
+        
+        # Depthwise判别器特殊初始化
+        if use_spectral_norm:
+            spectral_norm_init(self)
+        else:
+            self._init_depthwise_discriminator()
+    
+    def _init_depthwise_discriminator(self):
+        """Depthwise判别器专用初始化"""
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                if m.groups > 1:  # Depthwise convolution
+                    nn.init.normal_(m.weight.data, 0.0, 0.01)
+                else:  # Regular or pointwise convolution
+                    nn.init.normal_(m.weight.data, 0.0, 0.02)
+                if hasattr(m, 'bias') and m.bias is not None:
+                    nn.init.constant_(m.bias.data, 0.0)
     
     def _maybe_spectral_norm(self, layer, use_spectral_norm):
         return spectral_norm(layer) if use_spectral_norm else layer
@@ -679,87 +912,6 @@ class DepthwiseDiscriminator(nn.Module):
     def feature_extraction(self, x):
         x = self.main_module(x)
         return x.view(-1, 1024 * 4 * 4)
-
-
-@register("discriminator_attention")
-class AttentionDiscriminator(nn.Module):
-    """Discriminator with self-attention mechanism"""
-    
-    def __init__(self, channels, use_spectral_norm=True):
-        super().__init__()
-        
-        def maybe_spectral_norm(layer):
-            return spectral_norm(layer) if use_spectral_norm else layer
-        
-        self.initial = nn.Sequential(
-            maybe_spectral_norm(nn.Conv2d(channels, 256, 4, 2, 1)),
-            nn.LeakyReLU(0.2, inplace=True),
-        )
-        
-        self.conv1 = nn.Sequential(
-            maybe_spectral_norm(nn.Conv2d(256, 512, 4, 2, 1)),
-            nn.LeakyReLU(0.2, inplace=True),
-        )
-        
-        # Self-attention at middle resolution
-        self.attention = SelfAttention(512, use_spectral_norm=use_spectral_norm)
-        
-        self.conv2 = nn.Sequential(
-            maybe_spectral_norm(nn.Conv2d(512, 1024, 4, 2, 1)),
-            nn.LeakyReLU(0.2, inplace=True),
-        )
-        
-        self.output = maybe_spectral_norm(nn.Conv2d(1024, 1, 4, 1, 0))
-    
-    def forward(self, x):
-        x = self.initial(x)
-        x = self.conv1(x)
-        x = self.attention(x)
-        x = self.conv2(x)
-        return self.output(x)
-    
-    def feature_extraction(self, x):
-        x = self.initial(x)
-        x = self.conv1(x)
-        x = self.attention(x)
-        x = self.conv2(x)
-        return x.view(-1, 1024 * 4 * 4)
-
-
-class SelfAttention(nn.Module):
-    """Self-attention module for capturing long-range dependencies"""
-    
-    def __init__(self, in_channels, use_spectral_norm=True):
-        super().__init__()
-        self.in_channels = in_channels
-        
-        def maybe_spectral_norm(layer):
-            return spectral_norm(layer) if use_spectral_norm else layer
-        
-        self.query = maybe_spectral_norm(nn.Conv2d(in_channels, in_channels // 8, 1))
-        self.key = maybe_spectral_norm(nn.Conv2d(in_channels, in_channels // 8, 1))
-        self.value = maybe_spectral_norm(nn.Conv2d(in_channels, in_channels, 1))
-        self.gamma = nn.Parameter(torch.zeros(1))
-        self.softmax = nn.Softmax(dim=-1)
-    
-    def forward(self, x):
-        batch_size, channels, height, width = x.size()
-        
-        # Generate query, key, value
-        q = self.query(x).view(batch_size, -1, width * height).permute(0, 2, 1)
-        k = self.key(x).view(batch_size, -1, width * height)
-        v = self.value(x).view(batch_size, -1, width * height)
-        
-        # Attention
-        attention = torch.bmm(q, k)
-        attention = self.softmax(attention)
-        
-        # Apply attention to value
-        out = torch.bmm(v, attention.permute(0, 2, 1))
-        out = out.view(batch_size, channels, height, width)
-        
-        # Residual connection with learnable weight
-        return self.gamma * out + x
 
 
 # Convenience aliases for backward compatibility

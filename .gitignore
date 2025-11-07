@@ -4,3 +4,4 @@ outputs/
 dataset/
 GAN/
 multirun/
+tensorboard_logs/
