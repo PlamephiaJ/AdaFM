@@ -126,7 +126,7 @@ class WGAN_GP_Trainer:
         LOGGER.info(f"Saved discriminator checkpoint to {d_checkpoint_path}")
     
     def train(self, train_loader, Real_Inception_score):
-        use_delta = self.cfg.optimizers.use_delta
+        use_delta = self.cfg.optimizers.get("use_delta", False)
         if use_delta:
             self.train_use_delta(train_loader, Real_Inception_score)
         else:
