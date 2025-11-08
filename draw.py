@@ -10,6 +10,7 @@ from scipy.ndimage import uniform_filter1d
 
 SAVE_INTERVAL = 200
 SHOW_ENVELOPE = False
+MAX_ITERATIONS = 200000  # Maximum x-axis range for plotting
 FIGURE_FOLDER = Path("figures")
 IS_FOLDER = FIGURE_FOLDER / "IS"
 os.makedirs(IS_FOLDER, exist_ok=True)
@@ -460,13 +461,13 @@ def plot_inception_scores(
             # Create x-axis (iterations)
             iterations = np.arange(1, len(scores) + 1) * save_interval
             
-            # Filter data to keep only x <= 80000
-            mask = iterations <= 80000
+            # Filter data to keep only x <= MAX_ITERATIONS
+            mask = iterations <= MAX_ITERATIONS
             iterations = iterations[mask]
             scores = scores[mask]
             
             if len(scores) == 0:
-                print(f"Skipped {exp_name}: No data within x <= 80000 range")
+                print(f"Skipped {exp_name}: No data within x <= {MAX_ITERATIONS} range")
                 continue
 
             # Smooth the data
@@ -549,7 +550,7 @@ def plot_inception_scores(
 
     # Set reasonable axis limits
     plt.ylim(bottom=0)
-    plt.xlim(left=0, right=80000)
+    plt.xlim(left=0, right=MAX_ITERATIONS)
 
     # Adjust layout to prevent legend cutoff
     plt.tight_layout()
@@ -560,6 +561,139 @@ def plot_inception_scores(
 
     # Show the plot
     plt.show()
+
+
+def create_optimizer_performance_table(best_experiments, save_path=None):
+    """
+    Create a performance comparison table for single loop vs double loop optimizers
+    
+    Args:
+        best_experiments (dict): Dictionary containing best experiments info
+        save_path (str): Path to save the table. If None, saves to IS_FOLDER
+    """
+    if save_path is None:
+        save_path = IS_FOLDER / "optimizer_performance_comparison.csv"
+    
+    # Separate single loop and double loop experiments
+    single_loop_stats = {}  # GAN experiments
+    double_loop_stats = {}  # GAN/model_factory experiments
+    
+    for exp_key, exp_info in best_experiments.items():
+        optimizer_name = exp_info["optimizer"]
+        best_is = exp_info["best_is"]
+        avg_is = exp_info["avg_is"]
+        backbone_name = exp_info.get("backbone", None)
+        
+        if backbone_name:  # Double loop (model_factory)
+            if optimizer_name not in double_loop_stats:
+                double_loop_stats[optimizer_name] = {
+                    "best_is_experiments": [],
+                    "avg_is_experiments": []
+                }
+            double_loop_stats[optimizer_name]["best_is_experiments"].append((best_is, exp_info))
+            double_loop_stats[optimizer_name]["avg_is_experiments"].append((avg_is, exp_info))
+        else:  # Single loop (traditional GAN)
+            if optimizer_name not in single_loop_stats:
+                single_loop_stats[optimizer_name] = {
+                    "best_is_experiments": [],
+                    "avg_is_experiments": []
+                }
+            single_loop_stats[optimizer_name]["best_is_experiments"].append((best_is, exp_info))
+            single_loop_stats[optimizer_name]["avg_is_experiments"].append((avg_is, exp_info))
+    
+    # Create table data
+    table_data = []
+    
+    # Process single loop optimizers
+    for optimizer, stats in single_loop_stats.items():
+        best_is_max = max(stats["best_is_experiments"], key=lambda x: x[0])
+        avg_is_max = max(stats["avg_is_experiments"], key=lambda x: x[0])
+        
+        table_data.append({
+            "Type": "Single Loop",
+            "Optimizer": optimizer,
+            "Best IS": f"{best_is_max[0]:.4f}",
+            "Max Avg IS": f"{avg_is_max[0]:.4f}"
+        })
+    
+    # Process double loop optimizers
+    for optimizer, stats in double_loop_stats.items():
+        best_is_max = max(stats["best_is_experiments"], key=lambda x: x[0])
+        avg_is_max = max(stats["avg_is_experiments"], key=lambda x: x[0])
+        
+        table_data.append({
+            "Type": "Double Loop",
+            "Optimizer": optimizer,
+            "Best IS": f"{best_is_max[0]:.4f}",
+            "Max Avg IS": f"{avg_is_max[0]:.4f}"
+        })
+    
+    # Create DataFrame and sort by Type then Best IS
+    df = pd.DataFrame(table_data)
+    df["Best IS (numeric)"] = df["Best IS"].astype(float)
+    df = df.sort_values(["Type", "Best IS (numeric)"], ascending=[True, False])
+    df = df.drop("Best IS (numeric)", axis=1)  # Remove helper column
+    
+    # Save to CSV
+    df.to_csv(save_path, index=False)
+    print(f"Optimizer performance comparison table saved to: {save_path}")
+    
+    # Print table to console
+    print("\n" + "=" * 60)
+    print("OPTIMIZER PERFORMANCE COMPARISON")
+    print("=" * 60)
+    print(df.to_string(index=False))
+    print("=" * 60)
+    
+    # Create and save table as image
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.axis('tight')
+    ax.axis('off')
+    
+    # Create table
+    table = ax.table(cellText=df.values,
+                    colLabels=df.columns,
+                    cellLoc='center',
+                    loc='center',
+                    bbox=[0, 0, 1, 1])
+    
+    # Style the table
+    table.auto_set_font_size(False)
+    table.set_fontsize(12)
+    table.scale(1.2, 2)
+    
+    # Style header row
+    for i in range(len(df.columns)):
+        table[(0, i)].set_facecolor('#4CAF50')
+        table[(0, i)].set_text_props(weight='bold', color='white')
+    
+    # Alternate row colors
+    for i in range(1, len(df) + 1):
+        for j in range(len(df.columns)):
+            if i % 2 == 0:
+                table[(i, j)].set_facecolor('#f2f2f2')
+            else:
+                table[(i, j)].set_facecolor('white')
+    
+    # Color-code by type
+    for i in range(1, len(df) + 1):
+        if df.iloc[i-1]['Type'] == 'Single Loop':
+            table[(i, 0)].set_facecolor('#e3f2fd')  # Light blue
+        else:  # Double Loop
+            table[(i, 0)].set_facecolor('#fff3e0')  # Light orange
+    
+    plt.title('Optimizer Performance Comparison\nSingle Loop vs Double Loop', 
+              fontsize=16, fontweight='bold', pad=20)
+    
+    # Save the table image
+    image_save_path = save_path.parent / "optimizer_performance_comparison.png"
+    plt.savefig(image_save_path, dpi=300, bbox_inches='tight', 
+                facecolor='white', edgecolor='none')
+    print(f"Table image saved to: {image_save_path}")
+    
+    plt.show()
+    
+    return df
 
 
 def main(use_best_only=True):
@@ -648,6 +782,18 @@ def main(use_best_only=True):
             show_raw=False,
             max_points=40000,
         )
+
+    # Create optimizer performance comparison table
+    if use_best_only:
+        print("\nCreating optimizer performance comparison table...")
+        
+        # Get best experiments data for table creation
+        best_experiments = find_best_experiments_by_stats(gan_dirs)
+        
+        if best_experiments:
+            create_optimizer_performance_table(best_experiments)
+        else:
+            print("No best experiments data found for table creation")
 
     print("\nAnalysis complete!")
 

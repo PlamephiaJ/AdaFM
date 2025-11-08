@@ -1,0 +1,10 @@
+Type,Optimizer,Best IS,Max Avg IS
+Double Loop,adafm,5.7730,5.0716
+Double Loop,adagrad,5.0049,4.3216
+Double Loop,rmsprop,4.2728,3.5331
+Double Loop,adam,3.9143,3.1204
+Double Loop,sgd,nan,nan
+Single Loop,adafm,5.7730,5.0716
+Single Loop,tiada,5.4211,4.9605
+Single Loop,msgda,5.2445,3.9227
+Single Loop,pesg,5.1066,4.6704
