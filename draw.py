@@ -562,123 +562,6 @@ def plot_inception_scores(
     plt.show()
 
 
-def plot_comparison_by_optimizer(
-    inception_files, save_interval=SAVE_INTERVAL, smooth_method="exponential"
-):
-    """
-    Create separate plots for each optimizer comparing different datasets with smoothing
-
-    Args:
-        inception_files (dict): Dictionary mapping experiment names to file paths
-        save_interval (int): Interval between measurements
-        smooth_method (str): Smoothing method to use
-    """
-    # Group experiments by optimizer
-    optimizer_groups = {}
-
-    for exp_name, file_path in inception_files.items():
-        parts = exp_name.split("_")
-        if len(parts) >= 2:
-            optimizer = parts[0]
-            if optimizer not in optimizer_groups:
-                optimizer_groups[optimizer] = {}
-            optimizer_groups[optimizer][exp_name] = file_path
-
-    # Create a plot for each optimizer
-    for optimizer, experiments in optimizer_groups.items():
-        plt.figure(figsize=(12, 8))
-
-        colors = plt.cm.tab10(np.linspace(0, 1, len(experiments)))
-
-        for i, (exp_name, file_path) in enumerate(experiments.items()):
-            scores = load_inception_scores(file_path)
-
-            if scores is not None and len(scores) > 0:
-                # Limit to first 40000 points
-                max_points = 40000
-                if len(scores) > max_points:
-                    scores = scores[:max_points]
-                    print(f"Limited {exp_name} to first {max_points} points (was {len(load_inception_scores(file_path))} points)")
-                
-                iterations = np.arange(1, len(scores) + 1) * save_interval
-                
-                # Filter data to keep only x <= 80000
-                mask = iterations <= 80000
-                iterations = iterations[mask]
-                scores = scores[mask]
-                
-                if len(scores) == 0:
-                    print(f"Skipped {exp_name}: No data within x <= 80000 range")
-                    continue
-
-                # Smooth the data
-                smoothed_scores = smooth_data(
-                    scores, method=smooth_method, window_size=5, alpha=0.2
-                )
-
-                # Extract dataset and timestamp for simpler label
-                exp_parts = exp_name.split("_")
-                if "model_factory" in exp_name:
-                    # For model_factory experiments: backbone_optimizer_dataset_timestamp
-                    simple_label = f"{exp_parts[0]}_{exp_parts[2]}" if len(exp_parts) >= 3 else exp_name
-                else:
-                    # For traditional experiments: optimizer_dataset_timestamp
-                    simple_label = f"{exp_parts[1]}" if len(exp_parts) >= 2 else exp_name
-
-                # Plot smoothed line
-                plt.plot(
-                    iterations,
-                    smoothed_scores,
-                    label=simple_label,
-                    color=colors[i],
-                    linewidth=3,
-                    alpha=0.9,
-                )
-
-                # Add envelope
-                if len(scores) > 10:
-                    upper_env, lower_env = compute_envelope(
-                        scores, window_size=max(5, len(scores) // 10)
-                    )
-                    plt.fill_between(
-                        iterations, upper_env, lower_env, color=colors[i], alpha=0.15, label=None
-                    )
-
-                # Show raw data with low opacity
-                plt.plot(
-                    iterations,
-                    scores,
-                    color=colors[i],
-                    alpha=0.2,
-                    linewidth=1,
-                    linestyle=":",
-                    label=None,  # Don't show in legend
-                )
-
-        plt.xlabel("Training Iterations", fontsize=12)
-        plt.ylabel("Inception Score", fontsize=12)
-        plt.title(
-            f"Inception Score Evolution - {optimizer.upper()} (Smoothed)",
-            fontsize=14,
-            fontweight="bold",
-        )
-        plt.grid(True, alpha=0.3)
-
-        # Simplify legend - no need to filter since only main lines have labels
-        plt.legend()
-
-        plt.ylim(bottom=0)
-        plt.xlim(left=0, right=80000)
-        plt.tight_layout()
-
-        # Save optimizer-specific plot
-        save_path = IS_FOLDER / f"inception_scores_{optimizer}_smoothed.png"
-        plt.savefig(save_path, dpi=300, bbox_inches="tight")
-        print(f"Optimizer-specific smoothed plot saved to: {save_path}")
-
-        plt.show()
-
-
 def main(use_best_only=True):
     """
     Main function to process experiments and create plots
@@ -765,12 +648,6 @@ def main(use_best_only=True):
             show_raw=False,
             max_points=40000,
         )
-
-    # Create optimizer-specific plots
-    print("\nCreating optimizer-specific smoothed plots...")
-    plot_comparison_by_optimizer(
-        inception_files, save_interval=SAVE_INTERVAL, smooth_method="exponential"
-    )
 
     print("\nAnalysis complete!")
 
