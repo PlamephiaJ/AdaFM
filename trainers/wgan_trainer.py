@@ -374,7 +374,7 @@ class WGAN_GP_Trainer:
                 d_loss_fake = 0
                 Wasserstein_D = 0
 
-                for d_iter in range(self.critic_iters):
+                for d_iter in range(1):
                     self.D.zero_grad()
                     if D_old is not None:
                         D_old.zero_grad()
