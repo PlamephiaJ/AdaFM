@@ -1,3 +1,4 @@
 export CUDA_VISIBLE_DEVICES=0
 python main.py -m \
-    optimizers=adafm,pesg,msgda,tiada
+    optimizers=adafm,msgda,tiada,pesg \ 
+    models.lambda_term=0.1
