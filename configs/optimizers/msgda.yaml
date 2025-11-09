@@ -1,6 +1,6 @@
 name: msgda
-lr_discriminator: 3.727593720314938e-05
-lr_generator: 0.00013894954943731373
+lr_discriminator: 1e-4
+lr_generator: 1e-4
 beta_discriminator: 0.8
 beta_generator: 0.8
 use_delta: false
