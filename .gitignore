@@ -3,5 +3,6 @@ __pycache__/
 outputs/
 dataset/
 GAN/
+GAN_CIFAR100/
 multirun/
 tensorboard_logs/
