@@ -112,7 +112,7 @@ def create_pesg_optimizers(generator, discriminator, cfg: DictConfig, results_fo
 
     d_optimizer = PESG(
         discriminator.parameters(),
-        total_iter=cfg.models.generator_iters * cfg.models.critic_iters,
+        total_iter=cfg.models.generator_iters * cfg.optimizers.critic_iters,
         lr=cfg.optimizers.lr,
         clip_value=cfg.optimizers.clip_value,
         weight_decay=cfg.optimizers.weight_decay,
