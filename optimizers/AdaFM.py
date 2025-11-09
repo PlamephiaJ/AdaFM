@@ -68,7 +68,7 @@ class AdaFM(Optimizer):
         self.beta = beta
         self.opponent_optim = opponent_optim
         # whether to compute effective_stepsize
-        self.delta = delta
+        self.delta = 0.0
         self.compute_effective_stepsize = compute_effective_stepsize
 
         self.grad_x_total_this_step = 0.0

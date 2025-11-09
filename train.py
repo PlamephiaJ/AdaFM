@@ -109,7 +109,7 @@ def run(cfg: DictConfig) -> None:
         OmegaConf.save(cfg, f)
     logger.info(f"Configuration snapshot saved to {config_file}")
 
-    tb_log_dir = results_folder / Path(cfg.tensorboard.log_dir_root) / str(results_folder).replace("/", "_")
+    tb_log_dir = Path("g_l_observation") / Path(cfg.tensorboard.log_dir_root) / str(results_folder).replace("/", "_")
     tb_writer = SummaryWriter(log_dir=tb_log_dir)
 
     if cfg.models.name == "wgan":
