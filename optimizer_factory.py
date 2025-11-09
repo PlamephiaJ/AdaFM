@@ -55,6 +55,7 @@ def create_adafm_optimizers(generator, discriminator, cfg: DictConfig, results_f
         lr=cfg.optimizers.lr_y,
         beta=cfg.optimizers.beta_for_VRAda,
         results_folder=results_folder,
+        delta=cfg.optimizers.delta,
     )
     g_optimizer = AdaFM(
         generator.parameters(),
@@ -62,6 +63,7 @@ def create_adafm_optimizers(generator, discriminator, cfg: DictConfig, results_f
         opponent_optim=d_optimizer,
         beta=cfg.optimizers.beta_for_VRAda,
         results_folder=results_folder,
+        delta=cfg.optimizers.delta,
     )
     return g_optimizer, d_optimizer
 

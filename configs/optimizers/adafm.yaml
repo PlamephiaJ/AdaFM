@@ -5,3 +5,4 @@ lr_x: 1e-2 # 0.1 0.001
 lr_y: 1e-2 # 0.1 0.001
 use_delta: true
 critic_iters: 1
+delta: 1e-3
