@@ -10,9 +10,6 @@ from opts import (
     Adam2Var,
     RMSProp2Var,
     AdaGrad2Var,
-    Adam2VarStepRatio,
-    RMSProp2VarStepRatio,
-    AdaGrad2VarStepRatio,
 )
 
 
@@ -22,9 +19,10 @@ START_X = 0.1
 START_Y = 0.0
 STEPS = 10000
 GRID_RES = 400
-X_LIM = (0, 25)
-Y_LIM = (0, 50)
+X_LIM = (0, 120)
+Y_LIM = (0, 240)
 ARROW_COUNT = 3
+CONFIG = "single_loop"  # "double_loop" or "single_loop"
 
 
 def f(x, y):
@@ -34,7 +32,7 @@ def f(x, y):
 # ------------------------
 # Reusable simulation utilities
 # ------------------------
-def run_trajectory(ctor, steps=STEPS, x0=START_X, y0=START_Y, loss_fn=f):
+def run_trajectory(ctor, optimizer_name=None, steps=STEPS, x0=START_X, y0=START_Y, loss_fn=f):
     """
     Run one optimizer trajectory given a constructor `ctor(x, y) -> optimizer`
     where optimizer exposes `.step(loss_fn)` and attributes `.x`, `.y`.
@@ -43,22 +41,113 @@ def run_trajectory(ctor, steps=STEPS, x0=START_X, y0=START_Y, loss_fn=f):
     x = torch.tensor(float(x0), requires_grad=True)
     y = torch.tensor(float(y0), requires_grad=True)
     opt = ctor(x, y)
+    name = (optimizer_name or "").lower()
+
+    # Async pattern trigger: name contains markers and optimizer exposes opt_x/opt_y
+    is_async = ("x1:y5" in name) or ("1:5" in name) or ("async" in name)
+    can_split = hasattr(opt, "opt_x") and hasattr(opt, "opt_y") and hasattr(opt, "param_x") and hasattr(opt, "param_y")
 
     traj = [(x.item(), y.item())]
-    for _ in range(int(steps)):
-        opt.step(loss_fn)
-        traj.append((opt.x.item(), opt.y.item()))
-    return np.array(traj)
+    if is_async and can_split and any(tag in name for tag in ["adam", "rmsprop", "adagrad"]):
+        # Double loop: 1 descent update on x, then 5 ascent updates on y.
+        for _ in range(int(steps)):
+            # x step (descent)
+            opt.opt_x.zero_grad()
+            loss_x = loss_fn(opt.param_x, opt.param_y)
+            (g_x,) = torch.autograd.grad(loss_x, opt.param_x, retain_graph=True)
+            opt.param_x.grad = g_x  # descent
+            opt.opt_x.step()
+
+            # 5 y steps (ascent)
+            for _inner in range(5):
+                opt.opt_y.zero_grad()
+                loss_y = loss_fn(opt.param_x, opt.param_y)
+                (g_y,) = torch.autograd.grad(loss_y, opt.param_y)
+                # ascent: flip sign if maximize_y True (default wrappers use maximize_y flag)
+                if hasattr(opt, "maximise_y"):
+                    maximize = getattr(opt, "maximise_y")  # robustness if spelled differently
+                else:
+                    maximize = getattr(opt, "maximize_y", True)
+                opt.param_y.grad = -g_y if maximize else g_y
+                opt.opt_y.step()
+
+            traj.append((opt.x.item(), opt.y.item()))
+        return np.array(traj)
+    else:
+        # Fallback: synchronous wrapper step
+        for _ in range(int(steps)):
+            opt.step(loss_fn)
+            traj.append((opt.x.item(), opt.y.item()))
+        return np.array(traj)
 
 
-def annotate_arrows(ax, traj, count=ARROW_COUNT, lw=2.0):
-    if len(traj) < 5:
+def annotate_arrows(ax, traj, count=1, lw=2.0, color=None):
+    """Draw one arrow near X midpoint; if the nearest step is out-of-bounds,
+    interpolate on the vertical line x = (X_LIM[0]+X_LIM[1])/2.
+
+    Parameters
+    ----------
+    ax : matplotlib Axes
+        Axis to draw on.
+    traj : array-like (N,2)
+        Sequence of (x,y) points.
+    count : ignored (kept for backward compatibility)
+    lw : float
+        Line width of arrow.
+    """
+    if len(traj) < 2:
         return
-    N = len(traj)
-    for k in np.linspace(5, N - 3, int(count)).astype(int):
-        x0, y0 = traj[k]
-        x1, y1 = traj[k + 1]
-        ax.annotate("", xy=(x1, y1), xytext=(x0, y0), arrowprops=dict(arrowstyle="->", lw=lw))
+    # Midpoint of the x-axis limits
+    mid_x = 0.5 * (X_LIM[0] + X_LIM[1])
+    # Use all but the last index to ensure k+1 exists
+    xs = np.asarray([p[0] for p in traj])
+    ys = np.asarray([p[1] for p in traj])
+
+    def in_limits(x, y):
+        return (X_LIM[0] <= x <= X_LIM[1]) and (Y_LIM[0] <= y <= Y_LIM[1])
+
+    # Pick the segment whose start is closest to mid_x as the primary candidate
+    diffs = np.abs(xs[:-1] - mid_x)
+    k = int(np.argmin(diffs))
+    x0, y0 = traj[k]
+    x1, y1 = traj[k + 1]
+
+    arrow_base_props = dict(arrowstyle="->", lw=lw)
+    if color is not None:
+        arrow_base_props["color"] = color
+
+    if in_limits(x0, y0) and in_limits(x1, y1):
+        ax.annotate("", xy=(x1, y1), xytext=(x0, y0), arrowprops=arrow_base_props)
+        return
+
+    # Fallback: try to interpolate at x = mid_x on a segment that crosses it
+    prod = (xs[:-1] - mid_x) * (xs[1:] - mid_x)
+    candidates = np.where(prod <= 0)[0]  # segments that cross or touch mid_x
+    if candidates.size > 0:
+        # choose the candidate whose segment midpoint is closest to mid_x
+        seg_mid = 0.5 * (xs[candidates] + xs[candidates + 1])
+        j = int(candidates[np.argmin(np.abs(seg_mid - mid_x))])
+        xj, xj1 = xs[j], xs[j + 1]
+        yj, yj1 = ys[j], ys[j + 1]
+        denom = (xj1 - xj)
+        if abs(denom) < 1e-12:
+            t = 0.0
+        else:
+            t = float((mid_x - xj) / denom)
+        # Interpolated anchor point on x = mid_x
+        y_mid = yj + t * (yj1 - yj)
+        # A slightly advanced point along the segment direction for arrow head
+        t2 = min(max(t + 0.02, 0.0), 1.0)
+        x2 = xj + t2 * (xj1 - xj)
+        y2 = yj + t2 * (yj1 - yj)
+        # Clamp Y into limits to ensure visibility
+        y_mid_c = float(np.clip(y_mid, Y_LIM[0], Y_LIM[1]))
+        y2_c = float(np.clip(y2, Y_LIM[0], Y_LIM[1]))
+        ax.annotate("", xy=(x2, y2_c), xytext=(mid_x, y_mid_c), arrowprops=arrow_base_props)
+        return
+
+    # As a last resort, draw the original nearest-step arrow even if out of bounds
+    ax.annotate("", xy=(x1, y1), xytext=(x0, y0), arrowprops=arrow_base_props)
 
 
 def draw_contours(ax, levels=100):
@@ -73,7 +162,7 @@ def draw_contours(ax, levels=100):
 
 def plot_stationary_line(ax, lw=2.5):
     x_line = np.linspace(X_LIM[0], X_LIM[1], 200)
-    ax.plot(x_line, L * x_line, "--", linewidth=lw, label="stationary points")
+    ax.plot(x_line, L * x_line, "--", linewidth=lw, label="stationary points", color="black")
 
 
 def simulate_and_plot(optimizers):
@@ -91,9 +180,16 @@ def simulate_and_plot(optimizers):
         name = spec.get("name", "opt")
         ctor = spec["ctor"]
         style = spec.get("style", {"linewidth": 2.5})
-        traj = run_trajectory(ctor)
-        ax.plot(traj[:, 0], traj[:, 1], "-", label=name, **style)
-        annotate_arrows(ax, traj)
+        color = spec.get("color")
+        if color is not None and "color" not in style:
+            style = {**style, "color": color}
+        traj = run_trajectory(ctor, optimizer_name=name)
+        line, = ax.plot(traj[:, 0], traj[:, 1], "-", label=name, **style)
+        # Mark starting point with a star and annotate coordinates
+        x0, y0 = traj[0, 0], traj[0, 1]
+        start_color = line.get_color()
+        ax.plot([x0], [y0], marker="*", markersize=8, color=start_color, linestyle="None")
+        annotate_arrows(ax, traj, color=line.get_color())
 
     plot_stationary_line(ax)
 
@@ -101,7 +197,7 @@ def simulate_and_plot(optimizers):
     ax.set_ylim(*Y_LIM)
     ax.set_xlabel("x")
     ax.set_ylabel("y")
-    ax.set_title("(a) trajectory")
+    # ax.set_title("(a) trajectory")
     ax.legend(loc="upper left", framealpha=0.85)
     plt.tight_layout()
 
@@ -109,42 +205,80 @@ def simulate_and_plot(optimizers):
         base_dir = os.path.dirname(os.path.abspath(__file__))
     except NameError:
         base_dir = os.getcwd()
-    save_path = os.path.join(base_dir, "plot.png")
+    if CONFIG == "double_loop":
+        save_path = os.path.join(base_dir, "plot_double_loop.png")
+    else:
+        save_path = os.path.join(base_dir, "plot_single_loop.png")
     plt.savefig(save_path, dpi=300, bbox_inches="tight")
     plt.show()
 
 
 if __name__ == "__main__":
     # Define optimizers once; simulation logic is fully reusable
-    optim_specs = [
+    optim_specs_double_loop = [
         {
-            "name": "AdaFM",
-            "ctor": lambda x, y: AdaFM2Var(x, y, lr=0.8, beta=0.9),
-        },
-        {
-            "name": "MSGDA",
-            "ctor": lambda x, y: MSGDA2Var(x, y, lr=47e-5, beta=0.9),
-        },
-        {
-            "name": "TiAda",
-            "ctor": lambda x, y: TiAda2Var(x, y, lr=2.5, alpha=0.5),
-        },
-        {
-            "name": "PESG",
-            "ctor": lambda x, y: PESG2Var(x, y, lr=0.045, clip_value=0.1, epoch_decay=2e-3, momentum=0.0, total_iter=STEPS),
+            "name": "AdaSTORM-M",
+            "ctor": lambda x, y: AdaFM2Var(x, y, lr_x=0.8, lr_y=0.8/5, beta=0.9),
+            "color": "#d62728",  # red
         },
         {
             "name": "Adam",
-            "ctor": lambda x, y: Adam2Var(x, y, lr_x=1e-3, lr_y=1e-3, betas=(0.9,0.999), maximize_y=True),
+            "ctor": lambda x, y: Adam2Var(x, y, lr_x=0.8, lr_y=1/5, betas=(0.9,0.999), maximize_y=True),
+            "color": "#1f77b4",  # blue
+        },
+        {
+            "name": "Adam (x1:y5 async)",
+            "ctor": lambda x, y: Adam2Var(x, y, lr_x=1, lr_y=1/5, betas=(0.9,0.999), maximize_y=True),
+            "style": {"linewidth": 2.5, "linestyle": ":"},
+            "color": "#1f77b4",  # same hue for sync/async pair
         },
         {
             "name": "RMSProp",
-            "ctor": lambda x, y: RMSProp2Var(x, y, lr_x=1e-2, lr_y=1e-2, alpha=0.99, maximize_y=True),
+            "ctor": lambda x, y: RMSProp2Var(x, y, lr_x=9e-3, lr_y=1e-2/5, alpha=0.99, maximize_y=True),
+            "color": "#ff7f0e",  # orange
+        },
+        {
+            "name": "RMSProp (x1:y5 async)",
+            "ctor": lambda x, y: RMSProp2Var(x, y, lr_x=10, lr_y=10/5, alpha=0.99, maximize_y=True),
+            "style": {"linewidth": 2.5, "linestyle": ":"},
+            "color": "#ff7f0e",
         },
         {
             "name": "Adagrad",
-            "ctor": lambda x, y: AdaGrad2Var(x, y, lr_x=5e-2, lr_y=5e-2, maximize_y=True),
+            "ctor": lambda x, y: AdaGrad2Var(x, y, lr_x=5e-1, lr_y=5e-1/5, maximize_y=True),
+            "color": "#2ca02c",  # green
+        },
+        {
+            "name": "Adagrad (x1:y5 async)",
+            "ctor": lambda x, y: AdaGrad2Var(x, y, lr_x=10, lr_y=10/5, maximize_y=True),
+            "style": {"linewidth": 2.5, "linestyle": ":"},
+            "color": "#2ca02c",
         },
     ]
 
-    simulate_and_plot(optim_specs)
+    optim_specs_single_loop = [
+        {
+            "name": "AdaSTORM-M",
+            "ctor": lambda x, y: AdaFM2Var(x, y, lr_x=0.8, lr_y=0.8/5, beta=0.9),
+            "color": "#d62728",  # red
+        },
+        {
+            "name": "MSGDA",
+            "ctor": lambda x, y: MSGDA2Var(x, y, lr_x=8, lr_y=8/5, beta=0.9),
+            "color": "#9467bd",  # purple
+        },
+        {
+            "name": "TiAda",
+            "ctor": lambda x, y: TiAda2Var(x, y, lr_x=25, lr_y=25/5, alpha=0.5),
+            "color": "#8c564b",  # brown
+        },
+        {
+            "name": "PESG",
+            "ctor": lambda x, y: PESG2Var(x, y, lr_x=0.45, lr_y=0.45/5, clip_value=0.1, epoch_decay=2e-3, momentum=0.0, total_iter=STEPS),
+            "color": "#17becf",  # cyan
+        },
+    ]
+    if CONFIG == "double_loop":
+        simulate_and_plot(optim_specs_double_loop)
+    else:
+        simulate_and_plot(optim_specs_single_loop)

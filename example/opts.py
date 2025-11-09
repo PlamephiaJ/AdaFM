@@ -10,10 +10,11 @@ Single-loop Optimzers
 # Toy AdaFM optimizer
 # ------------------------
 class AdaFM2Var:
-    def __init__(self, x, y, lr=0.1, beta=0.9, lr_decay=0.0, weight_decay=0.0, eps=1e-10):
+    def __init__(self, x, y, lr_x=0.1, lr_y=0.1, beta=0.9, lr_decay=0.0, weight_decay=0.0, eps=1e-10):
         self.x = x
         self.y = y
-        self.lr = float(lr)
+        self.lr_x = float(lr_x)
+        self.lr_y = float(lr_y)
         self.beta = float(beta)
         self.lr_decay = float(lr_decay)
         self.weight_decay = float(weight_decay)
@@ -45,7 +46,8 @@ class AdaFM2Var:
 
         self._accumulate(d_fx, d_fy)
 
-        clr = self.lr / (1.0 + (self.step_t - 1) * self.lr_decay)
+        clr_x = self.lr_x / (1.0 + (self.step_t - 1) * self.lr_decay)
+        clr_y = self.lr_y / (1.0 + (self.step_t - 1) * self.lr_decay)
 
         root_x = torch.pow(self.sum_x, 1.0 / 3.0 + 0.1)
         root_y = torch.pow(self.sum_y, 1.0 / 3.0 - 0.1)
@@ -55,8 +57,8 @@ class AdaFM2Var:
         ratio_py = (root_y + self.eps) * (root_y / (root_y + 1e-12))
 
         with torch.no_grad():
-            self.x.add_(-clr * (d_fx / ratio_px))
-            self.y.add_(+clr * (d_fy / ratio_py))
+            self.x.add_(-clr_x * (d_fx / ratio_px))
+            self.y.add_(+clr_y * (d_fy / ratio_py))
 
         return loss.detach()
 
@@ -64,10 +66,11 @@ class AdaFM2Var:
 # Toy MSGDA optimizer
 # ------------------------
 class MSGDA2Var:
-    def __init__(self, x, y, lr=0.1, beta=0.9, lr_decay=0.0, weight_decay=0.0, eps=1e-10):
+    def __init__(self, x, y, lr_x=0.1, lr_y=0.1, beta=0.9, lr_decay=0.0, weight_decay=0.0, eps=1e-10):
         self.x = x
         self.y = y
-        self.lr = float(lr)
+        self.lr_x = float(lr_x)
+        self.lr_y = float(lr_y)
         self.beta = float(beta)
         self.lr_decay = float(lr_decay)
         self.weight_decay = float(weight_decay)
@@ -116,20 +119,22 @@ class MSGDA2Var:
         self._update_momentum(d_fx, d_fy)
 
         # compute decayed base lr
-        clr = self.lr / (1.0 + (self.step_t - 1) * self.lr_decay)
+        clr_x = self.lr_x / (1.0 + (self.step_t - 1) * self.lr_decay)
+        clr_y = self.lr_y / (1.0 + (self.step_t - 1) * self.lr_decay)
 
         # time scaling factor
         time_factor = self.k / (self.m + (self.step_t - 1)) ** (1.0 / 3.0)
 
         # effective step size for x (descent) and y (ascent) use momentum
         # In original MSGDA both sides share same scalar time_factor.
-        eff_lr = clr * time_factor
+        eff_lr_x = clr_x * time_factor
+        eff_lr_y = clr_y * time_factor
 
         with torch.no_grad():
             # descent on x
-            self.x.add_(self.mom_x, alpha=-eff_lr)
+            self.x.add_(self.mom_x, alpha=-eff_lr_x)
             # ascent on y (reverse sign)
-            self.y.add_(self.mom_y, alpha=+eff_lr)
+            self.y.add_(self.mom_y, alpha=+eff_lr_y)
 
         return loss.detach()
     
@@ -141,7 +146,8 @@ class TiAda2Var:
         self,
         x,
         y,
-        lr=0.1,
+        lr_x=0.1,
+        lr_y=0.1,
         lr_decay=0.0,
         weight_decay=0.0,
         eps=1e-10,
@@ -159,7 +165,8 @@ class TiAda2Var:
         """
         self.x = x
         self.y = y
-        self.lr = float(lr)
+        self.lr_x = float(lr_x)
+        self.lr_y = float(lr_y)
         self.lr_decay = float(lr_decay)
         self.weight_decay = float(weight_decay)
         self.eps = float(eps)
@@ -217,7 +224,8 @@ class TiAda2Var:
             self.sum_y.add_(d_fy * d_fy)
 
         # Learning rate with decay
-        clr = self.lr / (1.0 + (self.step_t - 1) * self.lr_decay)
+        clr_x = self.lr_x / (1.0 + (self.step_t - 1) * self.lr_decay)
+        clr_y = self.lr_y / (1.0 + (self.step_t - 1) * self.lr_decay)
 
         # Compute scalar ratios for x and y
         ratio_x, ratio_y = self._calc_ratio_xy()
@@ -230,14 +238,14 @@ class TiAda2Var:
         # Parameter updates: descent for x, ascent for y
         with torch.no_grad():
             # x <- x - clr * d_fx / denom_x
-            self.x.addcdiv_(d_fx, denom_x, value=-clr)
+            self.x.addcdiv_(d_fx, denom_x, value=-clr_x)
             # y <- y + clr * d_fy / denom_y
-            self.y.addcdiv_(d_fy, denom_y, value=+clr)
+            self.y.addcdiv_(d_fy, denom_y, value=+clr_y)
 
             if self.compute_effective_stepsize:
                 # Use L2 norm as a scalar proxy for effective stepsizes
-                eff_x = (clr / denom_x).norm(p=2)
-                eff_y = (clr / denom_y).norm(p=2)
+                eff_x = (clr_x / denom_x).norm(p=2)
+                eff_y = (clr_y / denom_y).norm(p=2)
                 self.effective_stepsize_x = eff_x.item()
                 self.effective_stepsize_y = eff_y.item()
 
@@ -251,7 +259,8 @@ class PESG2Var:
         self,
         x,
         y,
-        lr=0.1,
+        lr_x=0.1,
+        lr_y=0.1,
         clip_value=1.0,
         weight_decay=1e-5,
         epoch_decay=2e-3,
@@ -271,7 +280,8 @@ class PESG2Var:
         self.x = x
         self.y = y
 
-        self.lr = float(lr)
+        self.lr_x = float(lr_x)
+        self.lr_y = float(lr_y)
         self.clip_value = float(clip_value)
         self.weight_decay = float(weight_decay)
         self.epoch_decay = float(epoch_decay)
@@ -300,7 +310,8 @@ class PESG2Var:
         # Update regularizer and optionally decay lr at specified steps
         if self.steps in self.decay_iters:
             # Decay learning rate
-            self.lr = self.lr / float(self.decay_factor)
+            self.lr_x = self.lr_x / float(self.decay_factor)
+            self.lr_y = self.lr_y / float(self.decay_factor)
         # Average accumulated model over the epoch T
         if self.T > 0:
             with torch.no_grad():
@@ -333,7 +344,7 @@ class PESG2Var:
                 step_dir_x = dpx
 
             # x descent
-            self.x.add_(step_dir_x, alpha=-self.lr)
+            self.x.add_(step_dir_x, alpha=-self.lr_x)
 
             # accumulate for epoch averaging
             self.model_acc_x.add_(self.x)
@@ -342,7 +353,7 @@ class PESG2Var:
         with torch.no_grad():
             dpy = torch.clamp(d_fy, -cv, cv)
             # y ascent to reflect max_y in toy problem
-            self.y.add_(dpy, alpha=+self.lr)
+            self.y.add_(dpy, alpha=+self.lr_y)
 
         # advance counters
         self.T += 1
