@@ -50,7 +50,6 @@ def run(cfg: DictConfig) -> None:
             / cfg.optimizers.name
             / t.strftime("%Y%m%d-%H%M%S")
         )
-    # results_folder = Path("GP_EXP") / results_folder
     results_folder.mkdir(parents=True, exist_ok=True)
 
     # Save configuration snapshot
