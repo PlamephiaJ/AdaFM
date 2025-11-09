@@ -5,3 +5,4 @@ dataset/
 GAN/
 multirun/
 tensorboard_logs/
+delta_test/
