@@ -270,16 +270,16 @@ def simulate_and_plot(optimizers):
         tag = "double_loop" if CONFIG == "double_loop" else "single_loop"
         base_dir = os.path.dirname(os.path.abspath(__file__))
         save_path_ratio = os.path.join(base_dir, f"plot_ratio_{tag}.png")
-        plot_ratio_comparison(ratio_data, title=f"Ratio (lr_x/lr_y) - {tag}", save_path=save_path_ratio)
+        plot_ratio_comparison(ratio_data, save_path=save_path_ratio)
     except Exception as e:
         print(f"Failed to plot ratio comparison: {e}")
 
     return None
 
 
-def plot_ratio_comparison(ratio_data, title="Ratio Comparison", save_path="plot_ratio.png"):
+def plot_ratio_comparison(ratio_data, save_path="plot_ratio.png"):
     """Plot ratio series lr_x/lr_y for multiple optimizers on one figure."""
-    plt.figure(figsize=(9.5, 4.5))
+    plt.figure(figsize=(6, 4.5))
     for name, info in ratio_data.items():
         ratios = np.asarray(info.get("ratios", []))
         color = info.get("color")
@@ -290,15 +290,16 @@ def plot_ratio_comparison(ratio_data, title="Ratio Comparison", save_path="plot_
             continue
         x = np.arange(1, len(ratios) + 1)
         plt.plot(x, ratios, label=name, color=color, linewidth=lw, linestyle=ls)
-    plt.axhline(1.0, color="#666666", linestyle="--", linewidth=1.5, alpha=0.8)
-    plt.title(title)
+    plt.axhline(0.5, color="#666666", linestyle="--", linewidth=1.5, alpha=0.8)
     plt.xlabel("Step")
-    plt.ylabel("lr_x / lr_y")
+    # Raw string for TeX label
+    plt.ylabel(r"$\eta_x / \eta_y$")
     # Set y-axis range as requested
     plt.ylim(0, 3)
-    # Truncate x-axis to 0-500 as requested (show first 500 steps)
-    plt.xlim(0, 100)
-    plt.legend(loc="best", fontsize=12, framealpha=0.85)
+    # Truncate x-axis to 0–60 as requested (show first 60 steps)
+    plt.xlim(0, 60)
+    # Place legend inside the figure (right, slightly above center)
+    plt.legend(loc="center right", bbox_to_anchor=(0.98, 0.62), fontsize=12, framealpha=0.65)
     plt.tight_layout()
     plt.savefig(save_path, dpi=300, bbox_inches="tight")
     print(f"Ratio comparison figure saved to: {save_path}")
