@@ -161,9 +161,9 @@ class AdaFM(Optimizer):
             
             if current_step is not None:
                 if self.opponent_optim is not None:
-                    self.tb_writer.add_scalar('Gradient_Norm/generator', grad_norm, current_step)
+                    self.tb_writer.add_scalar('Raw_Gradient_Norm/generator', grad_norm, current_step)
                 else:
-                    self.tb_writer.add_scalar('Gradient_Norm/discriminator', grad_norm, current_step)
+                    self.tb_writer.add_scalar('Raw_Gradient_Norm/discriminator', grad_norm, current_step)
 
         # 遍历每一个参数组并更新梯度的平方和。
         if delta is None:
@@ -206,6 +206,10 @@ class AdaFM(Optimizer):
             ratio.div_(torch.max(ratio, self.opponent_optim.total_sum.pow(1 / 3 + self.delta)))
         else:
             ratio = 1
+        
+        # 用于累积grad_m的二范数
+        grad_m_norm_squared = 0.0
+        
         # 遍历每一个参数组进行参数更新。
         for group in self.param_groups:
             lr = group["lr"]
@@ -243,6 +247,9 @@ class AdaFM(Optimizer):
                             )
                         # L2正则项求导
                         grad_m.add_(p.data, alpha=weight_decay)
+                    
+                    # 累积grad_m的二范数平方
+                    grad_m_norm_squared += grad_m.data.norm(2).item() ** 2
 
                     # 计算学习率的衰减
                     clr = lr / (1 + (step - 1) * lr_decay)
@@ -262,5 +269,13 @@ class AdaFM(Optimizer):
                     # 如果设置了计算有效的步长大小，计算它。
                     if self.compute_effective_stepsize:
                         self.effective_stepsize = (clr / ratio_p).item()
+        
+        # 计算grad_m的二范数并写入TensorBoard
+        grad_m_norm = grad_m_norm_squared ** 0.5
+        if self.tb_writer is not None and current_step is not None:
+            if self.opponent_optim is not None:
+                self.tb_writer.add_scalar('Processed_Gradient_Norm/generator', grad_m_norm, current_step)
+            else:
+                self.tb_writer.add_scalar('Processed_Gradient_Norm/discriminator', grad_m_norm, current_step)
 
         return loss
