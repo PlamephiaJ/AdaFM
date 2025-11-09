@@ -36,6 +36,7 @@ class AdaFM(Optimizer):
         compute_effective_stepsize=False,
         results_folder=None,
         delta=0.0,
+        tb_writer=None,
         *,
         maximize: bool = False,
     ):
@@ -69,6 +70,10 @@ class AdaFM(Optimizer):
         # whether to compute effective_stepsize
         self.delta = delta
         self.compute_effective_stepsize = compute_effective_stepsize
+
+        self.grad_x_total_this_step = 0.0
+        self.grad_y_total_this_step = 0.0
+        self.tb_writer = tb_writer
 
         super().__init__(params, defaults)
         self.results_folder = results_folder
@@ -133,6 +138,32 @@ class AdaFM(Optimizer):
         if closure is not None:
             with torch.enable_grad():
                 loss = closure()
+
+        # 计算所有参数的原始梯度的二范数
+        grad_norm = 0.0
+        for group in self.param_groups:
+            for p in group["params"]:
+                if p.grad is not None:
+                    grad_norm += p.grad.data.norm(2).item() ** 2
+        grad_norm = grad_norm ** 0.5
+        
+        # 写入TensorBoard
+        if self.tb_writer is not None:
+            # 获取当前step数（从第一个参数的state中获取）
+            current_step = None
+            for group in self.param_groups:
+                for p in group["params"]:
+                    if p in self.state:
+                        current_step = int(self.state[p]["step"].item())
+                        break
+                if current_step is not None:
+                    break
+            
+            if current_step is not None:
+                if self.opponent_optim is not None:
+                    self.tb_writer.add_scalar('Gradient_Norm/generator', grad_norm, current_step)
+                else:
+                    self.tb_writer.add_scalar('Gradient_Norm/discriminator', grad_norm, current_step)
 
         # 遍历每一个参数组并更新梯度的平方和。
         if delta is None:

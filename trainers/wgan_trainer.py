@@ -37,6 +37,7 @@ class WGAN_GP_Trainer:
         cfg: DictConfig,
         results_folder: Path,
         device=None,
+        tb_writer=None,
     ):
         if device is None:
             raise ValueError("Device must be specified for the trainer.")
@@ -60,8 +61,12 @@ class WGAN_GP_Trainer:
         self.results_folder = results_folder
         self.images_folder = results_folder / "images"
         os.makedirs(self.images_folder, exist_ok=True)
+<<<<<<< HEAD
         tb_log_dir = Path("GP_EXP") / Path(cfg.tensorboard.log_dir_root) / str(results_folder).replace("/", "_")
         self.writer = SummaryWriter(log_dir=tb_log_dir)
+=======
+        self.writer = tb_writer
+>>>>>>> f957eb3 (add raw grad)
 
     def calculate_gradient_penalty(self, real_images, fake_images, eta):
         # eta = torch.FloatTensor(self.batch_size,1,1,1).uniform_(0,1)
