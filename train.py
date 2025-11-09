@@ -97,7 +97,7 @@ def run(cfg: DictConfig) -> None:
 <<<<<<< HEAD
     results_folder = Path("GP_EXP") / results_folder
 =======
-    results_folder = Path("delta_test") / results_folder
+    results_folder = Path("g_l_observation") / results_folder
 >>>>>>> a871fd6 (add delta exp)
     results_folder.mkdir(parents=True, exist_ok=True)
 
