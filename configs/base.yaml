@@ -1,7 +1,7 @@
 defaults:
   - _self_
   - optimizers: adam
-  - datasets: cifar10
+  - datasets: cifar100
   - models: wgan
 
 

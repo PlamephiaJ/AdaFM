@@ -4,3 +4,4 @@ lr_generator: 1e-4
 beta_discriminator: 0.8
 beta_generator: 0.8
 use_delta: false
+critic_iters: 1

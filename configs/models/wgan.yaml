@@ -4,7 +4,6 @@ defaults:
 
 name: wgan
 channels: 3
-critic_iters: 5
 generator_iters: 40000 # 100000
 lambda_term: 10
 number_of_images: 100

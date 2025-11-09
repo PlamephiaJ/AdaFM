@@ -7,3 +7,4 @@ momentum: 0.9
 decay_iters: null  # Iterations at which to decay the regularization
 decay_factor: 10
 use_delta: false
+critic_iters: 1

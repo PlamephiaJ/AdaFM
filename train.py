@@ -34,13 +34,22 @@ def run(cfg: DictConfig) -> None:
     Real_Inception_score = []
     logger.info("Data loaders are ready.")
 
-    results_folder = (
-        Path("GAN")
-        / "model_factory"
-        / cfg.models.backbone.name
-        / cfg.optimizers.name
-        / t.strftime("%Y%m%d-%H%M%S")
-    )
+    if cfg.datasets.name == "cifar10":
+        results_folder = (
+            Path("GAN")
+            / "model_factory"
+            / cfg.models.backbone.name
+            / cfg.optimizers.name
+            / t.strftime("%Y%m%d-%H%M%S")
+        )
+    if cfg.datasets.name == "cifar100":
+        results_folder = (
+            Path("GAN_CIFAR100")
+            / "model_factory"
+            / cfg.models.backbone.name
+            / cfg.optimizers.name
+            / t.strftime("%Y%m%d-%H%M%S")
+        )
     results_folder.mkdir(parents=True, exist_ok=True)
 
     # Save configuration snapshot
@@ -102,7 +111,7 @@ def run(cfg: DictConfig) -> None:
             g_optimizer=g_optimizer,
             d_optimizer=d_optimizer,
             generator_iters=cfg.models.generator_iters,
-            critic_iters=cfg.models.critic_iters,
+            critic_iters=cfg.optimizers.critic_iters,
             save_interval=cfg.models.training.save_interval,
             z_dim=cfg.models.backbone.generator.in_dim,
             batch_size=cfg.models.training.batch_size,

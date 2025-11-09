@@ -1,0 +1,46 @@
+setup:
+  torch:
+    seed: 8
+  random:
+    seed: 8
+  numpy:
+    seed: 8
+  device: cuda:0
+tensorboard:
+  log_dir_root: ./tensorboard_logs
+optimizers:
+  name: adam
+  lr: 0.01
+  b1: 0.5
+  b2: 0.9
+  use_delta: false
+  critic_iters: 5
+datasets:
+  name: cifar100
+  dataroot: /mnt/cnlab/
+  download: false
+  batch_size: 64
+models:
+  backbone:
+    name: wgan-gp-in
+    generator:
+      name: generator_default
+      channels: 3
+      in_dim: 50
+      checkpoint_path: null
+    discriminator:
+      name: discriminator_default
+      channels: 3
+      checkpoint_path: null
+  name: wgan
+  channels: 3
+  generator_iters: 40000
+  lambda_term: 10
+  number_of_images: 100
+  use_checkpoint: false
+  training:
+    epochs: 50
+    batch_size: 128
+    save_interval: 200
+    device: cuda
+    save_flag: false

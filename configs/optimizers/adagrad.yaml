@@ -1,3 +1,4 @@
 name: adagrad
 lr: 0.02
 initial_accumulator_value: 0.05
+critic_iters: 5
