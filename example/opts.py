@@ -199,8 +199,8 @@ class TiAda2Var:
             total_x = self.sum_x.sum()
             total_y = self.sum_y.sum()
             # Convert totals to alpha-scaled magnitudes
-            txa = total_x.pow(self.alpha - 0.05)
-            tya = total_y.pow(self.alpha + 0.05)
+            txa = total_x.pow(self.alpha - 0.1)
+            tya = total_y.pow(self.alpha + 0.1)
             denom = torch.maximum(txa, tya)
             if denom.item() == 0.0:
                 return 1.0, 1.0

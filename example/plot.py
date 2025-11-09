@@ -22,7 +22,7 @@ GRID_RES = 400
 X_LIM = (0, 120)
 Y_LIM = (0, 240)
 ARROW_COUNT = 3
-CONFIG = "single_loop"  # "double_loop" or "single_loop" or "both"
+CONFIG = "double_loop"  # "double_loop" or "single_loop" or "both"
 
 # Unified styling constants
 LINE_WIDTH = 5.0
@@ -220,7 +220,7 @@ def simulate_and_plot(optimizers):
     for k, v in font_cfg.items():
         plt.rcParams[k] = v
 
-    fig, ax = plt.subplots(figsize=(7.2, 6.4))
+    fig, ax = plt.subplots(figsize=(7.2, 4.5))
     cf = draw_contours(ax)
     cb = fig.colorbar(cf, ax=ax)
     cb.ax.tick_params(labelsize=12)
@@ -251,7 +251,7 @@ def simulate_and_plot(optimizers):
     ax.set_ylabel("y", fontsize=16)
     ax.tick_params(axis="both", labelsize=13)
     # ax.set_title("(a) trajectory")
-    ax.legend(loc="upper left", framealpha=0.85, fontsize=13)
+    ax.legend(loc="upper left", framealpha=0.85, fontsize=10)
     plt.tight_layout()
 
     try:
@@ -320,7 +320,7 @@ if __name__ == "__main__":
         {
             "name": "Adam ($k=1$)",
             "ctor": lambda x, y: Adam2Var(x, y, lr_x=0.8, lr_y=1/5, betas=(0.9,0.999), maximize_y=True),
-            "color": "#262a2d",  # blue
+            "color": "#1f77b4",  # blue
         },
         {
             "name": "Adam ($k=5$)",
