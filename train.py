@@ -94,7 +94,11 @@ def run(cfg: DictConfig) -> None:
             / cfg.optimizers.name
             / t.strftime("%Y%m%d-%H%M%S")
         )
+<<<<<<< HEAD
     results_folder = Path("GP_EXP") / results_folder
+=======
+    results_folder = Path("delta_test") / results_folder
+>>>>>>> a871fd6 (add delta exp)
     results_folder.mkdir(parents=True, exist_ok=True)
 
     # Save configuration snapshot

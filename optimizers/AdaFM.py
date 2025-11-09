@@ -35,6 +35,7 @@ class AdaFM(Optimizer):
         opponent_optim=None,
         compute_effective_stepsize=False,
         results_folder=None,
+        delta=0.0,
         *,
         maximize: bool = False,
     ):
@@ -66,6 +67,7 @@ class AdaFM(Optimizer):
         self.beta = beta
         self.opponent_optim = opponent_optim
         # whether to compute effective_stepsize
+        self.delta = delta
         self.compute_effective_stepsize = compute_effective_stepsize
 
         super().__init__(params, defaults)
@@ -169,8 +171,8 @@ class AdaFM(Optimizer):
 
         # 如果存在对手的优化器，则计算比率。
         if self.opponent_optim is not None:
-            ratio = self.total_sum.pow(1 / 3)
-            ratio.div_(torch.max(ratio, self.opponent_optim.total_sum.pow(1 / 3)))
+            ratio = self.total_sum.pow(1 / 3 + self.delta)
+            ratio.div_(torch.max(ratio, self.opponent_optim.total_sum.pow(1 / 3 + self.delta)))
         else:
             ratio = 1
         # 遍历每一个参数组进行参数更新。
@@ -215,7 +217,10 @@ class AdaFM(Optimizer):
                     clr = lr / (1 + (step - 1) * lr_decay)
 
                     # 根据之前计算的比率更新参数。
-                    ratio_p = state_sum.pow(1 / 3).add_(eps).div_(ratio)
+                    if self.opponent_optim is None:
+                        ratio_p = state_sum.pow(1 / 3  + self.delta).add_(eps).div_(ratio)
+                    else:
+                        ratio_p = state_sum.pow(1 / 3 - self.delta).add_(eps).div_(ratio)
                     eta_t = clr / ratio_p
                     eta_t_norm = torch.norm(eta_t, p=2)
 
