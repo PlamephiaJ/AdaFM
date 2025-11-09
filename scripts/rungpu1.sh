@@ -1,3 +1,4 @@
-export CUDA_VISIBLE_DEVICES=1
 python main.py -m \
-    optimizers=adam,adagrad,rmsprop
+    datasets=cifar10 \
+    optimizers=adam,rmsprop,adagrad \
+    models.lambda_term=0.1,1
