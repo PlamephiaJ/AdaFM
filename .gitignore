@@ -6,3 +6,4 @@ GAN/
 multirun/
 tensorboard_logs/
 delta_test/
+g_l_observation/

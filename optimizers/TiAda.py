@@ -440,6 +440,7 @@ class TiAda(Optimizer):
         opponent_optim=None,
         compute_effective_stepsize=False,
         results_folder=None,
+        tb_writer=None,
         *,
         maximize: bool = False,
     ):
@@ -472,6 +473,7 @@ class TiAda(Optimizer):
         self.opponent_optim = opponent_optim
         # whether to compute effective_stepsize
         self.compute_effective_stepsize = compute_effective_stepsize
+        self.tb_writer = tb_writer
 
         super(TiAda, self).__init__(params, defaults)
         self.results_folder = results_folder
@@ -537,6 +539,32 @@ class TiAda(Optimizer):
             with torch.enable_grad():
                 loss = closure()
 
+        # 计算所有参数的原始梯度的二范数
+        grad_norm = 0.0
+        for group in self.param_groups:
+            for p in group["params"]:
+                if p.grad is not None:
+                    grad_norm += p.grad.data.norm(2).item() ** 2
+        grad_norm = grad_norm ** 0.5
+        
+        # 写入TensorBoard
+        if self.tb_writer is not None:
+            # 获取当前step数（从第一个参数的state中获取）
+            current_step = None
+            for group in self.param_groups:
+                for p in group["params"]:
+                    if p in self.state:
+                        current_step = int(self.state[p]["step"].item())
+                        break
+                if current_step is not None:
+                    break
+            
+            if current_step is not None:
+                if self.opponent_optim is not None:
+                    self.tb_writer.add_scalar('Raw_Gradient_Norm/generator', grad_norm, current_step)
+                else:
+                    self.tb_writer.add_scalar('Raw_Gradient_Norm/discriminator', grad_norm, current_step)
+
         # Update sum of norms
         for group in self.param_groups:
             for p in group["params"]:
@@ -555,6 +583,9 @@ class TiAda(Optimizer):
             ratio.div_(torch.max(ratio, self.opponent_optim.total_sum.pow(self.alpha)))
         else:
             ratio = 1
+
+        # 用于累积处理后grad的二范数
+        processed_grad_norm_squared = 0.0
 
         for group in self.param_groups:
             lr = group["lr"]
@@ -582,6 +613,9 @@ class TiAda(Optimizer):
                                 "weight_decay option is not compatible with sparse gradients"
                             )
                         grad = grad.add(p, alpha=weight_decay)
+                    
+                    # 累积处理后grad的二范数平方
+                    processed_grad_norm_squared += grad.data.norm(2).item() ** 2
 
                     clr = lr / (1 + (step - 1) * lr_decay)
                     # already updated sum
@@ -594,5 +628,13 @@ class TiAda(Optimizer):
                     p.addcdiv_(grad, ratio_p, value=-clr)
                     if self.compute_effective_stepsize:
                         self.effective_stepsize = (clr / ratio_p).item()
+
+        # 计算处理后grad的二范数并写入TensorBoard
+        processed_grad_norm = processed_grad_norm_squared ** 0.5
+        if self.tb_writer is not None and current_step is not None:
+            if self.opponent_optim is not None:
+                self.tb_writer.add_scalar('Processed_Gradient_Norm/generator', processed_grad_norm, current_step)
+            else:
+                self.tb_writer.add_scalar('Processed_Gradient_Norm/discriminator', processed_grad_norm, current_step)
 
         return loss
