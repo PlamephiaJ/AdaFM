@@ -11,6 +11,8 @@ from trainers.utils.data_loader import get_data_loader
 
 from optimizer_factory import create_optimizers
 
+from torch.utils.tensorboard import SummaryWriter
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -59,6 +61,9 @@ def run(cfg: DictConfig) -> None:
         OmegaConf.save(cfg, f)
     logger.info(f"Configuration snapshot saved to {config_file}")
 
+    tb_log_dir = results_folder / Path(cfg.tensorboard.log_dir_root) / str(results_folder).replace("/", "_")
+    tb_writer = SummaryWriter(log_dir=tb_log_dir)
+
     if cfg.models.name == "wgan":
         from trainers.wgan_trainer import WGAN_GP_Trainer
         from models.wgan_factory import create_model
@@ -103,7 +108,8 @@ def run(cfg: DictConfig) -> None:
             generator=generator,
             discriminator=discriminator,
             cfg=cfg,
-            results_folder=results_folder
+            results_folder=results_folder,
+            tb_writer=tb_writer
         )
 
         trainer = WGAN_GP_Trainer(
@@ -119,6 +125,7 @@ def run(cfg: DictConfig) -> None:
             cfg=cfg,
             results_folder=results_folder,
             device=device,
+            tb_writer=tb_writer
         )
         logger.info("Trainer is ready.")
 
