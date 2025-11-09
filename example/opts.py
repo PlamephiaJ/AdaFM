@@ -60,7 +60,10 @@ class AdaFM2Var:
             self.x.add_(-clr_x * (d_fx / ratio_px))
             self.y.add_(+clr_y * (d_fy / ratio_py))
 
-        return loss.detach()
+            raw_lr_x = clr_x / ratio_px
+            raw_lr_y = clr_y / ratio_py
+
+        return raw_lr_x, raw_lr_y
 
 # ------------------------
 # Toy MSGDA optimizer
@@ -136,7 +139,10 @@ class MSGDA2Var:
             # ascent on y (reverse sign)
             self.y.add_(self.mom_y, alpha=+eff_lr_y)
 
-        return loss.detach()
+            raw_lr_x = eff_lr_x
+            raw_lr_y = eff_lr_y
+
+        return raw_lr_x, raw_lr_y
     
 # -------------------
 # Toy TiAda optimizer for 2 variables
@@ -248,8 +254,11 @@ class TiAda2Var:
                 eff_y = (clr_y / denom_y).norm(p=2)
                 self.effective_stepsize_x = eff_x.item()
                 self.effective_stepsize_y = eff_y.item()
+            
+            raw_lr_x = clr_x / denom_x
+            raw_lr_y = clr_y / denom_y
 
-        return loss.detach()
+        return raw_lr_x, raw_lr_y
     
 # -------------------------
 # Toy PESG optimizer for 2 variables

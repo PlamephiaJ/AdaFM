@@ -10,7 +10,7 @@ from scipy.ndimage import uniform_filter1d
 
 SAVE_INTERVAL = 200
 SHOW_ENVELOPE = False
-MAX_ITERATIONS = 200000  # Maximum x-axis range for plotting
+MAX_ITERATIONS = 80000  # Maximum x-axis range for plotting
 FIGURE_FOLDER = Path("figures")
 IS_FOLDER = FIGURE_FOLDER / "IS"
 os.makedirs(IS_FOLDER, exist_ok=True)
@@ -449,7 +449,18 @@ def plot_inception_scores(
         show_raw (bool): Whether to show raw data points
         max_points (int): Maximum number of data points to plot
     """
-    plt.figure(figsize=(14, 10))
+    # Configure larger, clearer fonts for publication-quality figures (further enlarged)
+    font_cfg = {
+        "axes.labelsize": 18,
+        "xtick.labelsize": 15,
+        "ytick.labelsize": 15,
+        "legend.fontsize": 56,
+        "axes.titlesize": 18,
+    }
+    for k, v in font_cfg.items():
+        plt.rcParams[k] = v
+
+    plt.figure(figsize=(16, 11))
 
     colors = plt.cm.tab10(np.linspace(0, 1, len(inception_files)))
 
@@ -492,7 +503,7 @@ def plot_inception_scores(
                 smoothed_scores,
                 label=f"{optimizer_name}",
                 color=colors[i],
-                linewidth=3,
+                linewidth=3.2,
                 alpha=0.9,
             )
 
@@ -531,21 +542,22 @@ def plot_inception_scores(
         else:
             print(f"Skipped {exp_name}: No valid data")
 
-    # Customize the plot
-    plt.xlabel("Training Iterations", fontsize=14)
-    plt.ylabel("Inception Score", fontsize=14)
-    plt.title(
-        "Inception Score Evolution During Training (Smoothed)",
-        fontsize=16,
-        fontweight="bold",
-    )
+    # Customize the plot (no title, per request)
+    plt.xlabel("Training Iterations", fontsize=18)
+    plt.ylabel("Inception Score", fontsize=18)
+    # No title to keep the figure cleaner
     plt.grid(True, alpha=0.3)
+    plt.tick_params(axis="both", labelsize=15)
 
-    # Improve legend
+    # Legend inside the axes at bottom-right
     plt.legend(
-        bbox_to_anchor=(1.05, 1),
-        loc="upper left",
-        fontsize=10,
+        loc="lower right",
+        fontsize=16,
+        framealpha=0.9,
+        fancybox=True,
+        borderpad=0.8,
+        labelspacing=0.6,
+        handlelength=2.0,
     )
 
     # Set reasonable axis limits

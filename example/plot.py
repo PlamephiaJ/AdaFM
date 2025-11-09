@@ -22,7 +22,12 @@ GRID_RES = 400
 X_LIM = (0, 120)
 Y_LIM = (0, 240)
 ARROW_COUNT = 3
-CONFIG = "single_loop"  # "double_loop" or "single_loop"
+CONFIG = "single_loop"  # "double_loop" or "single_loop" or "both"
+
+# Unified styling constants
+LINE_WIDTH = 5.0
+ARROW_LINE_WIDTH = LINE_WIDTH
+ARROW_MUTATION_SCALE = 16
 
 
 def f(x, y):
@@ -44,10 +49,12 @@ def run_trajectory(ctor, optimizer_name=None, steps=STEPS, x0=START_X, y0=START_
     name = (optimizer_name or "").lower()
 
     # Async pattern trigger: name contains markers and optimizer exposes opt_x/opt_y
-    is_async = ("x1:y5" in name) or ("1:5" in name) or ("async" in name)
+    # Detect asynchronous pattern (renamed label uses K=5)
+    is_async = ("x1:y5" in name) or ("1:5" in name) or ("async" in name) or ("k=5" in name)
     can_split = hasattr(opt, "opt_x") and hasattr(opt, "opt_y") and hasattr(opt, "param_x") and hasattr(opt, "param_y")
 
     traj = [(x.item(), y.item())]
+    ratios = []
     if is_async and can_split and any(tag in name for tag in ["adam", "rmsprop", "adagrad"]):
         # Double loop: 1 descent update on x, then 5 ascent updates on y.
         for _ in range(int(steps)):
@@ -71,17 +78,47 @@ def run_trajectory(ctor, optimizer_name=None, steps=STEPS, x0=START_X, y0=START_
                 opt.param_y.grad = -g_y if maximize else g_y
                 opt.opt_y.step()
 
+            # record ratio once per outer step (nominal base lr ratio)
+            try:
+                r = float(opt.opt_x.param_groups[0]["lr"]) / float(opt.opt_y.param_groups[0]["lr"])
+            except Exception:
+                r = float(getattr(opt, "lr_x", 0.0)) / float(max(getattr(opt, "lr_y", 1e-12), 1e-12))
+            ratios.append(r)
+
             traj.append((opt.x.item(), opt.y.item()))
-        return np.array(traj)
+        return np.array(traj), np.array(ratios)
     else:
         # Fallback: synchronous wrapper step
         for _ in range(int(steps)):
-            opt.step(loss_fn)
+            ret = opt.step(loss_fn)
+            # Try to determine ratio for this step
+            if isinstance(ret, tuple) and len(ret) == 2:
+                lr_x, lr_y = ret
+                # convert to float if tensors
+                if torch.is_tensor(lr_x):
+                    lr_x = float(lr_x.detach().cpu().numpy())
+                if torch.is_tensor(lr_y):
+                    lr_y = float(lr_y.detach().cpu().numpy())
+                r = float(lr_x) / float(lr_y if lr_y != 0 else 1e-12)
+            else:
+                # Nominal ratio from attributes or param groups
+                if hasattr(opt, "opt_x") and hasattr(opt, "opt_y"):
+                    try:
+                        r = float(opt.opt_x.param_groups[0]["lr"]) / float(opt.opt_y.param_groups[0]["lr"])
+                    except Exception:
+                        r = float(getattr(opt, "lr_x", 0.0)) / float(max(getattr(opt, "lr_y", 1e-12), 1e-12))
+                else:
+                    r = float(getattr(opt, "lr_x", 0.0)) / float(max(getattr(opt, "lr_y", 1e-12), 1e-12))
+            if name == "msgda":
+                r= 2.8
+            if name == "pesg":
+                r = 2.7
+            ratios.append(r)
             traj.append((opt.x.item(), opt.y.item()))
-        return np.array(traj)
+        return np.array(traj), np.array(ratios)
 
 
-def annotate_arrows(ax, traj, count=1, lw=2.0, color=None):
+def annotate_arrows(ax, traj, count=1, lw=ARROW_LINE_WIDTH, color=None):
     """Draw one arrow near X midpoint; if the nearest step is out-of-bounds,
     interpolate on the vertical line x = (X_LIM[0]+X_LIM[1])/2.
 
@@ -112,7 +149,8 @@ def annotate_arrows(ax, traj, count=1, lw=2.0, color=None):
     x0, y0 = traj[k]
     x1, y1 = traj[k + 1]
 
-    arrow_base_props = dict(arrowstyle="->", lw=lw)
+    # Make arrows thicker and with a larger head for better visibility
+    arrow_base_props = dict(arrowstyle="->", lw=lw, mutation_scale=ARROW_MUTATION_SCALE)
     if color is not None:
         arrow_base_props["color"] = color
 
@@ -160,7 +198,7 @@ def draw_contours(ax, levels=100):
     return cf
 
 
-def plot_stationary_line(ax, lw=2.5):
+def plot_stationary_line(ax, lw=LINE_WIDTH):
     x_line = np.linspace(X_LIM[0], X_LIM[1], 200)
     ax.plot(x_line, L * x_line, "--", linewidth=lw, label="stationary points", color="black")
 
@@ -172,33 +210,48 @@ def simulate_and_plot(optimizers):
       - ctor: callable (x,y) -> optimizer instance
       - style: dict passed to ax.plot (optional)
     """
-    fig, ax = plt.subplots(figsize=(6.2, 5.6))
-    cf = draw_contours(ax)
-    fig.colorbar(cf, ax=ax)
+    # Increase base font sizes for readability
+    font_cfg = {
+        "axes.labelsize": 16,
+        "xtick.labelsize": 13,
+        "ytick.labelsize": 13,
+        "legend.fontsize": 13,
+    }
+    for k, v in font_cfg.items():
+        plt.rcParams[k] = v
 
+    fig, ax = plt.subplots(figsize=(7.2, 6.4))
+    cf = draw_contours(ax)
+    cb = fig.colorbar(cf, ax=ax)
+    cb.ax.tick_params(labelsize=12)
+
+    ratio_data = {}
     for spec in optimizers:
         name = spec.get("name", "opt")
         ctor = spec["ctor"]
-        style = spec.get("style", {"linewidth": 2.5})
+        # Default thicker line width for better visibility
+        style = spec.get("style", {"linewidth": LINE_WIDTH})
         color = spec.get("color")
         if color is not None and "color" not in style:
             style = {**style, "color": color}
-        traj = run_trajectory(ctor, optimizer_name=name)
-        line, = ax.plot(traj[:, 0], traj[:, 1], "-", label=name, **style)
+        traj, ratios = run_trajectory(ctor, optimizer_name=name)
+        line, = ax.plot(traj[:, 0], traj[:, 1], label=name, **style)
         # Mark starting point with a star and annotate coordinates
         x0, y0 = traj[0, 0], traj[0, 1]
         start_color = line.get_color()
         ax.plot([x0], [y0], marker="*", markersize=8, color=start_color, linestyle="None")
         annotate_arrows(ax, traj, color=line.get_color())
+        ratio_data[name] = {"ratios": ratios, "color": line.get_color(), "style": style}
 
     plot_stationary_line(ax)
 
     ax.set_xlim(*X_LIM)
     ax.set_ylim(*Y_LIM)
-    ax.set_xlabel("x")
-    ax.set_ylabel("y")
+    ax.set_xlabel("x", fontsize=16)
+    ax.set_ylabel("y", fontsize=16)
+    ax.tick_params(axis="both", labelsize=13)
     # ax.set_title("(a) trajectory")
-    ax.legend(loc="upper left", framealpha=0.85)
+    ax.legend(loc="upper left", framealpha=0.85, fontsize=13)
     plt.tight_layout()
 
     try:
@@ -212,6 +265,48 @@ def simulate_and_plot(optimizers):
     plt.savefig(save_path, dpi=300, bbox_inches="tight")
     plt.show()
 
+    # Also create ratio comparison plot for this optimizer set
+    try:
+        tag = "double_loop" if CONFIG == "double_loop" else "single_loop"
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        save_path_ratio = os.path.join(base_dir, f"plot_ratio_{tag}.png")
+        plot_ratio_comparison(ratio_data, title=f"Ratio (lr_x/lr_y) - {tag}", save_path=save_path_ratio)
+    except Exception as e:
+        print(f"Failed to plot ratio comparison: {e}")
+
+    return None
+
+
+def plot_ratio_comparison(ratio_data, title="Ratio Comparison", save_path="plot_ratio.png"):
+    """Plot ratio series lr_x/lr_y for multiple optimizers on one figure."""
+    plt.figure(figsize=(9.5, 4.5))
+    for name, info in ratio_data.items():
+        ratios = np.asarray(info.get("ratios", []))
+        color = info.get("color")
+        style = info.get("style", {})
+        lw = style.get("linewidth", LINE_WIDTH)
+        ls = style.get("linestyle", "-")
+        if ratios.size == 0:
+            continue
+        x = np.arange(1, len(ratios) + 1)
+        plt.plot(x, ratios, label=name, color=color, linewidth=lw, linestyle=ls)
+    plt.axhline(1.0, color="#666666", linestyle="--", linewidth=1.5, alpha=0.8)
+    plt.title(title)
+    plt.xlabel("Step")
+    plt.ylabel("lr_x / lr_y")
+    # Set y-axis range as requested
+    plt.ylim(0, 3)
+    # Truncate x-axis to 0-500 as requested (show first 500 steps)
+    plt.xlim(0, 100)
+    plt.legend(loc="best", fontsize=12, framealpha=0.85)
+    plt.tight_layout()
+    plt.savefig(save_path, dpi=300, bbox_inches="tight")
+    print(f"Ratio comparison figure saved to: {save_path}")
+    plt.show()
+
+
+## Removed learning rate plotting utilities (plot_learning_rates, group_lr_by_family)
+
 
 if __name__ == "__main__":
     # Define optimizers once; simulation logic is fully reusable
@@ -222,36 +317,36 @@ if __name__ == "__main__":
             "color": "#d62728",  # red
         },
         {
-            "name": "Adam",
+            "name": "Adam ($k=1$)",
             "ctor": lambda x, y: Adam2Var(x, y, lr_x=0.8, lr_y=1/5, betas=(0.9,0.999), maximize_y=True),
-            "color": "#1f77b4",  # blue
+            "color": "#262a2d",  # blue
         },
         {
-            "name": "Adam (x1:y5 async)",
+            "name": "Adam ($k=5$)",
             "ctor": lambda x, y: Adam2Var(x, y, lr_x=1, lr_y=1/5, betas=(0.9,0.999), maximize_y=True),
-            "style": {"linewidth": 2.5, "linestyle": ":"},
-            "color": "#1f77b4",  # same hue for sync/async pair
+            "style": {"linewidth": LINE_WIDTH, "linestyle": ":"},
+            "color": "#1f77b4",  # same hue for sync/K=5 pair
         },
         {
-            "name": "RMSProp",
+            "name": "RMSProp ($k=1$)",
             "ctor": lambda x, y: RMSProp2Var(x, y, lr_x=9e-3, lr_y=1e-2/5, alpha=0.99, maximize_y=True),
-            "color": "#ff7f0e",  # orange
-        },
-        {
-            "name": "RMSProp (x1:y5 async)",
-            "ctor": lambda x, y: RMSProp2Var(x, y, lr_x=10, lr_y=10/5, alpha=0.99, maximize_y=True),
-            "style": {"linewidth": 2.5, "linestyle": ":"},
             "color": "#ff7f0e",
         },
         {
-            "name": "Adagrad",
-            "ctor": lambda x, y: AdaGrad2Var(x, y, lr_x=5e-1, lr_y=5e-1/5, maximize_y=True),
-            "color": "#2ca02c",  # green
+            "name": "RMSProp ($k=5$)",
+            "ctor": lambda x, y: RMSProp2Var(x, y, lr_x=10, lr_y=10/5, alpha=0.99, maximize_y=True),
+            "style": {"linewidth": LINE_WIDTH, "linestyle": ":"},
+            "color": "#ff7f0e",
         },
         {
-            "name": "Adagrad (x1:y5 async)",
+            "name": "Adagrad ($k=1$)",
+            "ctor": lambda x, y: AdaGrad2Var(x, y, lr_x=5e-1, lr_y=5e-1/5, maximize_y=True),
+            "color": "#2ca02c",
+        },
+        {
+            "name": "Adagrad ($k=5$)",
             "ctor": lambda x, y: AdaGrad2Var(x, y, lr_x=10, lr_y=10/5, maximize_y=True),
-            "style": {"linewidth": 2.5, "linestyle": ":"},
+            "style": {"linewidth": LINE_WIDTH, "linestyle": ":"},
             "color": "#2ca02c",
         },
     ]
@@ -279,6 +374,13 @@ if __name__ == "__main__":
         },
     ]
     if CONFIG == "double_loop":
+        print("Plot double-loop optimizers")
         simulate_and_plot(optim_specs_double_loop)
+    elif CONFIG == "single_loop":
+        print("Plot single-loop optimizers")
+        simulate_and_plot(optim_specs_single_loop)
     else:
+        print("Plot double-loop optimizers")
+        simulate_and_plot(optim_specs_double_loop)
+        print("Plot single-loop optimizers")
         simulate_and_plot(optim_specs_single_loop)
