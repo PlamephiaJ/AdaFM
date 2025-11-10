@@ -3,3 +3,4 @@ beta: 0.4
 lr_x: 1e-2
 lr_y: 1e-2
 use_delta: true
+critic_iters: 1
