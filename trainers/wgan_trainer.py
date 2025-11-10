@@ -48,7 +48,7 @@ class WGAN_GP_Trainer:
         self.number_of_images = 100
         self.generator_iters = generator_iters
         self.critic_iters = critic_iters
-        self.lambda_term = 10.0  # 标准值
+        self.lambda_term = cfg.models.lambda_term
         self.save_interval = save_interval
         self.z_dim = z_dim
         self.batch_size = batch_size
