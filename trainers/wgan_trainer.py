@@ -21,7 +21,6 @@ from torch.utils.tensorboard import SummaryWriter
 
 LOGGER = logging.getLogger(__name__)
 
-
 class WGAN_GP_Trainer:
 
     def __init__(
