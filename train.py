@@ -67,6 +67,9 @@ def run(cfg: DictConfig) -> None:
         raise ValueError("CUDA is not available but it is the selected device.")
     logger.info(f"Using device: {device}")
 
+    seed_everything(cfg.setup.seed)
+    logger.info(f"Set random seed to {cfg.setup.seed}")
+    
     # Load datasets to train and test loaders
     args = argparse.Namespace(
         dataroot=cfg.datasets.dataroot,
