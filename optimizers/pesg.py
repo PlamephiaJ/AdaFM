@@ -146,6 +146,7 @@ class PESG(torch.optim.Optimizer):
 
         # Compute processed gradient norm (d_p)
         processed_grad_norm = 0.0
+        total_lr_norm_squared = 0.0
         
         for group in self.param_groups:
             weight_decay = group["weight_decay"]
@@ -177,16 +178,20 @@ class PESG(torch.optim.Optimizer):
                 
                 # Accumulate processed gradient norm
                 processed_grad_norm += d_p.norm(2).item() ** 2
+                total_lr_norm_squared += lr ** 2
                 
                 p.data = p.data - lr * d_p
                 model_acc[i].data = model_acc[i].data + p.data
 
         processed_grad_norm = processed_grad_norm ** 0.5
+        total_lr_norm = total_lr_norm_squared ** 0.5
         
         # Log processed gradient norm to TensorBoard
         if self.tb_writer is not None:
             tag = 'Processed_Gradient_Norm/generator' if self.opponent_optim is not None else 'Processed_Gradient_Norm/discriminator'
             self.tb_writer.add_scalar(tag, processed_grad_norm, self.steps)
+            tag = 'Total_Learning_Rate_Norm/generator' if self.opponent_optim is not None else 'Total_Learning_Rate_Norm/discriminator'
+            self.tb_writer.add_scalar(tag, total_lr_norm, self.steps)
 
         self.T += 1
         self.steps += 1
@@ -214,6 +219,7 @@ class PESG(torch.optim.Optimizer):
 
         # Compute processed gradient norm (d_p)
         processed_grad_norm = 0.0
+        total_lr_norm_squared = 0.0
         
         for group in self.param_groups:
             clip_value = group["clip_value"]
@@ -227,6 +233,7 @@ class PESG(torch.optim.Optimizer):
                 
                 # Accumulate processed gradient norm
                 processed_grad_norm += d_p.norm(2).item() ** 2
+                total_lr_norm_squared += lr ** 2
                 
                 p.data = p.data - lr * d_p
 

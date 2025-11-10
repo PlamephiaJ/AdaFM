@@ -584,8 +584,9 @@ class TiAda(Optimizer):
         else:
             ratio = 1
 
-        # 用于累积处理后grad的二范数
+        # 用于累积处理后grad的二范数平方
         processed_grad_norm_squared = 0.0
+        total_lr_norm_squared = 0.0
 
         for group in self.param_groups:
             lr = group["lr"]
@@ -625,16 +626,21 @@ class TiAda(Optimizer):
                     lr_log = torch.norm(lr_log, p=2)
                     self.optimizer_log_file.write(f"{step},{lr_log.item()}\n")
 
+                    total_lr_norm_squared += (clr / ratio_p).item() ** 2
+
                     p.addcdiv_(grad, ratio_p, value=-clr)
                     if self.compute_effective_stepsize:
                         self.effective_stepsize = (clr / ratio_p).item()
 
         # 计算处理后grad的二范数并写入TensorBoard
         processed_grad_norm = processed_grad_norm_squared ** 0.5
+        total_lr_norm = total_lr_norm_squared ** 0.5
         if self.tb_writer is not None and current_step is not None:
             if self.opponent_optim is not None:
                 self.tb_writer.add_scalar('Processed_Gradient_Norm/generator', processed_grad_norm, current_step)
+                self.tb_writer.add_scalar('Total_Learning_Rate_Norm/generator', total_lr_norm, current_step)
             else:
                 self.tb_writer.add_scalar('Processed_Gradient_Norm/discriminator', processed_grad_norm, current_step)
+                self.tb_writer.add_scalar('Total_Learning_Rate_Norm/discriminator', total_lr_norm, current_step)
 
         return loss

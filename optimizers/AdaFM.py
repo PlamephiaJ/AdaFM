@@ -209,6 +209,7 @@ class AdaFM(Optimizer):
         
         # 用于累积grad_m的二范数
         grad_m_norm_squared = 0.0
+        total_lr_norm_squared = 0.0
         
         # 遍历每一个参数组进行参数更新。
         for group in self.param_groups:
@@ -264,6 +265,8 @@ class AdaFM(Optimizer):
 
                     self.optimizer_log_file.write(f"{step},{eta_t_norm.item()}\n")
 
+                    total_lr_norm_squared += (clr / ratio_p).item() ** 2
+
                     p.data.addcdiv_(grad_m, ratio_p, value=-clr)
                     # print(clr / ratio_p)
                     # 如果设置了计算有效的步长大小，计算它。
@@ -272,10 +275,13 @@ class AdaFM(Optimizer):
         
         # 计算grad_m的二范数并写入TensorBoard
         grad_m_norm = grad_m_norm_squared ** 0.5
+        total_lr_norm = total_lr_norm_squared ** 0.5
         if self.tb_writer is not None and current_step is not None:
             if self.opponent_optim is not None:
                 self.tb_writer.add_scalar('Processed_Gradient_Norm/generator', grad_m_norm, current_step)
+                self.tb_writer.add_scalar('Total_Learning_Rate_Norm/generator', total_lr_norm, current_step)
             else:
                 self.tb_writer.add_scalar('Processed_Gradient_Norm/discriminator', grad_m_norm, current_step)
+                self.tb_writer.add_scalar('Total_Learning_Rate_Norm/discriminator', total_lr_norm, current_step)
 
         return loss
