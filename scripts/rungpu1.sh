@@ -1,3 +1,6 @@
 export CUDA_VISIBLE_DEVICES=1
 python main.py -m \
-    optimizers=adam,adagrad,rmsprop
+    optimizers=adafm \
+    datasets=cifar10 \
+    optimizers.lr_x=0.01,0.012,0.015 \
+    optimizers.lr_y=0.005,0.008,0.01,0.012,0.015

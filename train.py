@@ -69,7 +69,7 @@ def run(cfg: DictConfig) -> None:
 
     seed_everything(cfg.setup.seed)
     logger.info(f"Set random seed to {cfg.setup.seed}")
-    
+
     # Load datasets to train and test loaders
     args = argparse.Namespace(
         dataroot=cfg.datasets.dataroot,
@@ -99,7 +99,7 @@ def run(cfg: DictConfig) -> None:
             / cfg.optimizers.name
             / t.strftime("%Y%m%d-%H%M%S")
         )
-    results_folder = Path("g_l_observation") / results_folder
+    results_folder = Path("GS") / results_folder
     results_folder.mkdir(parents=True, exist_ok=True)
 
     # Save configuration snapshot
@@ -108,7 +108,7 @@ def run(cfg: DictConfig) -> None:
         OmegaConf.save(cfg, f)
     logger.info(f"Configuration snapshot saved to {config_file}")
 
-    tb_log_dir = Path("g_l_observation") / Path(cfg.tensorboard.log_dir_root) / str(results_folder).replace("/", "_")
+    tb_log_dir = Path("GS") / Path(cfg.tensorboard.log_dir_root) / str(results_folder).replace("/", "_")
     tb_writer = SummaryWriter(log_dir=tb_log_dir)
 
     if cfg.models.name == "wgan":
