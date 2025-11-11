@@ -22,7 +22,7 @@ GRID_RES = 400
 X_LIM = (0, 120)
 Y_LIM = (0, 240)
 ARROW_COUNT = 3
-CONFIG = "double_loop"  # "double_loop" or "single_loop" or "both"
+CONFIG = "single_loop"  # "double_loop" or "single_loop" or "both"
 
 # Unified styling constants
 LINE_WIDTH = 5.0

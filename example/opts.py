@@ -188,7 +188,7 @@ class TiAda2Var:
         self.effective_stepsize_x = None
         self.effective_stepsize_y = None
 
-    def _calc_ratio_xy(self):
+    def _calc_ratio_xy(self, mode="ratio"): # options: "step" or "ratio"
         """Compute scalar balance ratios for x and y based on total accumulators.
 
         ratio_x = total_x^alpha / max(total_x^alpha, total_y^alpha)
@@ -199,8 +199,8 @@ class TiAda2Var:
             total_x = self.sum_x.sum()
             total_y = self.sum_y.sum()
             # Convert totals to alpha-scaled magnitudes
-            txa = total_x.pow(self.alpha - 0.1)
-            tya = total_y.pow(self.alpha + 0.1)
+            txa = total_x.pow(self.alpha - 0.1) if mode == "step" else total_x.pow(self.alpha - 0.05)
+            tya = total_y.pow(self.alpha + 0.1) if mode == "step" else total_y.pow(self.alpha + 0.05)
             denom = torch.maximum(txa, tya)
             if denom.item() == 0.0:
                 return 1.0, 1.0
