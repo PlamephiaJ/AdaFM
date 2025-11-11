@@ -6,6 +6,7 @@ defaults:
 
 
 setup:
+  seed: 8
   torch:
     seed: 8
   random:
