@@ -60,7 +60,8 @@ class WGAN_GP_Trainer:
         self.results_folder = results_folder
         self.images_folder = results_folder / "images"
         os.makedirs(self.images_folder, exist_ok=True)
-        tb_log_dir = results_folder / Path(cfg.tensorboard.log_dir_root) / str(results_folder).replace("/", "_")
+        tb_log_dir = Path("delta_test") / Path(cfg.tensorboard.log_dir_root) / str(results_folder).replace("/", "_")
+        tb_log_dir.mkdir(parents=True, exist_ok=True)
         self.writer = SummaryWriter(log_dir=tb_log_dir)
 
     def calculate_gradient_penalty(self, real_images, fake_images, eta):
