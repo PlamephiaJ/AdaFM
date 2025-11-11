@@ -21,7 +21,6 @@ from torch.utils.tensorboard import SummaryWriter
 
 LOGGER = logging.getLogger(__name__)
 
-
 class WGAN_GP_Trainer:
 
     def __init__(
@@ -49,7 +48,11 @@ class WGAN_GP_Trainer:
         self.number_of_images = 100
         self.generator_iters = generator_iters
         self.critic_iters = critic_iters
-        self.lambda_term = 10.0  # 标准值
+        self.lambda_term = cfg.models.lambda_term
+        LOGGER.info(f"Using gradient penalty lambda term: {self.lambda_term}")
+        LOGGER.info(f"Using gradient penalty lambda term: {self.lambda_term}")
+        LOGGER.info(f"Using gradient penalty lambda term: {self.lambda_term}")
+        LOGGER.info(f"Using gradient penalty lambda term: {self.lambda_term}")
         self.save_interval = save_interval
         self.z_dim = z_dim
         self.batch_size = batch_size
@@ -57,7 +60,7 @@ class WGAN_GP_Trainer:
         self.results_folder = results_folder
         self.images_folder = results_folder / "images"
         os.makedirs(self.images_folder, exist_ok=True)
-        tb_log_dir = Path(cfg.tensorboard.log_dir_root) / str(results_folder).replace("/", "_")
+        tb_log_dir = Path("GP_EXP") / Path(cfg.tensorboard.log_dir_root) / str(results_folder).replace("/", "_")
         self.writer = SummaryWriter(log_dir=tb_log_dir)
 
     def calculate_gradient_penalty(self, real_images, fake_images, eta):

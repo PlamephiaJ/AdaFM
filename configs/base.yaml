@@ -1,11 +1,12 @@
 defaults:
   - _self_
   - optimizers: adam
-  - datasets: cifar100
+  - datasets: cifar10
   - models: wgan
 
 
 setup:
+  seed: 8
   torch:
     seed: 8
   random:

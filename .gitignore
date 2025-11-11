@@ -6,3 +6,4 @@ GAN/
 GAN_CIFAR100/
 multirun/
 tensorboard_logs/
+GP_EXP*/

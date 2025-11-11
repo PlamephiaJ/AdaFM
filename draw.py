@@ -8,6 +8,22 @@ import glob
 from scipy import signal
 from scipy.ndimage import uniform_filter1d
 
+# Figure styling constants
+FIG_SIZE = (7.2, 4.5)  # Width, Height in inches for main plots
+LINE_WIDTH = 6  # Line width for plots
+LEGEND_FONTSIZE = 13  # Legend font size
+# Optimizer color mapping based on optimizer specs
+OPTIMIZER_COLORS = {
+    "adafm": "#d62728",      # red - AdaSTORM-M / AdaFM
+    "adastorm-m": "#d62728",
+    "adam": "#1f77b4",       # blue
+    "rmsprop": "#ff7f0e",    # orange
+    "adagrad": "#2ca02c",    # green
+    "msgda": "#9467bd",      # purple
+    "tiada": "#8c564b",      # brown
+    "pesg": "#17becf",       # cyan
+}
+
 SAVE_INTERVAL = 200
 SHOW_ENVELOPE = False
 MAX_ITERATIONS = 80000  # Maximum x-axis range for plotting
@@ -460,11 +476,15 @@ def plot_inception_scores(
     for k, v in font_cfg.items():
         plt.rcParams[k] = v
 
-    plt.figure(figsize=(16, 11))
+    plt.figure(figsize=FIG_SIZE)
 
-    colors = plt.cm.tab10(np.linspace(0, 1, len(inception_files)))
+    # Sort experiments to put adastorm-m first in legend
+    sorted_files = sorted(
+        inception_files.items(),
+        key=lambda x: (0 if "adastorm-m" in x[0].lower() else 1, x[0])
+    )
 
-    for i, (exp_name, file_path) in enumerate(inception_files.items()):
+    for i, (exp_name, file_path) in enumerate(sorted_files):
         scores = load_inception_scores(file_path, max_points=max_points)
 
         if scores is not None and len(scores) > 0:
@@ -497,13 +517,17 @@ def plot_inception_scores(
                 # The optimizer is the first part
                 optimizer_name = exp_parts[0]
 
+            # Get color from OPTIMIZER_COLORS mapping, fallback to default if not found
+            optimizer_key = optimizer_name.lower()
+            line_color = OPTIMIZER_COLORS.get(optimizer_key, f"C{i}")
+
             # Plot smoothed line
             plt.plot(
                 iterations,
                 smoothed_scores,
                 label=f"{optimizer_name}",
-                color=colors[i],
-                linewidth=3.2,
+                color=line_color,
+                linewidth=LINE_WIDTH,
                 alpha=0.9,
             )
 
@@ -512,9 +536,9 @@ def plot_inception_scores(
                 plt.plot(
                     iterations,
                     scores,
-                    color=colors[i],
+                    color=line_color,
                     alpha=0.3,
-                    linewidth=1,
+                    linewidth=LINE_WIDTH/6,
                     linestyle="--",
                     label=None,  # Don't show in legend
                 )
@@ -528,7 +552,7 @@ def plot_inception_scores(
                     iterations,
                     upper_env,
                     lower_env,
-                    color=colors[i],
+                    color=line_color,
                     alpha=0.2,
                     label=None,  # Don't show in legend
                 )
@@ -549,10 +573,14 @@ def plot_inception_scores(
     plt.grid(True, alpha=0.3)
     plt.tick_params(axis="both", labelsize=15)
 
+    # Format x-axis to show "10k", "20k" instead of "10000", "20000"
+    ax = plt.gca()
+    ax.xaxis.set_major_formatter(plt.FuncFormatter(lambda x, p: f'{int(x/1000)}k' if x >= 1000 else f'{int(x)}'))
+
     # Legend inside the axes at bottom-right
     plt.legend(
         loc="lower right",
-        fontsize=16,
+        fontsize=LEGEND_FONTSIZE,
         framealpha=0.9,
         fancybox=True,
         borderpad=0.8,
@@ -561,7 +589,7 @@ def plot_inception_scores(
     )
 
     # Set reasonable axis limits
-    plt.ylim(bottom=0)
+    plt.ylim(bottom=1)
     plt.xlim(left=0, right=MAX_ITERATIONS)
 
     # Adjust layout to prevent legend cutoff
