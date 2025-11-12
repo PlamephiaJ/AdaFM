@@ -3,35 +3,52 @@ from typing import Dict, Callable, Tuple, Any
 from omegaconf import DictConfig
 from pathlib import Path
 
+
 class OptimizerRegistry:
     """优化器注册器，用于管理不同类型的优化器创建逻辑"""
-    
+
     def __init__(self):
         self._optimizers: Dict[str, Callable] = {}
-    
+
     def register(self, name: str):
         """注册优化器创建函数的装饰器"""
+
         def decorator(func: Callable):
             self._optimizers[name] = func
             return func
+
         return decorator
-    
-    def create_optimizers(self, name: str, generator, discriminator, cfg: DictConfig, results_folder: Path, tb_writer=None) -> Tuple[Any, Any]:
+
+    def create_optimizers(
+        self,
+        name: str,
+        generator,
+        discriminator,
+        cfg: DictConfig,
+        results_folder: Path,
+        tb_writer=None,
+    ) -> Tuple[Any, Any]:
         """创建生成器和判别器的优化器"""
         if name not in self._optimizers:
             raise NotImplementedError(f"Optimizer {name} is not implemented.")
-        
-        return self._optimizers[name](generator, discriminator, cfg, results_folder, tb_writer)
-    
+
+        return self._optimizers[name](
+            generator, discriminator, cfg, results_folder, tb_writer
+        )
+
     def list_available_optimizers(self) -> list:
         """列出所有可用的优化器"""
         return list(self._optimizers.keys())
 
+
 # 创建全局注册器实例
 optimizer_registry = OptimizerRegistry()
 
+
 @optimizer_registry.register("adam")
-def create_adam_optimizers(generator, discriminator, cfg: DictConfig, results_folder: Path, tb_writer=None):
+def create_adam_optimizers(
+    generator, discriminator, cfg: DictConfig, results_folder: Path, tb_writer=None
+):
     """创建Adam优化器"""
     d_optimizer = torch.optim.Adam(
         discriminator.parameters(),
@@ -45,8 +62,11 @@ def create_adam_optimizers(generator, discriminator, cfg: DictConfig, results_fo
     )
     return g_optimizer, d_optimizer
 
+
 @optimizer_registry.register("adafm")
-def create_adafm_optimizers(generator, discriminator, cfg: DictConfig, results_folder: Path, tb_writer=None):
+def create_adafm_optimizers(
+    generator, discriminator, cfg: DictConfig, results_folder: Path, tb_writer=None
+):
     """创建AdaFM优化器"""
     from optimizers.AdaFM import AdaFM
 
@@ -69,8 +89,11 @@ def create_adafm_optimizers(generator, discriminator, cfg: DictConfig, results_f
     )
     return g_optimizer, d_optimizer
 
+
 @optimizer_registry.register("tiada")
-def create_tiada_optimizers(generator, discriminator, cfg: DictConfig, results_folder: Path, tb_writer=None):
+def create_tiada_optimizers(
+    generator, discriminator, cfg: DictConfig, results_folder: Path, tb_writer=None
+):
     """创建TiAda优化器"""
     from optimizers.TiAda import TiAda
 
@@ -91,8 +114,11 @@ def create_tiada_optimizers(generator, discriminator, cfg: DictConfig, results_f
     )
     return g_optimizer, d_optimizer
 
+
 @optimizer_registry.register("msgda")
-def create_msgda_optimizers(generator, discriminator, cfg: DictConfig, results_folder: Path, tb_writer=None):
+def create_msgda_optimizers(
+    generator, discriminator, cfg: DictConfig, results_folder: Path, tb_writer=None
+):
     """创建MSGDA优化器"""
     from optimizers.msgda import MSGDA
 
@@ -113,8 +139,11 @@ def create_msgda_optimizers(generator, discriminator, cfg: DictConfig, results_f
     )
     return g_optimizer, d_optimizer
 
+
 @optimizer_registry.register("pesg")
-def create_pesg_optimizers(generator, discriminator, cfg: DictConfig, results_folder: Path, tb_writer=None):
+def create_pesg_optimizers(
+    generator, discriminator, cfg: DictConfig, results_folder: Path, tb_writer=None
+):
     """创建PESG优化器"""
     from optimizers.pesg import PESG
 
@@ -147,8 +176,11 @@ def create_pesg_optimizers(generator, discriminator, cfg: DictConfig, results_fo
     )
     return g_optimizer, d_optimizer
 
+
 @optimizer_registry.register("adagrad")
-def create_adagrad_optimizers(generator, discriminator, cfg: DictConfig, results_folder: Path, tb_writer=None):
+def create_adagrad_optimizers(
+    generator, discriminator, cfg: DictConfig, results_folder: Path, tb_writer=None
+):
     """创建Adagrad优化器"""
     d_optimizer = torch.optim.Adagrad(
         discriminator.parameters(),
@@ -162,8 +194,11 @@ def create_adagrad_optimizers(generator, discriminator, cfg: DictConfig, results
     )
     return g_optimizer, d_optimizer
 
+
 @optimizer_registry.register("rmsprop")
-def create_rmsprop_optimizers(generator, discriminator, cfg: DictConfig, results_folder: Path, tb_writer=None):
+def create_rmsprop_optimizers(
+    generator, discriminator, cfg: DictConfig, results_folder: Path, tb_writer=None
+):
     """创建RMSprop优化器"""
     d_optimizer = torch.optim.RMSprop(
         discriminator.parameters(),
@@ -179,12 +214,13 @@ def create_rmsprop_optimizers(generator, discriminator, cfg: DictConfig, results
     )
     return g_optimizer, d_optimizer
 
+
 # 注释掉的优化器可以轻松恢复
 # @optimizer_registry.register("tiada-adam")
 # def create_tiada_adam_optimizers(generator, discriminator, cfg: DictConfig, results_folder: Path):
 #     """创建TiAda-Adam优化器"""
 #     from optimizers.TiAda import TiAda_Adam
-# 
+#
 #     d_optimizer = TiAda_Adam(
 #         discriminator.parameters(),
 #         lr=cfg.optimizers.lr,
@@ -204,7 +240,7 @@ def create_rmsprop_optimizers(generator, discriminator, cfg: DictConfig, results
 # def create_rsgda_optimizers(generator, discriminator, cfg: DictConfig, results_folder: Path):
 #     """创建RSGDA优化器"""
 #     from optimizers.RSGDA import RSGDA
-# 
+#
 #     d_optimizer = RSGDA(
 #         discriminator.parameters(),
 #         beta_y=cfg.optimizers.beta_y,
@@ -222,7 +258,7 @@ def create_rmsprop_optimizers(generator, discriminator, cfg: DictConfig, results
 # def create_vradagda_optimizers(generator, discriminator, cfg: DictConfig, results_folder: Path):
 #     """创建VRAdaGDA优化器"""
 #     from optimizers.VRAdaGDA import VRAdaGDA
-# 
+#
 #     d_optimizer = VRAdaGDA(
 #         discriminator.parameters(),
 #         beta_y=cfg.optimizers.beta_y,
@@ -236,16 +272,15 @@ def create_rmsprop_optimizers(generator, discriminator, cfg: DictConfig, results
 #     )
 #     return g_optimizer, d_optimizer
 
-def create_optimizers(generator, discriminator, cfg: DictConfig, results_folder: Path, tb_writer=None) -> Tuple[Any, Any]:
+
+def create_optimizers(
+    generator, discriminator, cfg: DictConfig, results_folder: Path, tb_writer=None
+) -> Tuple[Any, Any]:
     """主要的优化器创建函数，保持向后兼容性"""
     return optimizer_registry.create_optimizers(
-        cfg.optimizers.name, 
-        generator, 
-        discriminator, 
-        cfg, 
-        results_folder,
-        tb_writer
+        cfg.optimizers.name, generator, discriminator, cfg, results_folder, tb_writer
     )
+
 
 def get_available_optimizers():
     """获取所有可用的优化器列表"""

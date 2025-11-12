@@ -131,14 +131,18 @@ class PESG(torch.optim.Optimizer):
             for p in group["params"]:
                 if p.grad is not None:
                     grad_norm += p.grad.data.norm(2).item() ** 2
-        grad_norm = grad_norm ** 0.5
-        
+        grad_norm = grad_norm**0.5
+
         # Log raw gradient norm to TensorBoard
         if self.tb_writer is not None:
             # Use opponent_optim to determine if this is generator or discriminator
-            tag = 'Raw_Gradient_Norm/generator' if self.opponent_optim is not None else 'Raw_Gradient_Norm/discriminator'
+            tag = (
+                "Raw_Gradient_Norm/generator"
+                if self.opponent_optim is not None
+                else "Raw_Gradient_Norm/discriminator"
+            )
             self.tb_writer.add_scalar(tag, grad_norm, self.steps)
-        
+
         loss = None
         if closure is not None:
             with torch.enable_grad():
@@ -146,7 +150,7 @@ class PESG(torch.optim.Optimizer):
 
         # Compute processed gradient norm (d_p)
         processed_grad_norm = 0.0
-        
+
         for group in self.param_groups:
             weight_decay = group["weight_decay"]
             clip_value = group["clip_value"]
@@ -174,18 +178,22 @@ class PESG(torch.optim.Optimizer):
                         buf = param_state["momentum_buffer"]
                         buf.mul_(1 - momentum).add_(d_p, alpha=momentum)
                     d_p = buf
-                
+
                 # Accumulate processed gradient norm
                 processed_grad_norm += d_p.norm(2).item() ** 2
-                
+
                 p.data = p.data - lr * d_p
                 model_acc[i].data = model_acc[i].data + p.data
 
-        processed_grad_norm = processed_grad_norm ** 0.5
-        
+        processed_grad_norm = processed_grad_norm**0.5
+
         # Log processed gradient norm to TensorBoard
         if self.tb_writer is not None:
-            tag = 'Processed_Gradient_Norm/generator' if self.opponent_optim is not None else 'Processed_Gradient_Norm/discriminator'
+            tag = (
+                "Processed_Gradient_Norm/generator"
+                if self.opponent_optim is not None
+                else "Processed_Gradient_Norm/discriminator"
+            )
             self.tb_writer.add_scalar(tag, processed_grad_norm, self.steps)
 
         self.T += 1
@@ -205,16 +213,20 @@ class PESG(torch.optim.Optimizer):
             for p in group["params"]:
                 if p.grad is not None:
                     grad_norm += p.grad.data.norm(2).item() ** 2
-        grad_norm = grad_norm ** 0.5
-        
+        grad_norm = grad_norm**0.5
+
         # 写入TensorBoard - Use opponent_optim to determine if this is generator or discriminator
         if self.tb_writer is not None:
-            tag = 'Raw_Gradient_Norm/generator' if self.opponent_optim is not None else 'Raw_Gradient_Norm/discriminator'
+            tag = (
+                "Raw_Gradient_Norm/generator"
+                if self.opponent_optim is not None
+                else "Raw_Gradient_Norm/discriminator"
+            )
             self.tb_writer.add_scalar(tag, grad_norm, self.steps)
 
         # Compute processed gradient norm (d_p)
         processed_grad_norm = 0.0
-        
+
         for group in self.param_groups:
             clip_value = group["clip_value"]
             lr = group["lr"]
@@ -224,17 +236,21 @@ class PESG(torch.optim.Optimizer):
                 if p.grad is None:
                     continue
                 d_p = torch.clamp(p.grad.data, -clip_value, clip_value)
-                
+
                 # Accumulate processed gradient norm
                 processed_grad_norm += d_p.norm(2).item() ** 2
-                
+
                 p.data = p.data - lr * d_p
 
-        processed_grad_norm = processed_grad_norm ** 0.5
-        
+        processed_grad_norm = processed_grad_norm**0.5
+
         # Log processed gradient norm to TensorBoard
         if self.tb_writer is not None:
-            tag = 'Processed_Gradient_Norm/generator' if self.opponent_optim is not None else 'Processed_Gradient_Norm/discriminator'
+            tag = (
+                "Processed_Gradient_Norm/generator"
+                if self.opponent_optim is not None
+                else "Processed_Gradient_Norm/discriminator"
+            )
             self.tb_writer.add_scalar(tag, processed_grad_norm, self.steps)
 
         self.T += 1

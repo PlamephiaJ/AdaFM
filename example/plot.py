@@ -37,7 +37,9 @@ def f(x, y):
 # ------------------------
 # Reusable simulation utilities
 # ------------------------
-def run_trajectory(ctor, optimizer_name=None, steps=STEPS, x0=START_X, y0=START_Y, loss_fn=f):
+def run_trajectory(
+    ctor, optimizer_name=None, steps=STEPS, x0=START_X, y0=START_Y, loss_fn=f
+):
     """
     Run one optimizer trajectory given a constructor `ctor(x, y) -> optimizer`
     where optimizer exposes `.step(loss_fn)` and attributes `.x`, `.y`.
@@ -50,12 +52,23 @@ def run_trajectory(ctor, optimizer_name=None, steps=STEPS, x0=START_X, y0=START_
 
     # Async pattern trigger: name contains markers and optimizer exposes opt_x/opt_y
     # Detect asynchronous pattern (renamed label uses K=5)
-    is_async = ("x1:y5" in name) or ("1:5" in name) or ("async" in name) or ("k=5" in name)
-    can_split = hasattr(opt, "opt_x") and hasattr(opt, "opt_y") and hasattr(opt, "param_x") and hasattr(opt, "param_y")
+    is_async = (
+        ("x1:y5" in name) or ("1:5" in name) or ("async" in name) or ("k=5" in name)
+    )
+    can_split = (
+        hasattr(opt, "opt_x")
+        and hasattr(opt, "opt_y")
+        and hasattr(opt, "param_x")
+        and hasattr(opt, "param_y")
+    )
 
     traj = [(x.item(), y.item())]
     ratios = []
-    if is_async and can_split and any(tag in name for tag in ["adam", "rmsprop", "adagrad"]):
+    if (
+        is_async
+        and can_split
+        and any(tag in name for tag in ["adam", "rmsprop", "adagrad"])
+    ):
         # Double loop: 1 descent update on x, then 5 ascent updates on y.
         for _ in range(int(steps)):
             # x step (descent)
@@ -72,7 +85,9 @@ def run_trajectory(ctor, optimizer_name=None, steps=STEPS, x0=START_X, y0=START_
                 (g_y,) = torch.autograd.grad(loss_y, opt.param_y)
                 # ascent: flip sign if maximize_y True (default wrappers use maximize_y flag)
                 if hasattr(opt, "maximise_y"):
-                    maximize = getattr(opt, "maximise_y")  # robustness if spelled differently
+                    maximize = getattr(
+                        opt, "maximise_y"
+                    )  # robustness if spelled differently
                 else:
                     maximize = getattr(opt, "maximize_y", True)
                 opt.param_y.grad = -g_y if maximize else g_y
@@ -80,9 +95,13 @@ def run_trajectory(ctor, optimizer_name=None, steps=STEPS, x0=START_X, y0=START_
 
             # record ratio once per outer step (nominal base lr ratio)
             try:
-                r = float(opt.opt_x.param_groups[0]["lr"]) / float(opt.opt_y.param_groups[0]["lr"])
+                r = float(opt.opt_x.param_groups[0]["lr"]) / float(
+                    opt.opt_y.param_groups[0]["lr"]
+                )
             except Exception:
-                r = float(getattr(opt, "lr_x", 0.0)) / float(max(getattr(opt, "lr_y", 1e-12), 1e-12))
+                r = float(getattr(opt, "lr_x", 0.0)) / float(
+                    max(getattr(opt, "lr_y", 1e-12), 1e-12)
+                )
             ratios.append(r)
 
             traj.append((opt.x.item(), opt.y.item()))
@@ -104,13 +123,19 @@ def run_trajectory(ctor, optimizer_name=None, steps=STEPS, x0=START_X, y0=START_
                 # Nominal ratio from attributes or param groups
                 if hasattr(opt, "opt_x") and hasattr(opt, "opt_y"):
                     try:
-                        r = float(opt.opt_x.param_groups[0]["lr"]) / float(opt.opt_y.param_groups[0]["lr"])
+                        r = float(opt.opt_x.param_groups[0]["lr"]) / float(
+                            opt.opt_y.param_groups[0]["lr"]
+                        )
                     except Exception:
-                        r = float(getattr(opt, "lr_x", 0.0)) / float(max(getattr(opt, "lr_y", 1e-12), 1e-12))
+                        r = float(getattr(opt, "lr_x", 0.0)) / float(
+                            max(getattr(opt, "lr_y", 1e-12), 1e-12)
+                        )
                 else:
-                    r = float(getattr(opt, "lr_x", 0.0)) / float(max(getattr(opt, "lr_y", 1e-12), 1e-12))
+                    r = float(getattr(opt, "lr_x", 0.0)) / float(
+                        max(getattr(opt, "lr_y", 1e-12), 1e-12)
+                    )
             if name == "msgda":
-                r= 2.8
+                r = 2.8
             if name == "pesg":
                 r = 2.7
             ratios.append(r)
@@ -167,7 +192,7 @@ def annotate_arrows(ax, traj, count=1, lw=ARROW_LINE_WIDTH, color=None):
         j = int(candidates[np.argmin(np.abs(seg_mid - mid_x))])
         xj, xj1 = xs[j], xs[j + 1]
         yj, yj1 = ys[j], ys[j + 1]
-        denom = (xj1 - xj)
+        denom = xj1 - xj
         if abs(denom) < 1e-12:
             t = 0.0
         else:
@@ -181,7 +206,9 @@ def annotate_arrows(ax, traj, count=1, lw=ARROW_LINE_WIDTH, color=None):
         # Clamp Y into limits to ensure visibility
         y_mid_c = float(np.clip(y_mid, Y_LIM[0], Y_LIM[1]))
         y2_c = float(np.clip(y2, Y_LIM[0], Y_LIM[1]))
-        ax.annotate("", xy=(x2, y2_c), xytext=(mid_x, y_mid_c), arrowprops=arrow_base_props)
+        ax.annotate(
+            "", xy=(x2, y2_c), xytext=(mid_x, y_mid_c), arrowprops=arrow_base_props
+        )
         return
 
     # As a last resort, draw the original nearest-step arrow even if out of bounds
@@ -200,7 +227,9 @@ def draw_contours(ax, levels=100):
 
 def plot_stationary_line(ax, lw=LINE_WIDTH):
     x_line = np.linspace(X_LIM[0], X_LIM[1], 200)
-    ax.plot(x_line, L * x_line, "--", linewidth=lw, label="stationary points", color="black")
+    ax.plot(
+        x_line, L * x_line, "--", linewidth=lw, label="stationary points", color="black"
+    )
 
 
 def simulate_and_plot(optimizers):
@@ -235,11 +264,13 @@ def simulate_and_plot(optimizers):
         if color is not None and "color" not in style:
             style = {**style, "color": color}
         traj, ratios = run_trajectory(ctor, optimizer_name=name)
-        line, = ax.plot(traj[:, 0], traj[:, 1], label=name, **style)
+        (line,) = ax.plot(traj[:, 0], traj[:, 1], label=name, **style)
         # Mark starting point with a star and annotate coordinates
         x0, y0 = traj[0, 0], traj[0, 1]
         start_color = line.get_color()
-        ax.plot([x0], [y0], marker="*", markersize=8, color=start_color, linestyle="None")
+        ax.plot(
+            [x0], [y0], marker="*", markersize=8, color=start_color, linestyle="None"
+        )
         annotate_arrows(ax, traj, color=line.get_color())
         ratio_data[name] = {"ratios": ratios, "color": line.get_color(), "style": style}
 
@@ -299,7 +330,9 @@ def plot_ratio_comparison(ratio_data, save_path="plot_ratio.png"):
     # Truncate x-axis to 0–60 as requested (show first 60 steps)
     plt.xlim(0, 60)
     # Place legend inside the figure (right, slightly above center)
-    plt.legend(loc="center right", bbox_to_anchor=(0.98, 0.62), fontsize=12, framealpha=0.65)
+    plt.legend(
+        loc="center right", bbox_to_anchor=(0.98, 0.62), fontsize=12, framealpha=0.65
+    )
     plt.tight_layout()
     plt.savefig(save_path, dpi=300, bbox_inches="tight")
     print(f"Ratio comparison figure saved to: {save_path}")
@@ -314,39 +347,51 @@ if __name__ == "__main__":
     optim_specs_double_loop = [
         {
             "name": "AdaSTORM-M",
-            "ctor": lambda x, y: AdaFM2Var(x, y, lr_x=0.8, lr_y=0.8/5, beta=0.9),
+            "ctor": lambda x, y: AdaFM2Var(x, y, lr_x=0.8, lr_y=0.8 / 5, beta=0.9),
             "color": "#d62728",  # red
         },
         {
             "name": "Adam ($k=1$)",
-            "ctor": lambda x, y: Adam2Var(x, y, lr_x=0.8, lr_y=1/5, betas=(0.9,0.999), maximize_y=True),
+            "ctor": lambda x, y: Adam2Var(
+                x, y, lr_x=0.8, lr_y=1 / 5, betas=(0.9, 0.999), maximize_y=True
+            ),
             "color": "#1f77b4",  # blue
         },
         {
             "name": "Adam ($k=5$)",
-            "ctor": lambda x, y: Adam2Var(x, y, lr_x=1, lr_y=1/5, betas=(0.9,0.999), maximize_y=True),
+            "ctor": lambda x, y: Adam2Var(
+                x, y, lr_x=1, lr_y=1 / 5, betas=(0.9, 0.999), maximize_y=True
+            ),
             "style": {"linewidth": LINE_WIDTH, "linestyle": ":"},
             "color": "#1f77b4",  # same hue for sync/K=5 pair
         },
         {
             "name": "RMSProp ($k=1$)",
-            "ctor": lambda x, y: RMSProp2Var(x, y, lr_x=9e-3, lr_y=1e-2/5, alpha=0.99, maximize_y=True),
+            "ctor": lambda x, y: RMSProp2Var(
+                x, y, lr_x=9e-3, lr_y=1e-2 / 5, alpha=0.99, maximize_y=True
+            ),
             "color": "#ff7f0e",
         },
         {
             "name": "RMSProp ($k=5$)",
-            "ctor": lambda x, y: RMSProp2Var(x, y, lr_x=10, lr_y=10/5, alpha=0.99, maximize_y=True),
+            "ctor": lambda x, y: RMSProp2Var(
+                x, y, lr_x=10, lr_y=10 / 5, alpha=0.99, maximize_y=True
+            ),
             "style": {"linewidth": LINE_WIDTH, "linestyle": ":"},
             "color": "#ff7f0e",
         },
         {
             "name": "Adagrad ($k=1$)",
-            "ctor": lambda x, y: AdaGrad2Var(x, y, lr_x=5e-1, lr_y=5e-1/5, maximize_y=True),
+            "ctor": lambda x, y: AdaGrad2Var(
+                x, y, lr_x=5e-1, lr_y=5e-1 / 5, maximize_y=True
+            ),
             "color": "#2ca02c",
         },
         {
             "name": "Adagrad ($k=5$)",
-            "ctor": lambda x, y: AdaGrad2Var(x, y, lr_x=10, lr_y=10/5, maximize_y=True),
+            "ctor": lambda x, y: AdaGrad2Var(
+                x, y, lr_x=10, lr_y=10 / 5, maximize_y=True
+            ),
             "style": {"linewidth": LINE_WIDTH, "linestyle": ":"},
             "color": "#2ca02c",
         },
@@ -355,22 +400,31 @@ if __name__ == "__main__":
     optim_specs_single_loop = [
         {
             "name": "AdaSTORM-M",
-            "ctor": lambda x, y: AdaFM2Var(x, y, lr_x=0.8, lr_y=0.8/5, beta=0.9),
+            "ctor": lambda x, y: AdaFM2Var(x, y, lr_x=0.8, lr_y=0.8 / 5, beta=0.9),
             "color": "#d62728",  # red
         },
         {
             "name": "MSGDA",
-            "ctor": lambda x, y: MSGDA2Var(x, y, lr_x=8, lr_y=8/5, beta=0.9),
+            "ctor": lambda x, y: MSGDA2Var(x, y, lr_x=8, lr_y=8 / 5, beta=0.9),
             "color": "#9467bd",  # purple
         },
         {
             "name": "TiAda",
-            "ctor": lambda x, y: TiAda2Var(x, y, lr_x=25, lr_y=25/5, alpha=0.5),
+            "ctor": lambda x, y: TiAda2Var(x, y, lr_x=25, lr_y=25 / 5, alpha=0.5),
             "color": "#8c564b",  # brown
         },
         {
             "name": "PESG",
-            "ctor": lambda x, y: PESG2Var(x, y, lr_x=0.45, lr_y=0.45/5, clip_value=0.1, epoch_decay=2e-3, momentum=0.0, total_iter=STEPS),
+            "ctor": lambda x, y: PESG2Var(
+                x,
+                y,
+                lr_x=0.45,
+                lr_y=0.45 / 5,
+                clip_value=0.1,
+                epoch_decay=2e-3,
+                momentum=0.0,
+                total_iter=STEPS,
+            ),
             "color": "#17becf",  # cyan
         },
     ]

@@ -6,14 +6,11 @@ GAN/
 GAN_CIFAR100/
 multirun/
 tensorboard_logs/
-<<<<<<< HEAD
 GP_EXP*/
 GS/
 lr_observation/
 figures/
 multirun*/
 delta_test/
-=======
-delta_test/
 g_l_observation/
->>>>>>> 1ac98c6 (p)
+generated_images/

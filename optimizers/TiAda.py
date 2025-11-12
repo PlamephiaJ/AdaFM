@@ -545,8 +545,8 @@ class TiAda(Optimizer):
             for p in group["params"]:
                 if p.grad is not None:
                     grad_norm += p.grad.data.norm(2).item() ** 2
-        grad_norm = grad_norm ** 0.5
-        
+        grad_norm = grad_norm**0.5
+
         # 写入TensorBoard
         if self.tb_writer is not None:
             # 获取当前step数（从第一个参数的state中获取）
@@ -558,12 +558,16 @@ class TiAda(Optimizer):
                         break
                 if current_step is not None:
                     break
-            
+
             if current_step is not None:
                 if self.opponent_optim is not None:
-                    self.tb_writer.add_scalar('Raw_Gradient_Norm/generator', grad_norm, current_step)
+                    self.tb_writer.add_scalar(
+                        "Raw_Gradient_Norm/generator", grad_norm, current_step
+                    )
                 else:
-                    self.tb_writer.add_scalar('Raw_Gradient_Norm/discriminator', grad_norm, current_step)
+                    self.tb_writer.add_scalar(
+                        "Raw_Gradient_Norm/discriminator", grad_norm, current_step
+                    )
 
         # Update sum of norms
         for group in self.param_groups:
@@ -613,7 +617,7 @@ class TiAda(Optimizer):
                                 "weight_decay option is not compatible with sparse gradients"
                             )
                         grad = grad.add(p, alpha=weight_decay)
-                    
+
                     # 累积处理后grad的二范数平方
                     processed_grad_norm_squared += grad.data.norm(2).item() ** 2
 
@@ -630,11 +634,19 @@ class TiAda(Optimizer):
                         self.effective_stepsize = (clr / ratio_p).item()
 
         # 计算处理后grad的二范数并写入TensorBoard
-        processed_grad_norm = processed_grad_norm_squared ** 0.5
+        processed_grad_norm = processed_grad_norm_squared**0.5
         if self.tb_writer is not None and current_step is not None:
             if self.opponent_optim is not None:
-                self.tb_writer.add_scalar('Processed_Gradient_Norm/generator', processed_grad_norm, current_step)
+                self.tb_writer.add_scalar(
+                    "Processed_Gradient_Norm/generator",
+                    processed_grad_norm,
+                    current_step,
+                )
             else:
-                self.tb_writer.add_scalar('Processed_Gradient_Norm/discriminator', processed_grad_norm, current_step)
+                self.tb_writer.add_scalar(
+                    "Processed_Gradient_Norm/discriminator",
+                    processed_grad_norm,
+                    current_step,
+                )
 
         return loss

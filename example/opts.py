@@ -6,11 +6,24 @@ import numpy as np
 """
 Single-loop Optimzers
 """
+
+
 # ------------------------
 # Toy AdaFM optimizer
 # ------------------------
 class AdaFM2Var:
-    def __init__(self, x, y, lr_x=0.1, lr_y=0.1, beta=0.9, lr_decay=0.0, weight_decay=0.0, eps=1e-10):
+
+    def __init__(
+        self,
+        x,
+        y,
+        lr_x=0.1,
+        lr_y=0.1,
+        beta=0.9,
+        lr_decay=0.0,
+        weight_decay=0.0,
+        eps=1e-10,
+    ):
         self.x = x
         self.y = y
         self.lr_x = float(lr_x)
@@ -65,11 +78,23 @@ class AdaFM2Var:
 
         return raw_lr_x, raw_lr_y
 
+
 # ------------------------
 # Toy MSGDA optimizer
 # ------------------------
 class MSGDA2Var:
-    def __init__(self, x, y, lr_x=0.1, lr_y=0.1, beta=0.9, lr_decay=0.0, weight_decay=0.0, eps=1e-10):
+
+    def __init__(
+        self,
+        x,
+        y,
+        lr_x=0.1,
+        lr_y=0.1,
+        beta=0.9,
+        lr_decay=0.0,
+        weight_decay=0.0,
+        eps=1e-10,
+    ):
         self.x = x
         self.y = y
         self.lr_x = float(lr_x)
@@ -143,11 +168,13 @@ class MSGDA2Var:
             raw_lr_y = eff_lr_y
 
         return raw_lr_x, raw_lr_y
-    
+
+
 # -------------------
 # Toy TiAda optimizer for 2 variables
 # -------------------
 class TiAda2Var:
+
     def __init__(
         self,
         x,
@@ -188,7 +215,7 @@ class TiAda2Var:
         self.effective_stepsize_x = None
         self.effective_stepsize_y = None
 
-    def _calc_ratio_xy(self, mode="ratio"): # options: "step" or "ratio"
+    def _calc_ratio_xy(self, mode="ratio"):  # options: "step" or "ratio"
         """Compute scalar balance ratios for x and y based on total accumulators.
 
         ratio_x = total_x^alpha / max(total_x^alpha, total_y^alpha)
@@ -199,8 +226,16 @@ class TiAda2Var:
             total_x = self.sum_x.sum()
             total_y = self.sum_y.sum()
             # Convert totals to alpha-scaled magnitudes
-            txa = total_x.pow(self.alpha - 0.1) if mode == "step" else total_x.pow(self.alpha - 0.05)
-            tya = total_y.pow(self.alpha + 0.1) if mode == "step" else total_y.pow(self.alpha + 0.05)
+            txa = (
+                total_x.pow(self.alpha - 0.1)
+                if mode == "step"
+                else total_x.pow(self.alpha - 0.05)
+            )
+            tya = (
+                total_y.pow(self.alpha + 0.1)
+                if mode == "step"
+                else total_y.pow(self.alpha + 0.05)
+            )
             denom = torch.maximum(txa, tya)
             if denom.item() == 0.0:
                 return 1.0, 1.0
@@ -254,16 +289,18 @@ class TiAda2Var:
                 eff_y = (clr_y / denom_y).norm(p=2)
                 self.effective_stepsize_x = eff_x.item()
                 self.effective_stepsize_y = eff_y.item()
-            
+
             raw_lr_x = clr_x / denom_x
             raw_lr_y = clr_y / denom_y
 
         return raw_lr_x, raw_lr_y
-    
+
+
 # -------------------------
 # Toy PESG optimizer for 2 variables
 # -------------------------
 class PESG2Var:
+
     def __init__(
         self,
         x,
@@ -340,7 +377,11 @@ class PESG2Var:
         # X update (descent) with proximal and weight decay, plus optional momentum
         with torch.no_grad():
             dpx = torch.clamp(d_fx, -cv, cv)
-            dpx = dpx + self.epoch_decay * (self.x - self.model_ref_x) + self.weight_decay * self.x
+            dpx = (
+                dpx
+                + self.epoch_decay * (self.x - self.model_ref_x)
+                + self.weight_decay * self.x
+            )
 
             if self.momentum != 0.0:
                 if self.mom_x is None:
@@ -373,10 +414,12 @@ class PESG2Var:
 
         return loss.detach()
 
+
 # -------------------------
 # Toy Adam optimizer for 2 variables
 # -------------------------
 class Adam2Var:
+
     def __init__(
         self,
         x,
@@ -432,10 +475,12 @@ class Adam2Var:
 
         return loss.detach()
 
+
 # -------------------------
 # Toy RMSProp optimizer (wrapper) for 2 variables
 # -------------------------
 class RMSProp2Var:
+
     def __init__(
         self,
         x,
@@ -456,12 +501,22 @@ class RMSProp2Var:
         self.maximize_y = bool(maximize_y)
 
         self.opt_x = torch.optim.RMSprop(
-            [self.param_x], lr=lr_x, alpha=alpha, eps=eps,
-            weight_decay=weight_decay, momentum=momentum, centered=centered
+            [self.param_x],
+            lr=lr_x,
+            alpha=alpha,
+            eps=eps,
+            weight_decay=weight_decay,
+            momentum=momentum,
+            centered=centered,
         )
         self.opt_y = torch.optim.RMSprop(
-            [self.param_y], lr=lr_y, alpha=alpha, eps=eps,
-            weight_decay=weight_decay, momentum=momentum, centered=centered
+            [self.param_y],
+            lr=lr_y,
+            alpha=alpha,
+            eps=eps,
+            weight_decay=weight_decay,
+            momentum=momentum,
+            centered=centered,
         )
 
     def step(self, loss_fn):
@@ -480,10 +535,12 @@ class RMSProp2Var:
 
         return loss.detach()
 
+
 # -------------------------
 # Toy Adagrad optimizer (wrapper) for 2 variables
 # -------------------------
 class AdaGrad2Var:
+
     def __init__(
         self,
         x,
@@ -503,12 +560,20 @@ class AdaGrad2Var:
         self.maximize_y = bool(maximize_y)
 
         self.opt_x = torch.optim.Adagrad(
-            [self.param_x], lr=lr_x, lr_decay=lr_decay, weight_decay=weight_decay,
-            initial_accumulator_value=initial_accumulator_value, eps=eps
+            [self.param_x],
+            lr=lr_x,
+            lr_decay=lr_decay,
+            weight_decay=weight_decay,
+            initial_accumulator_value=initial_accumulator_value,
+            eps=eps,
         )
         self.opt_y = torch.optim.Adagrad(
-            [self.param_y], lr=lr_y, lr_decay=lr_decay, weight_decay=weight_decay,
-            initial_accumulator_value=initial_accumulator_value, eps=eps
+            [self.param_y],
+            lr=lr_y,
+            lr_decay=lr_decay,
+            weight_decay=weight_decay,
+            initial_accumulator_value=initial_accumulator_value,
+            eps=eps,
         )
 
     def step(self, loss_fn):

@@ -145,8 +145,8 @@ class AdaFM(Optimizer):
             for p in group["params"]:
                 if p.grad is not None:
                     grad_norm += p.grad.data.norm(2).item() ** 2
-        grad_norm = grad_norm ** 0.5
-        
+        grad_norm = grad_norm**0.5
+
         # 写入TensorBoard
         if self.tb_writer is not None:
             # 获取当前step数（从第一个参数的state中获取）
@@ -158,12 +158,16 @@ class AdaFM(Optimizer):
                         break
                 if current_step is not None:
                     break
-            
+
             if current_step is not None:
                 if self.opponent_optim is not None:
-                    self.tb_writer.add_scalar('Raw_Gradient_Norm/generator', grad_norm, current_step)
+                    self.tb_writer.add_scalar(
+                        "Raw_Gradient_Norm/generator", grad_norm, current_step
+                    )
                 else:
-                    self.tb_writer.add_scalar('Raw_Gradient_Norm/discriminator', grad_norm, current_step)
+                    self.tb_writer.add_scalar(
+                        "Raw_Gradient_Norm/discriminator", grad_norm, current_step
+                    )
 
         # 遍历每一个参数组并更新梯度的平方和。
         if delta is None:
@@ -203,13 +207,15 @@ class AdaFM(Optimizer):
         # 如果存在对手的优化器，则计算比率。
         if self.opponent_optim is not None:
             ratio = self.total_sum.pow(1 / 3 + self.delta)
-            ratio.div_(torch.max(ratio, self.opponent_optim.total_sum.pow(1 / 3 + self.delta)))
+            ratio.div_(
+                torch.max(ratio, self.opponent_optim.total_sum.pow(1 / 3 + self.delta))
+            )
         else:
             ratio = 1
-        
+
         # 用于累积grad_m的二范数
         grad_m_norm_squared = 0.0
-        
+
         # 遍历每一个参数组进行参数更新。
         for group in self.param_groups:
             lr = group["lr"]
@@ -247,7 +253,7 @@ class AdaFM(Optimizer):
                             )
                         # L2正则项求导
                         grad_m.add_(p.data, alpha=weight_decay)
-                    
+
                     # 累积grad_m的二范数平方
                     grad_m_norm_squared += grad_m.data.norm(2).item() ** 2
 
@@ -256,9 +262,13 @@ class AdaFM(Optimizer):
 
                     # 根据之前计算的比率更新参数。
                     if self.opponent_optim is None:
-                        ratio_p = state_sum.pow(1 / 3  + self.delta).add_(eps).div_(ratio)
+                        ratio_p = (
+                            state_sum.pow(1 / 3 + self.delta).add_(eps).div_(ratio)
+                        )
                     else:
-                        ratio_p = state_sum.pow(1 / 3 - self.delta).add_(eps).div_(ratio)
+                        ratio_p = (
+                            state_sum.pow(1 / 3 - self.delta).add_(eps).div_(ratio)
+                        )
                     eta_t = clr / ratio_p
                     eta_t_norm = torch.norm(eta_t, p=2)
 
@@ -269,13 +279,17 @@ class AdaFM(Optimizer):
                     # 如果设置了计算有效的步长大小，计算它。
                     if self.compute_effective_stepsize:
                         self.effective_stepsize = (clr / ratio_p).item()
-        
+
         # 计算grad_m的二范数并写入TensorBoard
-        grad_m_norm = grad_m_norm_squared ** 0.5
+        grad_m_norm = grad_m_norm_squared**0.5
         if self.tb_writer is not None and current_step is not None:
             if self.opponent_optim is not None:
-                self.tb_writer.add_scalar('Processed_Gradient_Norm/generator', grad_m_norm, current_step)
+                self.tb_writer.add_scalar(
+                    "Processed_Gradient_Norm/generator", grad_m_norm, current_step
+                )
             else:
-                self.tb_writer.add_scalar('Processed_Gradient_Norm/discriminator', grad_m_norm, current_step)
+                self.tb_writer.add_scalar(
+                    "Processed_Gradient_Norm/discriminator", grad_m_norm, current_step
+                )
 
         return loss

@@ -14,14 +14,14 @@ LINE_WIDTH = 6  # Line width for plots
 LEGEND_FONTSIZE = 13  # Legend font size
 # Optimizer color mapping based on optimizer specs
 OPTIMIZER_COLORS = {
-    "adafm": "#d62728",      # red - AdaSTORM-M / AdaFM
+    "adafm": "#d62728",  # red - AdaSTORM-M / AdaFM
     "adastorm-m": "#d62728",
-    "adam": "#1f77b4",       # blue
-    "rmsprop": "#ff7f0e",    # orange
-    "adagrad": "#2ca02c",    # green
-    "msgda": "#9467bd",      # purple
-    "tiada": "#8c564b",      # brown
-    "pesg": "#17becf",       # cyan
+    "adam": "#1f77b4",  # blue
+    "rmsprop": "#ff7f0e",  # orange
+    "adagrad": "#2ca02c",  # green
+    "msgda": "#9467bd",  # purple
+    "tiada": "#8c564b",  # brown
+    "pesg": "#17becf",  # cyan
 }
 
 SAVE_INTERVAL = 200
@@ -43,28 +43,25 @@ def find_best_experiments_by_stats(gan_dirs=["GAN", "GAN/model_factory"]):
         dict: Dictionary containing best experiments info
     """
     best_experiments = {}
-    
+
     all_best_files = []
-    
+
     # Search in multiple directories
     for gan_dir in gan_dirs:
         if not os.path.exists(gan_dir):
             print(f"GAN directory '{gan_dir}' not found, skipping...")
             continue
-            
+
         print(f"Searching in directory: {gan_dir}")
-        
+
         # Find all best_real_inception_score.csv files
         best_files = glob.glob(
             os.path.join(gan_dir, "**", "best_real_inception_score.csv"), recursive=True
         )
 
         # Filter out grid search results
-        best_files = [
-            f for f in best_files
-            if "grid_search" not in f
-        ]
-        
+        best_files = [f for f in best_files if "grid_search" not in f]
+
         all_best_files.extend(best_files)
         print(f"Found {len(best_files)} files in {gan_dir}")
 
@@ -89,16 +86,16 @@ def find_best_experiments_by_stats(gan_dirs=["GAN", "GAN/model_factory"]):
 
             # Extract experiment info from path
             path_parts = Path(best_file).parts
-            
+
             # Handle different path structures:
             # GAN/optimizer/dataset/timestamp/best_real_inception_score.csv
             # GAN/model_factory/backbone/optimizer/dataset/timestamp/best_real_inception_score.csv
-            
+
             optimizer_name = None
             dataset_name = None
             timestamp = None
             backbone_name = None
-            
+
             if "model_factory" in path_parts:
                 # GAN/model_factory/backbone/optimizer/dataset/timestamp/
                 model_factory_idx = path_parts.index("model_factory")
@@ -113,14 +110,16 @@ def find_best_experiments_by_stats(gan_dirs=["GAN", "GAN/model_factory"]):
                     optimizer_name = path_parts[-4]
                     dataset_name = path_parts[-3]
                     timestamp = path_parts[-2]
-            
+
             if not optimizer_name or not dataset_name or not timestamp:
                 print(f"Could not parse path: {best_file}")
                 continue
-                
+
             # Create experiment name including backbone if present
             if backbone_name:
-                experiment_name = f"{backbone_name}_{optimizer_name}_{dataset_name}_{timestamp}"
+                experiment_name = (
+                    f"{backbone_name}_{optimizer_name}_{dataset_name}_{timestamp}"
+                )
                 optimizer_key = f"{backbone_name}_{optimizer_name}"
             else:
                 experiment_name = f"{optimizer_name}_{dataset_name}_{timestamp}"
@@ -229,7 +228,9 @@ def find_inception_score_files_for_best(best_experiments):
     return inception_files
 
 
-def find_inception_score_files(gan_dirs=["GAN", "GAN/model_factory"], use_best_only=True):
+def find_inception_score_files(
+    gan_dirs=["GAN", "GAN/model_factory"], use_best_only=True
+):
     """
     Find inception score files in the GAN directories
 
@@ -265,13 +266,13 @@ def find_inception_score_files(gan_dirs=["GAN", "GAN/model_factory"], use_best_o
             for pkl_file in pkl_files:
                 # Extract experiment name from path
                 path_parts = Path(pkl_file).parts
-                
+
                 # Handle different path structures similar to best_experiments
                 optimizer_name = None
                 dataset_name = None
                 timestamp = None
                 backbone_name = None
-                
+
                 if "model_factory" in path_parts:
                     # GAN/model_factory/backbone/optimizer/dataset/timestamp/
                     model_factory_idx = path_parts.index("model_factory")
@@ -286,7 +287,7 @@ def find_inception_score_files(gan_dirs=["GAN", "GAN/model_factory"], use_best_o
                         optimizer_name = path_parts[-4]
                         dataset_name = path_parts[-3]
                         timestamp = path_parts[-2]
-                
+
                 if optimizer_name and dataset_name and timestamp:
                     if backbone_name:
                         experiment_name = f"{backbone_name}_{optimizer_name}_{dataset_name}_{timestamp}"
@@ -481,22 +482,22 @@ def plot_inception_scores(
     # Sort experiments to put adastorm-m first in legend
     sorted_files = sorted(
         inception_files.items(),
-        key=lambda x: (0 if "adastorm-m" in x[0].lower() else 1, x[0])
+        key=lambda x: (0 if "adastorm-m" in x[0].lower() else 1, x[0]),
     )
 
     for i, (exp_name, file_path) in enumerate(sorted_files):
         scores = load_inception_scores(file_path, max_points=max_points)
 
         if scores is not None and len(scores) > 0:
-            
+
             # Create x-axis (iterations)
             iterations = np.arange(1, len(scores) + 1) * save_interval
-            
+
             # Filter data to keep only x <= MAX_ITERATIONS
             mask = iterations <= MAX_ITERATIONS
             iterations = iterations[mask]
             scores = scores[mask]
-            
+
             if len(scores) == 0:
                 print(f"Skipped {exp_name}: No data within x <= {MAX_ITERATIONS} range")
                 continue
@@ -538,7 +539,7 @@ def plot_inception_scores(
                     scores,
                     color=line_color,
                     alpha=0.3,
-                    linewidth=LINE_WIDTH/6,
+                    linewidth=LINE_WIDTH / 6,
                     linestyle="--",
                     label=None,  # Don't show in legend
                 )
@@ -575,7 +576,9 @@ def plot_inception_scores(
 
     # Format x-axis to show "10k", "20k" instead of "10000", "20000"
     ax = plt.gca()
-    ax.xaxis.set_major_formatter(plt.FuncFormatter(lambda x, p: f'{int(x/1000)}k' if x >= 1000 else f'{int(x)}'))
+    ax.xaxis.set_major_formatter(
+        plt.FuncFormatter(lambda x, p: f"{int(x/1000)}k" if x >= 1000 else f"{int(x)}")
+    )
 
     # Legend inside the axes at bottom-right
     plt.legend(
@@ -606,133 +609,156 @@ def plot_inception_scores(
 def create_optimizer_performance_table(best_experiments, save_path=None):
     """
     Create a performance comparison table for single loop vs double loop optimizers
-    
+
     Args:
         best_experiments (dict): Dictionary containing best experiments info
         save_path (str): Path to save the table. If None, saves to IS_FOLDER
     """
     if save_path is None:
         save_path = IS_FOLDER / "optimizer_performance_comparison.csv"
-    
+
     # Separate single loop and double loop experiments
     single_loop_stats = {}  # GAN experiments
     double_loop_stats = {}  # GAN/model_factory experiments
-    
+
     for exp_key, exp_info in best_experiments.items():
         optimizer_name = exp_info["optimizer"]
         best_is = exp_info["best_is"]
         avg_is = exp_info["avg_is"]
         backbone_name = exp_info.get("backbone", None)
-        
+
         if backbone_name:  # Double loop (model_factory)
             if optimizer_name not in double_loop_stats:
                 double_loop_stats[optimizer_name] = {
                     "best_is_experiments": [],
-                    "avg_is_experiments": []
+                    "avg_is_experiments": [],
                 }
-            double_loop_stats[optimizer_name]["best_is_experiments"].append((best_is, exp_info))
-            double_loop_stats[optimizer_name]["avg_is_experiments"].append((avg_is, exp_info))
+            double_loop_stats[optimizer_name]["best_is_experiments"].append(
+                (best_is, exp_info)
+            )
+            double_loop_stats[optimizer_name]["avg_is_experiments"].append(
+                (avg_is, exp_info)
+            )
         else:  # Single loop (traditional GAN)
             if optimizer_name not in single_loop_stats:
                 single_loop_stats[optimizer_name] = {
                     "best_is_experiments": [],
-                    "avg_is_experiments": []
+                    "avg_is_experiments": [],
                 }
-            single_loop_stats[optimizer_name]["best_is_experiments"].append((best_is, exp_info))
-            single_loop_stats[optimizer_name]["avg_is_experiments"].append((avg_is, exp_info))
-    
+            single_loop_stats[optimizer_name]["best_is_experiments"].append(
+                (best_is, exp_info)
+            )
+            single_loop_stats[optimizer_name]["avg_is_experiments"].append(
+                (avg_is, exp_info)
+            )
+
     # Create table data
     table_data = []
-    
+
     # Process single loop optimizers
     for optimizer, stats in single_loop_stats.items():
         best_is_max = max(stats["best_is_experiments"], key=lambda x: x[0])
         avg_is_max = max(stats["avg_is_experiments"], key=lambda x: x[0])
-        
-        table_data.append({
-            "Type": "Single Loop",
-            "Optimizer": optimizer,
-            "Best IS": f"{best_is_max[0]:.4f}",
-            "Max Avg IS": f"{avg_is_max[0]:.4f}"
-        })
-    
+
+        table_data.append(
+            {
+                "Type": "Single Loop",
+                "Optimizer": optimizer,
+                "Best IS": f"{best_is_max[0]:.4f}",
+                "Max Avg IS": f"{avg_is_max[0]:.4f}",
+            }
+        )
+
     # Process double loop optimizers
     for optimizer, stats in double_loop_stats.items():
         best_is_max = max(stats["best_is_experiments"], key=lambda x: x[0])
         avg_is_max = max(stats["avg_is_experiments"], key=lambda x: x[0])
-        
-        table_data.append({
-            "Type": "Double Loop",
-            "Optimizer": optimizer,
-            "Best IS": f"{best_is_max[0]:.4f}",
-            "Max Avg IS": f"{avg_is_max[0]:.4f}"
-        })
-    
+
+        table_data.append(
+            {
+                "Type": "Double Loop",
+                "Optimizer": optimizer,
+                "Best IS": f"{best_is_max[0]:.4f}",
+                "Max Avg IS": f"{avg_is_max[0]:.4f}",
+            }
+        )
+
     # Create DataFrame and sort by Type then Best IS
     df = pd.DataFrame(table_data)
     df["Best IS (numeric)"] = df["Best IS"].astype(float)
     df = df.sort_values(["Type", "Best IS (numeric)"], ascending=[True, False])
     df = df.drop("Best IS (numeric)", axis=1)  # Remove helper column
-    
+
     # Save to CSV
     df.to_csv(save_path, index=False)
     print(f"Optimizer performance comparison table saved to: {save_path}")
-    
+
     # Print table to console
     print("\n" + "=" * 60)
     print("OPTIMIZER PERFORMANCE COMPARISON")
     print("=" * 60)
     print(df.to_string(index=False))
     print("=" * 60)
-    
+
     # Create and save table as image
     fig, ax = plt.subplots(figsize=(10, 6))
-    ax.axis('tight')
-    ax.axis('off')
-    
+    ax.axis("tight")
+    ax.axis("off")
+
     # Create table
-    table = ax.table(cellText=df.values,
-                    colLabels=df.columns,
-                    cellLoc='center',
-                    loc='center',
-                    bbox=[0, 0, 1, 1])
-    
+    table = ax.table(
+        cellText=df.values,
+        colLabels=df.columns,
+        cellLoc="center",
+        loc="center",
+        bbox=[0, 0, 1, 1],
+    )
+
     # Style the table
     table.auto_set_font_size(False)
     table.set_fontsize(12)
     table.scale(1.2, 2)
-    
+
     # Style header row
     for i in range(len(df.columns)):
-        table[(0, i)].set_facecolor('#4CAF50')
-        table[(0, i)].set_text_props(weight='bold', color='white')
-    
+        table[(0, i)].set_facecolor("#4CAF50")
+        table[(0, i)].set_text_props(weight="bold", color="white")
+
     # Alternate row colors
     for i in range(1, len(df) + 1):
         for j in range(len(df.columns)):
             if i % 2 == 0:
-                table[(i, j)].set_facecolor('#f2f2f2')
+                table[(i, j)].set_facecolor("#f2f2f2")
             else:
-                table[(i, j)].set_facecolor('white')
-    
+                table[(i, j)].set_facecolor("white")
+
     # Color-code by type
     for i in range(1, len(df) + 1):
-        if df.iloc[i-1]['Type'] == 'Single Loop':
-            table[(i, 0)].set_facecolor('#e3f2fd')  # Light blue
+        if df.iloc[i - 1]["Type"] == "Single Loop":
+            table[(i, 0)].set_facecolor("#e3f2fd")  # Light blue
         else:  # Double Loop
-            table[(i, 0)].set_facecolor('#fff3e0')  # Light orange
-    
-    plt.title('Optimizer Performance Comparison\nSingle Loop vs Double Loop', 
-              fontsize=16, fontweight='bold', pad=20)
-    
+            table[(i, 0)].set_facecolor("#fff3e0")  # Light orange
+
+    plt.title(
+        "Optimizer Performance Comparison\nSingle Loop vs Double Loop",
+        fontsize=16,
+        fontweight="bold",
+        pad=20,
+    )
+
     # Save the table image
     image_save_path = save_path.parent / "optimizer_performance_comparison.png"
-    plt.savefig(image_save_path, dpi=300, bbox_inches='tight', 
-                facecolor='white', edgecolor='none')
+    plt.savefig(
+        image_save_path,
+        dpi=300,
+        bbox_inches="tight",
+        facecolor="white",
+        edgecolor="none",
+    )
     print(f"Table image saved to: {image_save_path}")
-    
+
     plt.show()
-    
+
     return df
 
 
@@ -748,7 +774,9 @@ def main(use_best_only=True):
 
     # Find inception score files from multiple directories
     gan_dirs = ["GAN", "GAN/model_factory"]
-    inception_files = find_inception_score_files(gan_dirs=gan_dirs, use_best_only=use_best_only)
+    inception_files = find_inception_score_files(
+        gan_dirs=gan_dirs, use_best_only=use_best_only
+    )
 
     if not inception_files:
         print("No inception score files found!")
@@ -780,13 +808,13 @@ def main(use_best_only=True):
     # Separate experiments by type
     traditional_experiments = {}
     model_factory_experiments = {}
-    
+
     for exp_name, file_path in inception_files.items():
         if "model_factory" in exp_name or len(exp_name.split("_")) >= 4:
             model_factory_experiments[exp_name] = file_path
         else:
             traditional_experiments[exp_name] = file_path
-    
+
     # Create traditional GAN experiments plot
     if traditional_experiments:
         print(f"\nCreating traditional GAN experiments plot...")
@@ -804,7 +832,7 @@ def main(use_best_only=True):
             show_raw=False,
             max_points=40000,
         )
-    
+
     # Create model factory experiments plot
     if model_factory_experiments:
         print(f"\nCreating model factory experiments plot...")
@@ -826,10 +854,10 @@ def main(use_best_only=True):
     # Create optimizer performance comparison table
     if use_best_only:
         print("\nCreating optimizer performance comparison table...")
-        
+
         # Get best experiments data for table creation
         best_experiments = find_best_experiments_by_stats(gan_dirs)
-        
+
         if best_experiments:
             create_optimizer_performance_table(best_experiments)
         else:

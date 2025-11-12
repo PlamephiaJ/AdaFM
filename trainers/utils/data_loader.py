@@ -11,11 +11,12 @@ import numpy as np
 import random
 import torch
 
+
 def worker_init_fn(worker_id):
     """
     Initialize each DataLoader worker with a unique random seed
     确保多进程数据加载的可重复性
-    
+
     Args:
         worker_id: DataLoader worker的ID
     """
@@ -24,11 +25,12 @@ def worker_init_fn(worker_id):
     np.random.seed(worker_seed)
     random.seed(worker_seed)
 
+
 def worker_init_fn(worker_id):
     """
     Initialize each DataLoader worker with a unique random seed
     确保多进程数据加载的可重复性
-    
+
     Args:
         worker_id: DataLoader worker的ID
     """
@@ -122,16 +124,16 @@ def get_data_loader(args):
     assert test_dataset
 
     train_dataloader = data_utils.DataLoader(
-        train_dataset, 
-        batch_size=args.batch_size, 
+        train_dataset,
+        batch_size=args.batch_size,
         shuffle=True,
-        worker_init_fn=worker_init_fn  # 添加worker初始化函数以确保可重复性
+        worker_init_fn=worker_init_fn,  # 添加worker初始化函数以确保可重复性
     )
     test_dataloader = data_utils.DataLoader(
-        test_dataset, 
-        batch_size=args.batch_size, 
+        test_dataset,
+        batch_size=args.batch_size,
         shuffle=True,
-        worker_init_fn=worker_init_fn  # 添加worker初始化函数以确保可重复性
+        worker_init_fn=worker_init_fn,  # 添加worker初始化函数以确保可重复性
     )
 
     return train_dataloader, test_dataloader

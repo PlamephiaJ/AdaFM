@@ -4,7 +4,10 @@ from mpl_toolkits.mplot3d import Axes3D
 import math
 import matplotlib.ticker as ticker
 
-def add_arrow(line, position=None, direction='right', start_ind=10,  size=20, color=None):
+
+def add_arrow(
+    line, position=None, direction="right", start_ind=10, size=20, color=None
+):
     """
     添加箭头到线上
     :param line: Line2D对象
@@ -21,25 +24,28 @@ def add_arrow(line, position=None, direction='right', start_ind=10,  size=20, co
 
     # 将start_ind设置为第100个点（注意：数组索引从0开始，所以第100个点是索引99）
     start_ind = start_ind
-    if direction == 'right':
+    if direction == "right":
         end_ind = start_ind + 1
     else:
         end_ind = start_ind - 1
 
-    line.axes.annotate('',
-                       xytext=(xdata[start_ind], ydata[start_ind]),  # 使用起始位置作为箭头的起始位置
-                       xy=(xdata[end_ind], ydata[end_ind]),  # 箭头指向的点
-                       arrowprops=dict(arrowstyle="->", color=color, linewidth=2.3),  # 加粗的箭头
-                       size=size,
-                       color=color
-                       )
+    line.axes.annotate(
+        "",
+        xytext=(xdata[start_ind], ydata[start_ind]),  # 使用起始位置作为箭头的起始位置
+        xy=(xdata[end_ind], ydata[end_ind]),  # 箭头指向的点
+        arrowprops=dict(arrowstyle="->", color=color, linewidth=2.3),  # 加粗的箭头
+        size=size,
+        color=color,
+    )
 
 
 def f(x, y):
     return -0.5 * y**2 + 2 * x * y - 0.5 * 2**2 * x**2
 
+
 def df_dx(x, y):
     return 2 * y - 2**2 * x
+
 
 def df_dy(x, y, L):
     return L * x - y
@@ -51,17 +57,29 @@ def grad(x, y, scale1=0.001, scale2=0.001):
     return np.array([dx, dy])
 
 
-
-
 #
-def TiAda(x, y, lr_x, lr_y, alpha, beta,  x_log, y_log, true_grad_x, epoch, grad_func, df_dx_func):
+def TiAda(
+    x,
+    y,
+    lr_x,
+    lr_y,
+    alpha,
+    beta,
+    x_log,
+    y_log,
+    true_grad_x,
+    epoch,
+    grad_func,
+    df_dx_func,
+):
     cache = np.zeros_like([x, y])
     for _ in range(epoch):
         g = grad_func(x_log[-1], y_log[-1])
-        cache += g ** 2
+        cache += g**2
         x_log.append(x_log[-1] - lr_x / max(cache[0], cache[1]) ** alpha * g[0])
         y_log.append(y_log[-1] + lr_y / cache[1] ** beta * g[1])
         true_grad_x.append(abs(df_dx_func(x_log[-1], y_log[-1])))
+
 
 # def ours(lr_x, lr_y, x_log, y_log, true_grad_x, epoch, grad_func, df_dx_func):
 #     g = grad_func(x_log[-1], y_log[-1])
@@ -99,11 +117,13 @@ def ours(lr_x, lr_y, x_log, y_log, true_grad_x, epoch, grad_func, df_dx_func):
     sum_x_grad = g[0] ** 2
     sum_y_grad = g[1] ** 2
     for _ in range(epoch):
-        beta_t = 1 / (1 + max(sum_x_grad, sum_y_grad)) ** (2/3)
+        beta_t = 1 / (1 + max(sum_x_grad, sum_y_grad)) ** (2 / 3)
         eta_x_item += v_list[-1] ** 2 / beta_t
         eta_y_item += w_list[-1] ** 2 / beta_t
 
-        x_log.append(x_log[-1] - lr_x / max(eta_x_item, eta_y_item) ** (0.3) * v_list[-1])
+        x_log.append(
+            x_log[-1] - lr_x / max(eta_x_item, eta_y_item) ** (0.3) * v_list[-1]
+        )
         y_log.append(y_log[-1] + lr_y / eta_y_item ** (0.15) * w_list[-1])
         g_t = grad_func(x_log[-2], y_log[-2])
         g_t_1 = grad_func(x_log[-1], y_log[-1])
@@ -115,26 +135,30 @@ def ours(lr_x, lr_y, x_log, y_log, true_grad_x, epoch, grad_func, df_dx_func):
         true_grad_x.append(abs(df_dx_func(x_log[-1], y_log[-1])))
 
 
-
-def RSGDA(lr_x, lr_y, beta_x, beta_y, x_log, y_log, true_grad_x, epoch, grad_func, df_dx_func):
+def RSGDA(
+    lr_x, lr_y, beta_x, beta_y, x_log, y_log, true_grad_x, epoch, grad_func, df_dx_func
+):
     g = grad_func(x_log[-1], y_log[-1])
     v_list = [g[0]]
     w_list = [g[1]]
     for i in range(epoch):
-        eta_t_x = lr_x / (8+i) ** (1/3)
-        eta_t_y = lr_y / (8+i) ** (1/3)
+        eta_t_x = lr_x / (8 + i) ** (1 / 3)
+        eta_t_y = lr_y / (8 + i) ** (1 / 3)
         x_log.append(x_log[-1] - eta_t_x * v_list[-1])
         y_log.append(y_log[-1] + eta_t_y * w_list[-1])
 
         g_t = grad_func(x_log[-2], y_log[-2])
         g_t_1 = grad_func(x_log[-1], y_log[-1])
-        beta_x_t = beta_x * eta_t_x ** 2
-        beta_y_t = beta_y * eta_t_y ** 2
+        beta_x_t = beta_x * eta_t_x**2
+        beta_y_t = beta_y * eta_t_y**2
         v_list.append(g_t_1[0] + (1 - beta_x_t) * (v_list[-1] - g_t[0]))
         w_list.append(g_t_1[1] + (1 - beta_y_t) * (w_list[-1] - g_t[1]))
         true_grad_x.append(abs(df_dx_func(x_log[-1], y_log[-1])))
 
-def VRAdaGDA(lr_x, lr_y, beta_x, beta_y, x_log, y_log, true_grad_x, epoch, grad_func, df_dx_func):
+
+def VRAdaGDA(
+    lr_x, lr_y, beta_x, beta_y, x_log, y_log, true_grad_x, epoch, grad_func, df_dx_func
+):
 
     g = grad_func(x_log[-1], y_log[-1])
     v_list = [g[0]]
@@ -142,16 +166,16 @@ def VRAdaGDA(lr_x, lr_y, beta_x, beta_y, x_log, y_log, true_grad_x, epoch, grad_
     a_x = g[0] ** 2 * 0.1
     a_y = g[1] ** 2 * 0.1
     for i in range(epoch):
-        eta_t_x = lr_x / (8+i) ** (1/3)
-        eta_t_y = lr_y / (8+i) ** (1/3)
+        eta_t_x = lr_x / (8 + i) ** (1 / 3)
+        eta_t_y = lr_y / (8 + i) ** (1 / 3)
         x_log.append(x_log[-1] - eta_t_x * (np.sqrt(a_x) + 1e-10) * v_list[-1])
         y_log.append(y_log[-1] + eta_t_y * (np.sqrt(a_y) + 1e-10) * w_list[-1])
 
         g_t = grad_func(x_log[-2], y_log[-2])
         g_t_1 = grad_func(x_log[-1], y_log[-1])
 
-        beta_x_t = beta_x * eta_t_x ** 2
-        beta_y_t = beta_y * eta_t_y ** 2
+        beta_x_t = beta_x * eta_t_x**2
+        beta_y_t = beta_y * eta_t_y**2
 
         v_list.append(g_t_1[0] + (1 - beta_x_t) * (v_list[-1] - g_t[0]))
         w_list.append(g_t_1[1] + (1 - beta_y_t) * (w_list[-1] - g_t[1]))
@@ -159,12 +183,6 @@ def VRAdaGDA(lr_x, lr_y, beta_x, beta_y, x_log, y_log, true_grad_x, epoch, grad_
         a_x = 0.9 * a_x + 0.1 * g_t_1[0] ** 2
         a_y = 0.9 * a_y + 0.1 * g_t_1[1] ** 2
         true_grad_x.append(abs(df_dx_func(x_log[-1], y_log[-1])))
-
-
-
-
-
-
 
 
 # 起始位置
@@ -200,28 +218,60 @@ VRAdaGDA_y_logs = []
 VRAdaGDA_true_grad_xs = []
 
 
-
 epoch = 1000
-TiAda(xs, ys, 4, 0.8, 0.6, 0.4, TiAda_x_log, TiAda_y_log, TiAda_true_grad_x, epoch, grad, df_dx)
-ours(0.6, 0.12, ours_x_log, ours_y_log, ours_true_grad_x,  epoch, grad, df_dx)
+TiAda(
+    xs,
+    ys,
+    4,
+    0.8,
+    0.6,
+    0.4,
+    TiAda_x_log,
+    TiAda_y_log,
+    TiAda_true_grad_x,
+    epoch,
+    grad,
+    df_dx,
+)
+ours(0.6, 0.12, ours_x_log, ours_y_log, ours_true_grad_x, epoch, grad, df_dx)
 # RSGDA(0.01, 0.002, 512, 512, RSGDA_x_log, RSGDA_y_log, RSGDA_true_grad_x,   epoch, grad, df_dx)
 
 
-
-VRAdaGDA(0.001, 0.0002, 512, 512, VRAdaGDA_x_log, VRAdaGDA_y_log, VRAda_true_grad_x, epoch, grad, df_dx)
+VRAdaGDA(
+    0.001,
+    0.0002,
+    512,
+    512,
+    VRAdaGDA_x_log,
+    VRAdaGDA_y_log,
+    VRAda_true_grad_x,
+    epoch,
+    grad,
+    df_dx,
+)
 
 # # 可视化
-max_x = 1.1 * max(abs(np.concatenate([TiAda_x_log,  ours_x_log, RSGDA_x_log, VRAdaGDA_x_log ])))
-max_y = 1.1 * max(abs(np.concatenate([TiAda_y_log,  ours_y_log, VRAdaGDA_y_log, RSGDA_y_log])))
+max_x = 1.1 * max(
+    abs(np.concatenate([TiAda_x_log, ours_x_log, RSGDA_x_log, VRAdaGDA_x_log]))
+)
+max_y = 1.1 * max(
+    abs(np.concatenate([TiAda_y_log, ours_y_log, VRAdaGDA_y_log, RSGDA_y_log]))
+)
 #
 x = np.linspace(-10, 100, 100)
 y = np.linspace(-10, 150, 100)
 #
 X, Y = np.meshgrid(x, y)
 Z = f(X, Y)
-plt.contourf(X, Y, Z, 1000, alpha=0.75, cmap='viridis', )
+plt.contourf(
+    X,
+    Y,
+    Z,
+    1000,
+    alpha=0.75,
+    cmap="viridis",
+)
 plt.colorbar()
-
 
 
 linewidth = 3
@@ -233,15 +283,29 @@ sta_y = 2 * sta_x
 # 绘制线
 
 
-line1, = plt.plot(RSGDA_x_log, RSGDA_y_log, marker='', label='RSGDA', linewidth=linewidth)
-line2, = plt.plot(VRAdaGDA_x_log, VRAdaGDA_y_log, marker='', label='VRAdaGDA', linewidth=linewidth)
+(line1,) = plt.plot(
+    RSGDA_x_log, RSGDA_y_log, marker="", label="RSGDA", linewidth=linewidth
+)
+(line2,) = plt.plot(
+    VRAdaGDA_x_log, VRAdaGDA_y_log, marker="", label="VRAdaGDA", linewidth=linewidth
+)
 
-line3, = plt.plot(TiAda_x_log, TiAda_y_log, marker='', label='TiAda', linewidth=linewidth)
-line4, = plt.plot(ours_x_log, ours_y_log, marker='', label='AdaCM', linewidth=linewidth)
+(line3,) = plt.plot(
+    TiAda_x_log, TiAda_y_log, marker="", label="TiAda", linewidth=linewidth
+)
+(line4,) = plt.plot(
+    ours_x_log, ours_y_log, marker="", label="AdaCM", linewidth=linewidth
+)
 # # plt.scatter(1, 1, marker='*', color='red', s=50, label='Stationary point')
-plt.plot(sta_x, sta_y, linestyle='dashed', color='r', label='Stationary points', linewidth=linewidth)
-plt.scatter(3, 3, marker='*', color='green', s=100, label='Initial point')
-
+plt.plot(
+    sta_x,
+    sta_y,
+    linestyle="dashed",
+    color="r",
+    label="Stationary points",
+    linewidth=linewidth,
+)
+plt.scatter(3, 3, marker="*", color="green", s=100, label="Initial point")
 
 
 # # 为每条线添加箭头
@@ -250,14 +314,14 @@ plt.scatter(3, 3, marker='*', color='green', s=100, label='Initial point')
 # add_arrow(line2, start_ind=210)
 # add_arrow(line3, start_ind=80)
 # add_arrow(line4, start_ind=300)
-plt.xlabel('X')
-plt.ylabel('Y')
+plt.xlabel("X")
+plt.ylabel("Y")
 
 plt.xlim(-5, 100)
 plt.ylim(-5, 140)
 # plt.title('Gradient Descent On Function')
-plt.legend(loc='best', fontsize=11)
-plt.savefig('test_function2_trajectory_1.png', bbox_inches='tight')
+plt.legend(loc="best", fontsize=11)
+plt.savefig("test_function2_trajectory_1.png", bbox_inches="tight")
 plt.show()
 #
 
@@ -291,7 +355,6 @@ plt.show()
 # plt.show()
 #
 #
-
 
 
 # epoch = 1000
@@ -371,9 +434,6 @@ plt.show()
 # # 显示或保存图像
 # plt.savefig('test_function2_change_x_1.png', bbox_inches='tight')
 # plt.show()
-
-
-
 
 
 # 定义一个列表来保存每次迭代的数据
@@ -456,9 +516,6 @@ plt.show()
 # plt.show()
 
 
-
-
-
 # RSGDA_x_logs = []
 # RSGDA_y_logs = []
 # RSGDA_true_grad_xs = []
@@ -536,7 +593,6 @@ plt.show()
 # plt.show()
 
 
-
 # RSGDA_x_logs = []
 # RSGDA_y_logs = []
 # RSGDA_true_grad_xs = []
@@ -611,10 +667,3 @@ plt.show()
 # plt.savefig('C:\\Users\\48301\Desktop\\result\\test_function2_change_beta_y_2.png', bbox_inches='tight')
 # # 显示图表
 # plt.show()
-
-
-
-
-
-
-
