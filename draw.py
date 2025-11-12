@@ -568,7 +568,7 @@ def plot_inception_scores(
             print(f"Skipped {exp_name}: No valid data")
 
     # Customize the plot (no title, per request)
-    plt.xlabel("Training Iterations", fontsize=18)
+    plt.xlabel("Training Steps", fontsize=18)
     plt.ylabel("Inception Score", fontsize=18)
     # No title to keep the figure cleaner
     plt.grid(True, alpha=0.3)
