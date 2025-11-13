@@ -278,8 +278,8 @@ def simulate_and_plot(optimizers):
 
     ax.set_xlim(*X_LIM)
     ax.set_ylim(*Y_LIM)
-    ax.set_xlabel("x", fontsize=16)
-    ax.set_ylabel("y", fontsize=16)
+    ax.set_xlabel("$\\theta_G$", fontsize=16)
+    ax.set_ylabel("$\\theta_D$", fontsize=16)
     ax.tick_params(axis="both", labelsize=13)
     # ax.set_title("(a) trajectory")
     ax.legend(loc="upper left", framealpha=0.85, fontsize=10)
@@ -324,7 +324,7 @@ def plot_ratio_comparison(ratio_data, save_path="plot_ratio.png"):
     plt.axhline(0.5, color="#666666", linestyle="--", linewidth=1.5, alpha=0.8)
     plt.xlabel("Step")
     # Raw string for TeX label
-    plt.ylabel(r"$\eta_x / \eta_y$")
+    plt.ylabel(r"$\eta_{\theta_G} / \eta_{\theta_D}$")
     # Set y-axis range as requested
     plt.ylim(0, 3)
     # Truncate x-axis to 0–60 as requested (show first 60 steps)
@@ -410,7 +410,7 @@ if __name__ == "__main__":
         },
         {
             "name": "TiAda",
-            "ctor": lambda x, y: TiAda2Var(x, y, lr_x=25, lr_y=25 / 5, alpha=0.5),
+            "ctor": lambda x, y: TiAda2Var(x, y, lr_x=25, lr_y=25 / 5, alpha=0.5, mode="ratio"), # mode "ratio" or "step"
             "color": "#8c564b",  # brown
         },
         {

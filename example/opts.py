@@ -186,6 +186,7 @@ class TiAda2Var:
         eps=1e-10,
         alpha=0.5,
         compute_effective_stepsize=False,
+        mode="ratio",
     ):
         """
         Two-variable toy TiAda optimizer (min over x, max over y).
@@ -206,6 +207,8 @@ class TiAda2Var:
         self.alpha = float(alpha)
         self.compute_effective_stepsize = bool(compute_effective_stepsize)
 
+        self.mode = mode
+
         self.step_t = 0
         # Per-variable accumulators of squared gradients
         self.sum_x = torch.zeros_like(x)
@@ -215,7 +218,7 @@ class TiAda2Var:
         self.effective_stepsize_x = None
         self.effective_stepsize_y = None
 
-    def _calc_ratio_xy(self, mode="ratio"):  # options: "step" or "ratio"
+    def _calc_ratio_xy(self):  # options: "step" or "ratio"
         """Compute scalar balance ratios for x and y based on total accumulators.
 
         ratio_x = total_x^alpha / max(total_x^alpha, total_y^alpha)
@@ -228,12 +231,12 @@ class TiAda2Var:
             # Convert totals to alpha-scaled magnitudes
             txa = (
                 total_x.pow(self.alpha - 0.1)
-                if mode == "step"
+                if self.mode == "step"
                 else total_x.pow(self.alpha - 0.05)
             )
             tya = (
                 total_y.pow(self.alpha + 0.1)
-                if mode == "step"
+                if self.mode == "step"
                 else total_y.pow(self.alpha + 0.05)
             )
             denom = torch.maximum(txa, tya)
