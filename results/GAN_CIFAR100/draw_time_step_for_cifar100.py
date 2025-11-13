@@ -683,7 +683,7 @@ def plot_inception_scores(
         except Exception:
             pass
         marker_handles.append(mh)
-        marker_labels.append(f"{time_points[t_idx]}s")
+        marker_labels.append(f"runtime={time_points[t_idx]}s")
 
     all_handles = existing_handles + marker_handles
     all_labels = existing_labels + marker_labels
