@@ -4,6 +4,9 @@ defaults:
   - datasets: cifar10
   - models: wgan
 
+result_folder: results/
+
+experiment_type: g_l_observation # g_l_observation | delta_test | default | gp_exp | loss_lr
 
 setup:
   seed: 8

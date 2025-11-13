@@ -410,7 +410,9 @@ if __name__ == "__main__":
         },
         {
             "name": "TiAda",
-            "ctor": lambda x, y: TiAda2Var(x, y, lr_x=25, lr_y=25 / 5, alpha=0.5, mode="ratio"), # mode "ratio" or "step"
+            "ctor": lambda x, y: TiAda2Var(
+                x, y, lr_x=25, lr_y=25 / 5, alpha=0.5, mode="ratio"
+            ),  # mode "ratio" or "step"
             "color": "#8c564b",  # brown
         },
         {

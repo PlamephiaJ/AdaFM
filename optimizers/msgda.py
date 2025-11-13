@@ -106,8 +106,8 @@ class MSGDA(Optimizer):
             for p in group["params"]:
                 if p.grad is not None:
                     grad_norm += p.grad.data.norm(2).item() ** 2
-        grad_norm = grad_norm ** 0.5
-        
+        grad_norm = grad_norm**0.5
+
         # 写入TensorBoard
         if self.tb_writer is not None:
             # 获取当前step数（从第一个参数的state中获取）
@@ -206,7 +206,7 @@ class MSGDA(Optimizer):
                             )
                         # L2正则项求导
                         grad_m.add_(p.data, alpha=weight_decay)
-                    
+
                     # 累积grad_m的二范数平方
                     grad_m_norm_squared += grad_m.data.norm(2).item() ** 2
 

@@ -16,8 +16,7 @@ import numpy as np
 from pathlib import Path
 import logging
 from tqdm import tqdm
-from torchvision.utils import save_image, make_grid
-from torch.utils.tensorboard import SummaryWriter
+from torchvision.utils import make_grid
 
 LOGGER = logging.getLogger(__name__)
 
@@ -165,7 +164,7 @@ class WGAN_GP_Trainer:
 
                 d_loss_real = 0
                 d_loss_fake = 0
-                Wasserstein_D = 0
+                # Wasserstein_D = 0
 
                 for d_iter in range(self.critic_iters):
                     self.D.zero_grad()
@@ -200,7 +199,7 @@ class WGAN_GP_Trainer:
                     self.writer.add_scalar(
                         "Discriminator Loss", d_loss.item(), total_iter
                     )
-                    Wasserstein_D = (d_loss_real - d_loss_fake).item()
+                    # Wasserstein_D = (d_loss_real - d_loss_fake).item()
 
                     self.d_optimizer.step()
                     total_iter += 1
@@ -220,7 +219,7 @@ class WGAN_GP_Trainer:
                 g_loss = g_loss.mean()
                 g_loss.backward(mone)
                 self.writer.add_scalar("Generator Loss", g_loss.item(), total_iter)
-                g_cost = -g_loss
+                # g_cost = -g_loss
                 self.g_optimizer.step()
 
                 # LOGGER.info(f'Generator iteration: {g_iter}/{self.generator_iters}, '
@@ -235,8 +234,8 @@ class WGAN_GP_Trainer:
                 total_iter += 1
                 # Saving model and sampling images every 1000th generator iterations
                 if (total_iter) % self.save_interval == 0:
-                    grad_g = WGAN_GP_Trainer.get_gradient_norm(self.G).item()
-                    grad_d = WGAN_GP_Trainer.get_gradient_norm(self.D).item()
+                    # grad_g = WGAN_GP_Trainer.get_gradient_norm(self.G).item()
+                    # grad_d = WGAN_GP_Trainer.get_gradient_norm(self.D).item()
                     # self.save_model()
                     # Workaround because graphic card memory can't store more than 830 examples in memory for generating image
                     # Therefore doing loop and generating 800 examples and stacking into list of samples to get 8000 generated images
@@ -316,7 +315,7 @@ class WGAN_GP_Trainer:
 
             # Convert to numpy array if it's a list
             real_inception_scores = np.array(Real_Inception_score)
-        except KeyboardInterrupt as e:
+        except KeyboardInterrupt:
             LOGGER.warning("Training interrupted. Saving Real Inception Scores...")
             real_inception_scores = np.array(Real_Inception_score)
         finally:
@@ -338,7 +337,7 @@ class WGAN_GP_Trainer:
                     self.results_folder / "best_real_inception_score.csv"
                 )
                 with open(best_IS_save_path, "w") as f:
-                    f.write(f"BestIS,AvgIS\n")
+                    f.write("BestIS,AvgIS\n")
                     f.write(
                         f"{real_inception_scores.max()},{real_inception_scores.mean()}\n"
                     )
@@ -382,7 +381,7 @@ class WGAN_GP_Trainer:
 
                 d_loss_real = 0
                 d_loss_fake = 0
-                Wasserstein_D = 0
+                # Wasserstein_D = 0
 
                 for d_iter in range(1):
                     self.D.zero_grad()
@@ -419,7 +418,7 @@ class WGAN_GP_Trainer:
                     self.writer.add_scalar(
                         "Discriminator Loss", d_loss.item(), total_iter
                     )
-                    Wasserstein_D = (d_loss_real - d_loss_fake).item()
+                    # Wasserstein_D = (d_loss_real - d_loss_fake).item()
 
                     if D_old is not None:
                         d_loss_real_old = D_old(images).mean()
@@ -464,7 +463,7 @@ class WGAN_GP_Trainer:
                 g_loss = g_loss.mean()
                 g_loss.backward(mone)
                 self.writer.add_scalar("Generator Loss", g_loss.item(), total_iter)
-                g_cost = -g_loss
+                # g_cost = -g_loss
                 if G_old is not None:
                     fake_images_ = G_old(z)
                     g_loss_old = D_old(fake_images_).mean()
@@ -491,8 +490,8 @@ class WGAN_GP_Trainer:
                 total_iter += 1
                 # Saving model and sampling images every 1000th generator iterations
                 if (total_iter) % self.save_interval == 0:
-                    grad_g = WGAN_GP_Trainer.get_gradient_norm(self.G).item()
-                    grad_d = WGAN_GP_Trainer.get_gradient_norm(self.D).item()
+                    # grad_g = WGAN_GP_Trainer.get_gradient_norm(self.G).item()
+                    # grad_d = WGAN_GP_Trainer.get_gradient_norm(self.D).item()
                     # self.save_model()
                     # Workaround because graphic card memory can't store more than 830 examples in memory for generating image
                     # Therefore doing loop and generating 800 examples and stacking into list of samples to get 8000 generated images
@@ -572,7 +571,7 @@ class WGAN_GP_Trainer:
 
             # Convert to numpy array if it's a list
             real_inception_scores = np.array(Real_Inception_score)
-        except KeyboardInterrupt as e:
+        except KeyboardInterrupt:
             LOGGER.warning("Training interrupted. Saving Real Inception Scores...")
             real_inception_scores = np.array(Real_Inception_score)
         finally:
@@ -594,7 +593,7 @@ class WGAN_GP_Trainer:
                     self.results_folder / "best_real_inception_score.csv"
                 )
                 with open(best_IS_save_path, "w") as f:
-                    f.write(f"BestIS,AvgIS\n")
+                    f.write("BestIS,AvgIS\n")
                     f.write(
                         f"{real_inception_scores.max()},{real_inception_scores.mean()}\n"
                     )

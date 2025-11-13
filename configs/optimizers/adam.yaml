@@ -4,3 +4,4 @@ b1: 0.5
 b2: 0.9
 use_delta: false
 critic_iters: 5
+delta: 0.0

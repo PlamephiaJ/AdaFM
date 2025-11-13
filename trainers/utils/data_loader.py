@@ -7,174 +7,141 @@ import torchvision.datasets as dset
 import torchvision.transforms as transforms
 import torch.utils.data as data_utils
 from .fashion_mnist import MNIST, FashionMNIST
-import numpy as np
-import random
-import torch
 
 
 def worker_init_fn(worker_id):
-    """
-    Initialize each DataLoader worker with a unique random seed
-    确保多进程数据加载的可重复性
-
-    Args:
-        worker_id: DataLoader worker的ID
-    """
-    # 获取worker的种子 (基于PyTorch的初始种子)
     worker_seed = torch.initial_seed() % 2**32
     np.random.seed(worker_seed)
     random.seed(worker_seed)
 
 
-def worker_init_fn(worker_id):
-    """
-    Initialize each DataLoader worker with a unique random seed
-    确保多进程数据加载的可重复性
+class DatasetRegistry:
+    _registry = {}
 
-    Args:
-        worker_id: DataLoader worker的ID
-    """
-    # 获取worker的种子 (基于PyTorch的初始种子)
-    worker_seed = torch.initial_seed() % 2**32
-    np.random.seed(worker_seed)
-    random.seed(worker_seed)
+    @classmethod
+    def register(cls, name):
+        def decorator(fn):
+            if name in cls._registry:
+                raise ValueError(f"Dataset '{name}' is already registered.")
+            cls._registry[name] = fn
+            return fn
 
+        return decorator
 
-def worker_init_fn(worker_id):
-    """
-    Initialize each DataLoader worker with a unique random seed
-    确保多进程数据加载的可重复性
-    
-    Args:
-        worker_id: DataLoader worker的ID
-    """
-    # 获取worker的种子 (基于PyTorch的初始种子)
-    worker_seed = torch.initial_seed() % 2**32
-    np.random.seed(worker_seed)
-    random.seed(worker_seed)
+    @classmethod
+    def build(cls, name, dataroot, args):
+        if name not in cls._registry:
+            raise KeyError(
+                f"Unknown dataset '{name}'. " f"Available: {list(cls._registry.keys())}"
+            )
+        return cls._registry[name](dataroot, args)
 
 
-def worker_init_fn(worker_id):
-    """
-    Initialize each DataLoader worker with a unique random seed
-    确保多进程数据加载的可重现性
-    
-    Args:
-        worker_id: DataLoader worker的ID
-    """
-    # 获取worker的种子 (基于PyTorch的初始种子)
-    worker_seed = torch.initial_seed() % 2**32
-    np.random.seed(worker_seed)
-    random.seed(worker_seed)
+@DatasetRegistry.register("mnist")
+def build_mnist(dataroot, args):
+    trans = transforms.Compose(
+        [
+            transforms.Resize(32),
+            transforms.ToTensor(),
+            transforms.Normalize((0.5,), (0.5,)),
+        ]
+    )
+    train_dataset = MNIST(
+        root=dataroot, train=True, download=args.download, transform=trans
+    )
+    test_dataset = MNIST(
+        root=dataroot, train=False, download=args.download, transform=trans
+    )
+    return train_dataset, test_dataset
+
+
+@DatasetRegistry.register("fashion-mnist")
+def build_fashion_mnist(dataroot, args):
+    trans = transforms.Compose(
+        [
+            transforms.Resize(32),
+            transforms.ToTensor(),
+            transforms.Normalize((0.5,), (0.5,)),
+        ]
+    )
+    train_dataset = FashionMNIST(
+        root=dataroot, train=True, download=args.download, transform=trans
+    )
+    test_dataset = FashionMNIST(
+        root=dataroot, train=False, download=args.download, transform=trans
+    )
+    return train_dataset, test_dataset
+
+
+@DatasetRegistry.register("cifar10")
+def build_cifar10(dataroot, args):
+    trans = transforms.Compose(
+        [
+            transforms.Resize(32),
+            transforms.ToTensor(),
+            transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+        ]
+    )
+    train_dataset = dset.CIFAR10(
+        root=dataroot, train=True, download=args.download, transform=trans
+    )
+    test_dataset = dset.CIFAR10(
+        root=dataroot, train=False, download=args.download, transform=trans
+    )
+    return train_dataset, test_dataset
+
+
+@DatasetRegistry.register("cifar100")
+def build_cifar100(dataroot, args):
+    trans = transforms.Compose(
+        [
+            transforms.Resize(32),
+            transforms.ToTensor(),
+            transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+        ]
+    )
+    train_dataset = dset.CIFAR100(
+        root=dataroot, train=True, download=args.download, transform=trans
+    )
+    test_dataset = dset.CIFAR100(
+        root=dataroot, train=False, download=args.download, transform=trans
+    )
+    return train_dataset, test_dataset
+
+
+@DatasetRegistry.register("stl10")
+def build_stl10(dataroot, args):
+    trans = transforms.Compose(
+        [
+            transforms.Resize(32),
+            transforms.ToTensor(),
+        ]
+    )
+    train_dataset = dset.STL10(
+        root=dataroot, split="train", download=args.download, transform=trans
+    )
+    test_dataset = dset.STL10(
+        root=dataroot, split="test", download=args.download, transform=trans
+    )
+    return train_dataset, test_dataset
 
 
 def get_data_loader(args):
-
     dataroot = os.path.join(args.dataroot, args.dataset)
-    if args.dataset == "mnist":
-        trans = transforms.Compose(
-            [
-                transforms.Resize(32),
-                transforms.ToTensor(),
-                transforms.Normalize((0.5,), (0.5,)),
-            ]
-        )
-        train_dataset = MNIST(
-            root=dataroot, train=True, download=args.download, transform=trans
-        )
-        test_dataset = MNIST(
-            root=dataroot, train=False, download=args.download, transform=trans
-        )
 
-    elif args.dataset == "fashion-mnist":
-        trans = transforms.Compose(
-            [
-                transforms.Resize(32),
-                transforms.ToTensor(),
-                transforms.Normalize((0.5,), (0.5,)),
-            ]
-        )
-        train_dataset = FashionMNIST(
-            root=dataroot, train=True, download=args.download, transform=trans
-        )
-        test_dataset = FashionMNIST(
-            root=dataroot, train=False, download=args.download, transform=trans
-        )
-
-    elif args.dataset == "cifar10":
-        trans = transforms.Compose(
-            [
-                transforms.Resize(32),
-                transforms.ToTensor(),
-                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-            ]
-        )
-
-        train_dataset = dset.CIFAR10(
-            root=dataroot, train=True, download=args.download, transform=trans
-        )
-        test_dataset = dset.CIFAR10(
-            root=dataroot, train=False, download=args.download, transform=trans
-        )
-
-    elif args.dataset == "cifar100":
-        trans = transforms.Compose(
-            [
-                transforms.Resize(32),
-                transforms.ToTensor(),
-                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-            ]
-        )
-
-        train_dataset = dset.CIFAR100(
-            root=dataroot, train=True, download=args.download, transform=trans
-        )
-        test_dataset = dset.CIFAR100(
-            root=dataroot, train=False, download=args.download, transform=trans
-        )
-
-    elif args.dataset == "stl10":
-        trans = transforms.Compose(
-            [
-                transforms.Resize(32),
-                transforms.ToTensor(),
-            ]
-        )
-        train_dataset = dset.STL10(
-            root=dataroot, split="train", download=args.download, transform=trans
-        )
-        test_dataset = dset.STL10(
-            root=dataroot, split="test", download=args.download, transform=trans
-        )
-
-    # Check if everything is ok with loading datasets
-    assert train_dataset
-    assert test_dataset
+    train_dataset, test_dataset = DatasetRegistry.build(args.dataset, dataroot, args)
 
     train_dataloader = data_utils.DataLoader(
-<<<<<<< HEAD
         train_dataset,
         batch_size=args.batch_size,
         shuffle=True,
-        worker_init_fn=worker_init_fn,  # 添加worker初始化函数以确保可重复性
+        worker_init_fn=worker_init_fn,
     )
     test_dataloader = data_utils.DataLoader(
         test_dataset,
         batch_size=args.batch_size,
         shuffle=True,
-        worker_init_fn=worker_init_fn,  # 添加worker初始化函数以确保可重复性
-=======
-        train_dataset, 
-        batch_size=args.batch_size, 
-        shuffle=True,
-        worker_init_fn=worker_init_fn  # 添加worker初始化函数以确保可重复性
-    )
-    test_dataloader = data_utils.DataLoader(
-        test_dataset, 
-        batch_size=args.batch_size, 
-        shuffle=True,
-        worker_init_fn=worker_init_fn  # 添加worker初始化函数以确保可重复性
->>>>>>> delta_test
+        worker_init_fn=worker_init_fn,
     )
 
     return train_dataloader, test_dataloader
