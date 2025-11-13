@@ -16,6 +16,50 @@ from torch.utils.tensorboard import SummaryWriter
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+def seed_everything(seed: int) -> None:
+    """
+    设置所有随机数生成器的种子以确保可重现性
+    
+    Args:
+        seed: 随机种子值
+    """
+    import random
+    import numpy as np
+    import os
+
+    # Python标准库random
+    random.seed(seed)
+    
+    # NumPy
+    np.random.seed(seed)
+    
+    # PyTorch CPU
+    torch.manual_seed(seed)
+    
+    # PyTorch CUDA (如果可用)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed(seed)
+        torch.cuda.manual_seed_all(seed)  # 为所有GPU设置种子
+        
+        # 设置CUDA的确定性行为
+        torch.backends.cudnn.deterministic = True
+        torch.backends.cudnn.benchmark = False
+        
+        # 清空CUDA缓存
+        torch.cuda.empty_cache()
+    
+    # 设置环境变量以确保完全的确定性
+    os.environ['PYTHONHASHSEED'] = str(seed)
+    if torch.cuda.is_available():
+        os.environ['CUBLAS_WORKSPACE_CONFIG'] = ':4096:8'  # 为CUDA确定性算法
+    
+    # 设置PyTorch的确定性算法 (可能会影响性能)
+    try:
+        torch.use_deterministic_algorithms(True)
+    except RuntimeError:
+        # 如果不支持确定性算法，发出警告但继续
+        logger.warning("Deterministic algorithms not supported, results may not be fully reproducible")
+
 
 def seed_everything(seed: int) -> None:
     """
@@ -72,7 +116,6 @@ def run(cfg: DictConfig) -> None:
 
     seed_everything(cfg.setup.seed)
     logger.info(f"Set random seed to {cfg.setup.seed}")
-
     # Load datasets to train and test loaders
     args = argparse.Namespace(
         dataroot=cfg.datasets.dataroot,
@@ -102,7 +145,6 @@ def run(cfg: DictConfig) -> None:
             / cfg.optimizers.name
             / t.strftime("%Y%m%d-%H%M%S")
         )
-    results_folder = Path("GP_EXP") / results_folder
     results_folder = Path("g_l_observation") / results_folder
     results_folder.mkdir(parents=True, exist_ok=True)
 
@@ -112,11 +154,7 @@ def run(cfg: DictConfig) -> None:
         OmegaConf.save(cfg, f)
     logger.info(f"Configuration snapshot saved to {config_file}")
 
-    tb_log_dir = (
-        Path("g_l_observation")
-        / Path(cfg.tensorboard.log_dir_root)
-        / str(results_folder).replace("/", "_")
-    )
+    tb_log_dir = Path("g_l_observation") / Path(cfg.tensorboard.log_dir_root) / str(results_folder).replace("/", "_")
     tb_writer = SummaryWriter(log_dir=tb_log_dir)
 
     if cfg.models.name == "wgan":
@@ -161,7 +199,7 @@ def run(cfg: DictConfig) -> None:
             discriminator=discriminator,
             cfg=cfg,
             results_folder=results_folder,
-            tb_writer=tb_writer,
+            tb_writer=tb_writer
         )
 
         trainer = WGAN_GP_Trainer(

@@ -145,8 +145,8 @@ class AdaFM(Optimizer):
             for p in group["params"]:
                 if p.grad is not None:
                     grad_norm += p.grad.data.norm(2).item() ** 2
-        grad_norm = grad_norm**0.5
-
+        grad_norm = grad_norm ** 0.5
+        
         # 写入TensorBoard
         if self.tb_writer is not None:
             # 获取当前step数（从第一个参数的state中获取）
@@ -253,6 +253,9 @@ class AdaFM(Optimizer):
                             )
                         # L2正则项求导
                         grad_m.add_(p.data, alpha=weight_decay)
+                    
+                    # 累积grad_m的二范数平方
+                    grad_m_norm_squared += grad_m.data.norm(2).item() ** 2
 
                     # 累积grad_m的二范数平方
                     grad_m_norm_squared += grad_m.data.norm(2).item() ** 2
@@ -279,6 +282,14 @@ class AdaFM(Optimizer):
                     # 如果设置了计算有效的步长大小，计算它。
                     if self.compute_effective_stepsize:
                         self.effective_stepsize = (clr / ratio_p).item()
+        
+        # 计算grad_m的二范数并写入TensorBoard
+        grad_m_norm = grad_m_norm_squared ** 0.5
+        if self.tb_writer is not None and current_step is not None:
+            if self.opponent_optim is not None:
+                self.tb_writer.add_scalar('Processed_Gradient_Norm/generator', grad_m_norm, current_step)
+            else:
+                self.tb_writer.add_scalar('Processed_Gradient_Norm/discriminator', grad_m_norm, current_step)
 
         # 计算grad_m的二范数并写入TensorBoard
         grad_m_norm = grad_m_norm_squared**0.5

@@ -150,7 +150,6 @@ class PESG(torch.optim.Optimizer):
 
         # Compute processed gradient norm (d_p)
         processed_grad_norm = 0.0
-
         for group in self.param_groups:
             weight_decay = group["weight_decay"]
             clip_value = group["clip_value"]
@@ -226,7 +225,6 @@ class PESG(torch.optim.Optimizer):
 
         # Compute processed gradient norm (d_p)
         processed_grad_norm = 0.0
-
         for group in self.param_groups:
             clip_value = group["clip_value"]
             lr = group["lr"]
