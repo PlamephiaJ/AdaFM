@@ -60,6 +60,7 @@ def seed_everything(seed: int) -> None:
         # 如果不支持确定性算法，发出警告但继续
         logger.warning("Deterministic algorithms not supported, results may not be fully reproducible")
 
+<<<<<<< HEAD
 
 def seed_everything(seed: int) -> None:
     """
@@ -107,6 +108,8 @@ def seed_everything(seed: int) -> None:
             "Deterministic algorithms not supported, results may not be fully reproducible"
         )
 
+=======
+>>>>>>> delta_test
 
 def run(cfg: DictConfig) -> None:
     device = cfg.setup.device
@@ -114,8 +117,15 @@ def run(cfg: DictConfig) -> None:
         raise ValueError("CUDA is not available but it is the selected device.")
     logger.info(f"Using device: {device}")
 
+<<<<<<< HEAD
     seed_everything(cfg.setup.seed)
     logger.info(f"Set random seed to {cfg.setup.seed}")
+=======
+    # Set random seed for reproducibility
+    seed_everything(cfg.setup.seed)
+    logger.info(f"Random seed set to {cfg.setup.seed}")
+
+>>>>>>> delta_test
     # Load datasets to train and test loaders
     args = argparse.Namespace(
         dataroot=cfg.datasets.dataroot,

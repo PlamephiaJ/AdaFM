@@ -6,6 +6,7 @@ GAN/
 GAN_CIFAR100/
 multirun/
 tensorboard_logs/
+<<<<<<< HEAD
 GP_EXP*/
 GS/
 lr_observation/
@@ -15,3 +16,7 @@ delta_test/
 g_l_observation/
 image_generation/
 figures*/
+=======
+delta_test/
+g_l_observation/
+>>>>>>> delta_test

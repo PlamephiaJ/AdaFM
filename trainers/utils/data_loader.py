@@ -54,6 +54,20 @@ def worker_init_fn(worker_id):
     random.seed(worker_seed)
 
 
+def worker_init_fn(worker_id):
+    """
+    Initialize each DataLoader worker with a unique random seed
+    确保多进程数据加载的可重现性
+    
+    Args:
+        worker_id: DataLoader worker的ID
+    """
+    # 获取worker的种子 (基于PyTorch的初始种子)
+    worker_seed = torch.initial_seed() % 2**32
+    np.random.seed(worker_seed)
+    random.seed(worker_seed)
+
+
 def get_data_loader(args):
 
     dataroot = os.path.join(args.dataroot, args.dataset)
@@ -138,6 +152,7 @@ def get_data_loader(args):
     assert test_dataset
 
     train_dataloader = data_utils.DataLoader(
+<<<<<<< HEAD
         train_dataset,
         batch_size=args.batch_size,
         shuffle=True,
@@ -148,6 +163,18 @@ def get_data_loader(args):
         batch_size=args.batch_size,
         shuffle=True,
         worker_init_fn=worker_init_fn,  # 添加worker初始化函数以确保可重复性
+=======
+        train_dataset, 
+        batch_size=args.batch_size, 
+        shuffle=True,
+        worker_init_fn=worker_init_fn  # 添加worker初始化函数以确保可重复性
+    )
+    test_dataloader = data_utils.DataLoader(
+        test_dataset, 
+        batch_size=args.batch_size, 
+        shuffle=True,
+        worker_init_fn=worker_init_fn  # 添加worker初始化函数以确保可重复性
+>>>>>>> delta_test
     )
 
     return train_dataloader, test_dataloader
