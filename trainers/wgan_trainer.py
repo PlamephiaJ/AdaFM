@@ -125,14 +125,14 @@ class WGAN_GP_Trainer:
         LOGGER.info(f"Saved generator checkpoint to {g_checkpoint_path}")
         LOGGER.info(f"Saved discriminator checkpoint to {d_checkpoint_path}")
 
-    def train(self, train_loader, Real_Inception_score):
+    def train(self, train_loader, Real_Inception_score, time_record):
         use_delta = self.cfg.optimizers.get("use_delta", False)
         if use_delta:
-            self.train_use_delta(train_loader, Real_Inception_score)
+            self.train_use_delta(train_loader, Real_Inception_score, time_record)
         else:
-            self.train_dont_use_delta(train_loader, Real_Inception_score)
+            self.train_dont_use_delta(train_loader, Real_Inception_score, time_record)
 
-    def train_dont_use_delta(self, train_loader, Real_Inception_score):
+    def train_dont_use_delta(self, train_loader, Real_Inception_score, time_record):
         try:
             self.t_begin = t.time()
             self.data = self.get_infinite_batches(train_loader)
@@ -273,6 +273,7 @@ class WGAN_GP_Trainer:
 
                     # Testing
                     elapsed_time = t.time() - self.t_begin
+                    time_record.append(elapsed_time)
                     LOGGER.info(
                         "Real Inception score (mean, std): {}".format(inception_score)
                     )
@@ -326,9 +327,9 @@ class WGAN_GP_Trainer:
                 # Also save as text file for easy reading
                 txt_save_path = self.results_folder / "real_inception_scores.csv"
                 with open(txt_save_path, "w") as f:
-                    f.write("Iteration,IS\n")
-                    for i, score in enumerate(real_inception_scores):
-                        f.write(f"{(i+1)*self.save_interval},{score:.6f}\n")
+                    f.write("Iteration,IS,Time\n")
+                    for i, (score, elapsed) in enumerate(zip(real_inception_scores, time_record)):
+                        f.write(f"{(i+1)*self.save_interval},{score:.6f},{elapsed:.6f}\n")
 
                 best_IS_save_path = (
                     self.results_folder / "best_real_inception_score.csv"
@@ -345,7 +346,7 @@ class WGAN_GP_Trainer:
             else:
                 LOGGER.warning("No Real Inception Scores to save.")
 
-    def train_use_delta(self, train_loader, Real_Inception_score):
+    def train_use_delta(self, train_loader, Real_Inception_score, time_record):
         try:
             self.t_begin = t.time()
             self.data = self.get_infinite_batches(train_loader)
@@ -519,7 +520,6 @@ class WGAN_GP_Trainer:
                         torch.randn(self.number_of_images, self.z_dim, 1, 1)
                     )
                     Real_Inception_score.append(inception_score[0])
-
                     if inception_score[0] > best_real_inception_score:
                         best_real_inception_score = inception_score[0]
                         self._save_models_checkpoint(total_iter)
@@ -529,6 +529,7 @@ class WGAN_GP_Trainer:
 
                     # Testing
                     elapsed_time = t.time() - self.t_begin
+                    time_record.append(elapsed_time)
                     LOGGER.info(
                         "Real Inception score (mean, std): {}".format(inception_score)
                     )
@@ -582,9 +583,9 @@ class WGAN_GP_Trainer:
                 # Also save as text file for easy reading
                 txt_save_path = self.results_folder / "real_inception_scores.csv"
                 with open(txt_save_path, "w") as f:
-                    f.write("Iteration,IS\n")
-                    for i, score in enumerate(real_inception_scores):
-                        f.write(f"{(i+1)*self.save_interval},{score:.6f}\n")
+                    f.write("Iteration,IS,Time\n")
+                    for i, (score, elapsed) in enumerate(zip(real_inception_scores, time_record)):
+                        f.write(f"{(i+1)*self.save_interval},{score:.6f},{elapsed:.6f}\n")
 
                 best_IS_save_path = (
                     self.results_folder / "best_real_inception_score.csv"

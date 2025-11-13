@@ -67,6 +67,7 @@ def run(cfg: DictConfig) -> None:
         args
     )  # We're not using test_loader in this function
     Real_Inception_score = []
+    time_record = []
     logger.info("Data loaders are ready.")
 
     results_folder = Path(cfg.result_folder) / cfg.experiment_type
@@ -145,6 +146,6 @@ def run(cfg: DictConfig) -> None:
     )
     logger.info("Trainer is ready.")
 
-    trainer.train(train_loader, Real_Inception_score)
+    trainer.train(train_loader, Real_Inception_score, time_record)
 
     logger.info("Training is finished.")
