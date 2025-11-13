@@ -51,9 +51,6 @@ class WGAN_GP_Trainer:
         self.critic_iters = critic_iters
         self.lambda_term = cfg.models.lambda_term
         LOGGER.info(f"Using gradient penalty lambda term: {self.lambda_term}")
-        LOGGER.info(f"Using gradient penalty lambda term: {self.lambda_term}")
-        LOGGER.info(f"Using gradient penalty lambda term: {self.lambda_term}")
-        LOGGER.info(f"Using gradient penalty lambda term: {self.lambda_term}")
         self.save_interval = save_interval
         self.z_dim = z_dim
         self.batch_size = batch_size
