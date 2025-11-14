@@ -3,5 +3,5 @@ lr_discriminator: 1e-4
 lr_generator: 1e-4
 beta_discriminator: 0.8
 beta_generator: 0.8
-use_delta: true
+use_previous_model: true
 critic_iters: 1

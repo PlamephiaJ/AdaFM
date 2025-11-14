@@ -1,4 +1,5 @@
 name: adagrad
 lr: 0.02
 initial_accumulator_value: 0.05
+use_previous_model: false
 critic_iters: 5

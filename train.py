@@ -71,7 +71,8 @@ def run(cfg: DictConfig) -> None:
     logger.info("Data loaders are ready.")
 
     results_folder = Path(cfg.result_folder) / cfg.experiment_type
-    tb_log_dir = results_folder / "tensorboard_logs"
+    experiment_name = cfg.experiment_name
+    tb_log_dir = results_folder / "tensorboard_logs" / experiment_name
 
     results_folder = (
         results_folder
