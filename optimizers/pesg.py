@@ -114,9 +114,6 @@ class PESG(torch.optim.Optimizer):
 
     @torch.no_grad()
     def step(self, closure=None, delta=None):
-        if self.steps in self.decay_iters:
-            self.update_regularizer(self.decay_factor)
-
         if self.opponent_optim is not None:
             return self.step_for_x(closure, delta)
         else:
