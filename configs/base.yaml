@@ -6,7 +6,7 @@ defaults:
 
 result_folder: results/
 
-experiment_type: default # g_l_observation | delta_test | default | gp_exp | loss_lr
+experiment_type: default # g_l_observation | delta_test | default | gp_exp | loss_lr | grid_search
 
 setup:
   seed: 8
