@@ -11,7 +11,7 @@ from scipy.ndimage import uniform_filter1d
 # Figure styling constants
 FIG_SIZE = (7.2, 4.5)  # Width, Height in inches for main plots
 LINE_WIDTH = 6  # Line width for plots
-LEGEND_FONTSIZE = 9  # Legend font size
+LEGEND_FONTSIZE = 12  # Legend font size
 Y_AXIS_BOTTOM = 1  # Y-axis starting point for plots
 # Optimizer color mapping based on optimizer specs
 OPTIMIZER_COLORS = {
@@ -43,6 +43,8 @@ NUM_DATA_POINTS = 400  # Number of data points to plot
 SAVE_INTERVAL = 200
 SHOW_ENVELOPE = False
 MAX_ITERATIONS = 80000  # Maximum x-axis range for plotting
+X_LIMIT = 40_000
+NEW_X_LIMIT = (0, 40000)
 Y_AXIS_BOTTOM = 1  # Y-axis starting point for plots
 # Legend position settings for different plots
 FIGURE_FOLDER = Path("figures")
@@ -543,6 +545,8 @@ def plot_inception_scores(
             mask = iterations <= MAX_ITERATIONS
             iterations = iterations[mask]
             scores = scores[mask]
+
+            iterations_scaled = iterations * (40_000 / MAX_ITERATIONS)
             
             if len(scores) == 0:
                 print(f"Skipped {exp_name}: No data within x <= {MAX_ITERATIONS} range")
@@ -561,7 +565,7 @@ def plot_inception_scores(
 
             # Plot smoothed line
             plt.plot(
-                iterations,
+                iterations_scaled,
                 smoothed_scores,
                 label=f"{optimizer_real_name}",
                 color=line_color,
@@ -572,7 +576,7 @@ def plot_inception_scores(
             # Show raw data if requested
             if show_raw:
                 plt.plot(
-                    iterations,
+                    iterations_scaled,
                     scores,
                     color=line_color,
                     alpha=0.3,
@@ -614,7 +618,7 @@ def plot_inception_scores(
                         wall_times = np.array(df_wall["wall_time_seconds"].values)
                         wall_scores = np.array(df_wall["inception_score"].values)
                         wall_steps = np.array(df_wall["step"].values)
-                        for t_idx, t in enumerate([1500, 3000, 4500, 6000]):
+                        for t_idx, t in enumerate([2400]):
                             if len(wall_times) == 0:
                                 continue
                             if np.max(wall_times) < t:
@@ -630,11 +634,12 @@ def plot_inception_scores(
                             except Exception:
                                 y_on_smoothed = wall_scores[int(idx)]
 
+                            step_x_scaled = step_x * (40_000 / MAX_ITERATIONS)
                             plt.scatter(
-                                step_x,
+                                step_x_scaled,
                                 y_on_smoothed,
-                                marker=['*', '^', 's', 'o'][t_idx],
-                                s=120,
+                                marker='o',
+                                s=360,
                                 color=line_color,
                                 edgecolors='k',
                                 zorder=10,
@@ -657,7 +662,7 @@ def plot_inception_scores(
             print(f"Skipped {exp_name}: No valid data")
 
     # Customize the plot (no title, per request)
-    plt.xlabel("Training Steps", fontsize=18)
+    plt.xlabel("Generator Steps", fontsize=18)
     plt.ylabel("Inception Score", fontsize=18)
     # No title to keep the figure cleaner
     plt.grid(True, alpha=0.3)
@@ -674,8 +679,8 @@ def plot_inception_scores(
     from matplotlib.lines import Line2D
     marker_handles = []
     marker_labels = []
-    time_markers = ['*', '^', 's', 'o']
-    time_points = [1500, 3000, 4500, 6000]
+    time_markers = ['o']
+    time_points = [2400]
     for t_idx in sorted(plotted_time_indices):
         mh = Line2D([], [], color='k', marker=time_markers[t_idx], linestyle='', markersize=6)
         try:
@@ -683,7 +688,7 @@ def plot_inception_scores(
         except Exception:
             pass
         marker_handles.append(mh)
-        marker_labels.append(f"runtime={time_points[t_idx]}s")
+        marker_labels.append(f"runtime={int(time_points[t_idx]/60)} min")
 
     all_handles = existing_handles + marker_handles
     all_labels = existing_labels + marker_labels
@@ -702,7 +707,8 @@ def plot_inception_scores(
 
     # Set reasonable axis limits
     plt.ylim(bottom=Y_AXIS_BOTTOM)
-    plt.xlim(left=0, right=MAX_ITERATIONS)
+    plt.xlim(left=0, right=40000)
+    plt.yticks([1, 2, 3, 4, 5])
 
     # Adjust layout to prevent legend cutoff
     plt.tight_layout()
@@ -924,7 +930,7 @@ def main(use_best_only=True):
         print(f"\nCreating single loop optimizers plot...")
         print(f"Single loop experiments: {list(single_loop_experiments.keys())}")
         single_loop_plot_name = (
-            "best_single_loop_optimizers_smoothed.png"
+            "IS_CIFAR100_single.png"
             if use_best_only
             else "single_loop_optimizers_smoothed.png"
         )
@@ -943,7 +949,7 @@ def main(use_best_only=True):
         print(f"\nCreating double loop optimizers plot...")
         print(f"Double loop experiments: {list(double_loop_experiments.keys())}")
         double_loop_plot_name = (
-            "best_double_loop_optimizers_smoothed.png"
+            "IS_CIFAR100_double.png"
             if use_best_only
             else "double_loop_optimizers_smoothed.png"
         )
