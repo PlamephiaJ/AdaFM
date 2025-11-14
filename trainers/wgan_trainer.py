@@ -166,7 +166,7 @@ class WGAN_GP_Trainer:
                 d_loss_fake = 0
                 # Wasserstein_D = 0
 
-                for d_iter in range(1):
+                for d_iter in range(self.cfg.optimizers.critic_iters):
                     self.D.zero_grad()
                     if self.cfg.optimizers.get("use_previous_model", False) and D_old is not None:
                         D_old.zero_grad()
