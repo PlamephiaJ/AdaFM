@@ -1,9 +1,6 @@
-import torchvision.models as models
 import torch
+import torchvision.models as models
 from torch.autograd import Variable
-from utils.data_loader import get_data_loader
-from sklearn.metrics import accuracy_score
-from sklearn.linear_model import LogisticRegression
 
 """
 Running feature extraction part for GAN model extraction 
@@ -16,8 +13,8 @@ class FeatureExtractionTest:
     def __init__(self, train_loader, test_loader, cuda_flag, batch_size):
         self.train_loader = train_loader
         self.test_loader = test_loader
-        print("Train length: {}".format(len(self.train_loader)))
-        print("Test length: {}".format(len(self.test_loader)))
+        print(f"Train length: {len(self.train_loader)}")
+        print(f"Test length: {len(self.test_loader)}")
         self.batch_size = batch_size
 
         # Remove fully connected layer and extract 2048 vector as feautre representation of image
@@ -151,28 +148,28 @@ class FeatureExtractionTest:
 
         return x_train, y_train, x_test, y_test
 
-    def calculate_score(self):
-        """
-        Calculate accuracy score by fitting feature representation on to a linear classificato LinearSVM or LogisticRegression
-        """
-        mean_score = 0
-        for i in range(10):
-            # This way data is shuffling every iteration
-            train_loader, test_loader = get_data_loader(args)
+    # def calculate_score(self):
+    #     """
+    #     Calculate accuracy score by fitting feature representation on to a linear classificato LinearSVM or LogisticRegression
+    #     """
+    #     mean_score = 0
+    #     for i in range(10):
+    #         # This way data is shuffling every iteration
+    #         train_loader, test_loader = get_data_loader(args)
 
-            x_train, y_train, x_test, y_test = (
-                feature_extraction.inception_feature_extraction()
-            )
-            # x_train, y_train, x_test, y_test = feature_extraction.GAN_feature_extraction(model.D)
-            # x_train, y_train, x_test, y_test = feature_extraction.flatten_images()
+    #         x_train, y_train, x_test, y_test = (
+    #             feature_extraction.inception_feature_extraction()
+    #         )
+    #         # x_train, y_train, x_test, y_test = feature_extraction.GAN_feature_extraction(model.D)
+    #         # x_train, y_train, x_test, y_test = feature_extraction.flatten_images()
 
-            # clf = LinearSVC()
-            clf = LogisticRegression()
-            clf.fit(x_train, y_train)
+    #         # clf = LinearSVC()
+    #         clf = LogisticRegression()
+    #         clf.fit(x_train, y_train)
 
-            predicted = clf.predict(x_test)
-            score = accuracy_score(y_test, predicted)
-            print("Accuaracy score: {}".format(score))
-            mean_score += score
-        print("Mean score: {}".format(float(mean_score) / float(10)))
-        return float(mean_score) / float(10)
+    #         predicted = clf.predict(x_test)
+    #         score = accuracy_score(y_test, predicted)
+    #         print(f"Accuaracy score: {score}")
+    #         mean_score += score
+    #     print(f"Mean score: {float(mean_score) / float(10)}")
+    #     return float(mean_score) / float(10)

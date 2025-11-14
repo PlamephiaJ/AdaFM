@@ -1,17 +1,17 @@
 import os
-import numpy as np
+
 import matplotlib.pyplot as plt
+import numpy as np
 import torch
 from opts import (
     AdaFM2Var,
-    MSGDA2Var,
-    TiAda2Var,
-    PESG2Var,
-    Adam2Var,
-    RMSProp2Var,
     AdaGrad2Var,
+    Adam2Var,
+    MSGDA2Var,
+    PESG2Var,
+    RMSProp2Var,
+    TiAda2Var,
 )
-
 
 # ======= Configurable constants =======
 L = 2.0
@@ -85,9 +85,7 @@ def run_trajectory(
                 (g_y,) = torch.autograd.grad(loss_y, opt.param_y)
                 # ascent: flip sign if maximize_y True (default wrappers use maximize_y flag)
                 if hasattr(opt, "maximise_y"):
-                    maximize = getattr(
-                        opt, "maximise_y"
-                    )  # robustness if spelled differently
+                    maximize = opt.maximise_y  # robustness if spelled differently
                 else:
                     maximize = getattr(opt, "maximize_y", True)
                 opt.param_y.grad = -g_y if maximize else g_y

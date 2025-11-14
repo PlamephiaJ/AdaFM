@@ -1,6 +1,5 @@
-import torch
-import numpy as np
 from cleanfid import fid
+
 
 def tensor_to_uint8(imgs):
     """
@@ -14,6 +13,7 @@ def tensor_to_uint8(imgs):
     imgs = (imgs * 255).byte()
     imgs = imgs.permute(0, 2, 3, 1).cpu().numpy()
     return imgs
+
 
 def get_fid_score(fake_imgs, dataset_name="cifar10", dataset_split="train"):
     """

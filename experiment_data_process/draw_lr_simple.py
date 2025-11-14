@@ -4,11 +4,12 @@ Simple script to quickly visualize learning rates from GAN experiments.
 Usage: python draw_lr_simple.py
 """
 
-import os
-import pandas as pd
-import matplotlib.pyplot as plt
 import glob
+import os
 from pathlib import Path
+
+import matplotlib.pyplot as plt
+import pandas as pd
 
 # Configuration constants
 MAX_STEPS = 5000  # Maximum number of training steps to display

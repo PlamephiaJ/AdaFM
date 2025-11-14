@@ -101,9 +101,8 @@ Registry Pattern:
 
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
-from torch.nn.utils import spectral_norm
 from omegaconf import OmegaConf
+from torch.nn.utils import spectral_norm
 
 # Model Registry
 _MODELS = {}

@@ -1,7 +1,5 @@
 # ======= AdaFM 2-variable + visualization =======
 import torch
-import matplotlib.pyplot as plt
-import numpy as np
 
 """
 Single-loop Optimzers

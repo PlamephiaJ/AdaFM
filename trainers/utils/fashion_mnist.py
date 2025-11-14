@@ -1,11 +1,11 @@
-from __future__ import print_function
-import torch.utils.data as data
-from PIL import Image
+import codecs
+import errno
 import os
 import os.path
-import errno
+
 import torch
-import codecs
+import torch.utils.data as data
+from PIL import Image
 
 
 # Code referenced from torch source code to add Fashion-MNSIT dataset to dataloder
@@ -101,8 +101,9 @@ class MNIST(data.Dataset):
 
     def download(self):
         """Download the MNIST data if it doesn't exist in processed_folder already."""
-        from six.moves import urllib
         import gzip
+
+        from six.moves import urllib
 
         if self._check_exists():
             return
@@ -124,9 +125,10 @@ class MNIST(data.Dataset):
             file_path = os.path.join(self.root, self.raw_folder, filename)
             with open(file_path, "wb") as f:
                 f.write(data.read())
-            with open(file_path.replace(".gz", ""), "wb") as out_f, gzip.GzipFile(
-                file_path
-            ) as zip_f:
+            with (
+                open(file_path.replace(".gz", ""), "wb") as out_f,
+                gzip.GzipFile(file_path) as zip_f,
+            ):
                 out_f.write(zip_f.read())
             os.unlink(file_path)
 

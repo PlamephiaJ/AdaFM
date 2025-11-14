@@ -1,6 +1,4 @@
-import torch
 import torch.nn as nn
-
 
 # Model Registry
 MODEL_REGISTRY = {}

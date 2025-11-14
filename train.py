@@ -1,28 +1,28 @@
+import argparse
 import logging
 import os
-from omegaconf import DictConfig, OmegaConf
-import argparse
+import time as t
+from pathlib import Path
 
 import torch
-from pathlib import Path
-import time as t
-
-from trainers.utils.data_loader import get_data_loader
-from optimizer_factory import create_optimizers
-from trainers.wgan_trainer import WGAN_GP_Trainer
-from models.wgan_factory import create_model
-from utils import experiment_setting_checker
-
+from omegaconf import DictConfig, OmegaConf
 from torch.utils.tensorboard import SummaryWriter
+
+from models.wgan_factory import create_model
+from optimizer_factory import create_optimizers
+from trainers.utils.data_loader import get_data_loader
+from trainers.wgan_trainer import WGAN_GP_Trainer
+from utils import experiment_setting_checker
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
 def seed_everything(seed: int) -> None:
-    import random
-    import numpy as np
     import os
+    import random
+
+    import numpy as np
 
     random.seed(seed)
     np.random.seed(seed)
@@ -63,9 +63,7 @@ def run(cfg: DictConfig) -> None:
         download=cfg.datasets.download,
         batch_size=cfg.models.training.batch_size,
     )
-    train_loader, _ = get_data_loader(
-        args
-    )
+    train_loader, _ = get_data_loader(args)
     logger.info("Data loaders are ready.")
 
     results_folder = Path(cfg.result_folder) / cfg.experiment_type

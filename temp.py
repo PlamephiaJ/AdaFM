@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import csv
 
-with open("results/grid_search/GAN_cifar10/wgan-gp-in/missing_lr.csv", "r") as f:
+with open("results/grid_search/GAN_cifar10/wgan-gp-in/missing_lr.csv") as f:
     reader = csv.DictReader(f)
     groups = []
     for row in reader:

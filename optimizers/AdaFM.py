@@ -1,7 +1,7 @@
+from pathlib import Path
+
 import torch
 from torch.optim import Optimizer
-from typing import Optional
-from pathlib import Path
 
 
 class AdaFM(Optimizer):
@@ -30,7 +30,7 @@ class AdaFM(Optimizer):
         weight_decay=0,
         initial_accumulator_value=0,
         eps=1e-10,
-        foreach: Optional[bool] = None,
+        foreach: bool | None = None,
         beta=0.9,
         opponent_optim=None,
         compute_effective_stepsize=False,
@@ -41,19 +41,17 @@ class AdaFM(Optimizer):
         maximize: bool = False,
     ):
         if not 0.0 <= lr:
-            raise ValueError("Invalid learning rate: {}".format(lr))
+            raise ValueError(f"Invalid learning rate: {lr}")
         if not 0.0 <= lr_decay:
-            raise ValueError("Invalid lr_decay value: {}".format(lr_decay))
+            raise ValueError(f"Invalid lr_decay value: {lr_decay}")
         if not 0.0 <= weight_decay:
-            raise ValueError("Invalid weight_decay value: {}".format(weight_decay))
+            raise ValueError(f"Invalid weight_decay value: {weight_decay}")
         if not 0.0 <= initial_accumulator_value:
             raise ValueError(
-                "Invalid initial_accumulator_value value: {}".format(
-                    initial_accumulator_value
-                )
+                f"Invalid initial_accumulator_value value: {initial_accumulator_value}"
             )
         if not 0.0 <= eps:
-            raise ValueError("Invalid epsilon value: {}".format(eps))
+            raise ValueError(f"Invalid epsilon value: {eps}")
 
         defaults = dict(
             lr=lr,

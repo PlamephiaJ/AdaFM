@@ -1,10 +1,11 @@
+import glob
 import os
 import pickle
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
 from pathlib import Path
-import glob
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 from scipy import signal
 from scipy.ndimage import uniform_filter1d
 
@@ -419,7 +420,7 @@ def load_inception_scores(file_path, max_points=40000):
         elif file_path.suffix.lower() == ".txt":
             # Load from text file
             scores = []
-            with open(file_path, "r") as f:
+            with open(file_path) as f:
                 lines = f.readlines()
 
             for line in lines[1:]:  # Skip header
@@ -817,7 +818,7 @@ def main(use_best_only=True):
 
     # Create traditional GAN experiments plot
     if traditional_experiments:
-        print(f"\nCreating traditional GAN experiments plot...")
+        print("\nCreating traditional GAN experiments plot...")
         traditional_plot_name = (
             "best_traditional_gan_experiments_smoothed.png"
             if use_best_only
@@ -835,7 +836,7 @@ def main(use_best_only=True):
 
     # Create model factory experiments plot
     if model_factory_experiments:
-        print(f"\nCreating model factory experiments plot...")
+        print("\nCreating model factory experiments plot...")
         model_factory_plot_name = (
             "best_model_factory_experiments_smoothed.png"
             if use_best_only

@@ -7,13 +7,12 @@ and saves them in a standardized format.
 Usage: python analyze_inception_scores.py
 """
 
-import os
-import pandas as pd
-import numpy as np
-import glob
-from pathlib import Path
-import pickle
 import logging
+import pickle
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -50,7 +49,7 @@ def load_inception_scores_from_txt(txt_path):
     """Load inception scores from text file."""
     try:
         scores = []
-        with open(txt_path, "r") as f:
+        with open(txt_path) as f:
             lines = f.readlines()
 
         for line in lines[1:]:  # Skip header
@@ -239,7 +238,7 @@ def find_and_analyze_experiments():
         print(avg_by_optimizer)
 
         # Find overall best experiments
-        print(f"\nTop 5 experiments by Best IS:")
+        print("\nTop 5 experiments by Best IS:")
         top_experiments = summary_df.nlargest(5, "best_is")[
             ["experiment", "best_is", "avg_is"]
         ]

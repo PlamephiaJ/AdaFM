@@ -1,8 +1,7 @@
 import tensorflow as tf
-import numpy as np
 
 
-class Logger(object):
+class Logger:
 
     def __init__(self, log_dir):
         """Create a summary writer logging to log_dir."""
@@ -32,12 +31,12 @@ class Logger(object):
         #             imgs = img
         # tf.summary.image('{}'.format(tag), imgs, max_outputs=len(imgs), step=step)
         with self.writer.as_default():
-            tf.summary.image("{}".format(tag), images, step=step)
+            tf.summary.image(f"{tag}", images, step=step)
 
     def histo_summary(self, tag, values, step, bins=1000):
         """Log a histogram of the tensor of values."""
         with self.writer.as_default():
-            tf.summary.histogram("{}".format(tag), values, buckets=bins, step=step)
+            tf.summary.histogram(f"{tag}", values, buckets=bins, step=step)
 
     def config_summary(self, config):
         # Write config

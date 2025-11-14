@@ -1,24 +1,24 @@
-from omegaconf import DictConfig
-import torch
-import torch.nn as nn
-import torch.optim as optim
-import torch.autograd as autograd
-from torch.autograd import Variable
+import copy
+import logging
+import os
 import time as t
 from datetime import timedelta
-import copy
-from .utils.inception_score import get_inception_score
-from .utils.frechet_inception_distance import get_fid_score
-from cleanfid import fid
-import torchvision.utils as vutils
-import os
-import pickle
-import numpy as np
 from pathlib import Path
-import logging
-from tqdm import tqdm
-from torchvision.utils import make_grid
+
+import numpy as np
+import torch
+import torch.autograd as autograd
+import torch.nn as nn
+import torch.optim as optim
+import torchvision.utils as vutils
+from omegaconf import DictConfig
+from torch.autograd import Variable
 from torchvision.models.inception import inception_v3
+from torchvision.utils import make_grid
+from tqdm import tqdm
+
+from .utils.frechet_inception_distance import get_fid_score
+from .utils.inception_score import get_inception_score
 
 LOGGER = logging.getLogger(__name__)
 
@@ -316,7 +316,7 @@ class WGAN_GP_Trainer:
                     # # Feeding list of numpy arrays
                     # inception_score is a tuple (mean, std)
                     # mean IS and std IS
-                    
+
                     is_mean, is_std = get_inception_score(
                         samples,
                         inception_model=self.inception_model,
@@ -326,7 +326,9 @@ class WGAN_GP_Trainer:
                         device=self.device,
                     )
                     inception_scores.append(is_mean)
-                    fid_score = get_fid_score(fake_imgs=samples, dataset_name=self.dataset_name)
+                    fid_score = get_fid_score(
+                        fake_imgs=samples, dataset_name=self.dataset_name
+                    )
                     fid_scores.append(fid_score)
 
                     if is_mean > best_real_inception_score:
@@ -345,16 +347,12 @@ class WGAN_GP_Trainer:
                     self.writer.add_scalar("FID Score", fid_score, total_iter)
 
                     LOGGER.info(
-                        "Inception score (mean, std): ({:.4f}, {:.4f})".format(
-                            is_mean, is_std
-                        )
+                        f"Inception score (mean, std): ({is_mean:.4f}, {is_std:.4f})"
                     )
-                    LOGGER.info("Generator iter: {}".format(g_iter))
-                    LOGGER.info("total_iter_finished: {}".format(total_iter))
+                    LOGGER.info(f"Generator iter: {g_iter}")
+                    LOGGER.info(f"total_iter_finished: {total_iter}")
                     LOGGER.info(
-                        "Time elapsed: {}".format(
-                            str(timedelta(seconds=int(elapsed_time)))
-                        )
+                        f"Time elapsed: {str(timedelta(seconds=int(elapsed_time)))}"
                     )
 
                     # Save generated images for visualization
@@ -377,7 +375,7 @@ class WGAN_GP_Trainer:
                         )
 
             self.t_end = t.time()
-            LOGGER.info("Time of training-{}".format((self.t_end - self.t_begin)))
+            LOGGER.info(f"Time of training-{self.t_end - self.t_begin}")
             np_inception_scores = np.array(inception_scores)
             np_fid_scores = np.array(fid_scores)
 
@@ -398,9 +396,7 @@ class WGAN_GP_Trainer:
                             f"{(i+1)*self.eval_interval},{inception_score:.6f},{fid_score:.6f},{elapsed:.6f}\n"
                         )
 
-                best_metrics_save_path = (
-                    self.results_folder / "best_metrics.csv"
-                )
+                best_metrics_save_path = self.results_folder / "best_metrics.csv"
                 with open(best_metrics_save_path, "w") as f:
                     f.write("BestIS,AvgIS,BestFID,AvgFID\n")
                     f.write(

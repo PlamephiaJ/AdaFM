@@ -1,6 +1,6 @@
-from omegaconf import DictConfig
-
 import logging
+
+from omegaconf import DictConfig
 
 LOGGER = logging.getLogger(__name__)
 

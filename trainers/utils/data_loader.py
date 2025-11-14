@@ -1,12 +1,11 @@
 import os
-import torch
-import numpy as np
 import random
 
+import numpy as np
+import torch
+import torch.utils.data as data_utils
 import torchvision.datasets as dset
 import torchvision.transforms as transforms
-import torch.utils.data as data_utils
-from .fashion_mnist import MNIST, FashionMNIST
 
 
 def worker_init_fn(worker_id):

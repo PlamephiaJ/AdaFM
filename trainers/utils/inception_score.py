@@ -1,9 +1,9 @@
+import numpy as np
 import torch
+from scipy.stats import entropy
 from torch import nn
 from torch.nn import functional as F
 from torchvision.models.inception import inception_v3
-import numpy as np
-from scipy.stats import entropy
 
 
 def get_inception_score(

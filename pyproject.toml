@@ -1,0 +1,94 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "adafm-gans"
+version = "0.1.0"
+description = "GAN experiments with torch, Hydra, and friends"
+readme = "README.md"
+requires-python = ">=3.13"
+
+dependencies = [
+    "torch",
+    "torchvision",
+    "matplotlib",
+    "hydra-core==1.3.2",
+    "scipy",
+    "tqdm",
+    "tensorboard",
+    "clean-fid",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "black",
+    "ruff",
+    "pyink",
+    "pre-commit",
+]
+
+[tool.pyink]
+line-length = 88
+target-version = ["py310"]
+exclude = '''
+/(
+    \.git
+  | \.idea
+  | \.vscode
+  | \.mypy_cache
+  | \.ruff_cache
+  | build
+  | dist
+  | __pycache__
+  | outputs
+  | results
+  | multirun
+)/
+'''
+
+[tool.ruff]
+target-version = "py310"
+line-length = 88
+exclude = [
+    ".git",
+    ".mypy_cache",
+    ".ruff_cache",
+    ".venv",
+    "build",
+    "dist",
+    "outputs",
+    "results",
+    "multirun",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = [
+  "E501",  # 行太长
+  "B006",  # mutable 默认参数
+  "B007",  # 未使用的循环变量
+  "B905",  # zip 没 strict
+  "UP008", # super(Class, self)
+  "E722",  # bare except
+  "E741",  # 变量名 l
+  "F841",  # 未使用局部变量
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = [
+  "models",
+  "examples",
+  "trainers",
+  "optimizers",
+  "experiment_data_process",
+]
+exclude = [
+  "configs",
+  "outputs",
+  "results",
+  "multirun",
+  "scripts",
+]

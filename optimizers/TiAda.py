@@ -1,8 +1,8 @@
 import math
-from typing import List, Optional
+from pathlib import Path
+
 import torch
 from torch.optim import Optimizer
-from pathlib import Path
 
 
 class TiAda_wo_max(Optimizer):
@@ -15,25 +15,23 @@ class TiAda_wo_max(Optimizer):
         weight_decay=0,
         initial_accumulator_value=0,
         eps=1e-10,
-        foreach: Optional[bool] = None,
+        foreach: bool | None = None,
         alpha=0.5,
         *,
         maximize: bool = False,
     ):
         if not 0.0 <= lr:
-            raise ValueError("Invalid learning rate: {}".format(lr))
+            raise ValueError(f"Invalid learning rate: {lr}")
         if not 0.0 <= lr_decay:
-            raise ValueError("Invalid lr_decay value: {}".format(lr_decay))
+            raise ValueError(f"Invalid lr_decay value: {lr_decay}")
         if not 0.0 <= weight_decay:
-            raise ValueError("Invalid weight_decay value: {}".format(weight_decay))
+            raise ValueError(f"Invalid weight_decay value: {weight_decay}")
         if not 0.0 <= initial_accumulator_value:
             raise ValueError(
-                "Invalid initial_accumulator_value value: {}".format(
-                    initial_accumulator_value
-                )
+                f"Invalid initial_accumulator_value value: {initial_accumulator_value}"
             )
         if not 0.0 <= eps:
-            raise ValueError("Invalid epsilon value: {}".format(eps))
+            raise ValueError(f"Invalid epsilon value: {eps}")
 
         defaults = dict(
             lr=lr,
@@ -181,20 +179,20 @@ class TiAda_Adam(Optimizer):
         alpha=0.5,
         opponent_optim=None,
         *,
-        foreach: Optional[bool] = None,
+        foreach: bool | None = None,
         maximize: bool = False,
         capturable: bool = False,
     ):
         if not 0.0 <= lr:
-            raise ValueError("Invalid learning rate: {}".format(lr))
+            raise ValueError(f"Invalid learning rate: {lr}")
         if not 0.0 <= eps:
-            raise ValueError("Invalid epsilon value: {}".format(eps))
+            raise ValueError(f"Invalid epsilon value: {eps}")
         if not 0.0 <= betas[0] < 1.0:
-            raise ValueError("Invalid beta parameter at index 0: {}".format(betas[0]))
+            raise ValueError(f"Invalid beta parameter at index 0: {betas[0]}")
         if not 0.0 <= betas[1] < 1.0:
-            raise ValueError("Invalid beta parameter at index 1: {}".format(betas[1]))
+            raise ValueError(f"Invalid beta parameter at index 1: {betas[1]}")
         if not 0.0 <= weight_decay:
-            raise ValueError("Invalid weight_decay value: {}".format(weight_decay))
+            raise ValueError(f"Invalid weight_decay value: {weight_decay}")
         defaults = dict(
             lr=lr,
             betas=betas,
@@ -434,7 +432,7 @@ class TiAda(Optimizer):
         weight_decay=0,
         initial_accumulator_value=0,
         eps=1e-10,
-        foreach: Optional[bool] = None,
+        foreach: bool | None = None,
         alpha=0.5,
         beta=0.4,
         opponent_optim=None,
@@ -445,19 +443,17 @@ class TiAda(Optimizer):
         maximize: bool = False,
     ):
         if not 0.0 <= lr:
-            raise ValueError("Invalid learning rate: {}".format(lr))
+            raise ValueError(f"Invalid learning rate: {lr}")
         if not 0.0 <= lr_decay:
-            raise ValueError("Invalid lr_decay value: {}".format(lr_decay))
+            raise ValueError(f"Invalid lr_decay value: {lr_decay}")
         if not 0.0 <= weight_decay:
-            raise ValueError("Invalid weight_decay value: {}".format(weight_decay))
+            raise ValueError(f"Invalid weight_decay value: {weight_decay}")
         if not 0.0 <= initial_accumulator_value:
             raise ValueError(
-                "Invalid initial_accumulator_value value: {}".format(
-                    initial_accumulator_value
-                )
+                f"Invalid initial_accumulator_value value: {initial_accumulator_value}"
             )
         if not 0.0 <= eps:
-            raise ValueError("Invalid epsilon value: {}".format(eps))
+            raise ValueError(f"Invalid epsilon value: {eps}")
 
         defaults = dict(
             lr=lr,

@@ -1,14 +1,16 @@
-import torch
-from typing import Dict, Callable, Tuple, Any
-from omegaconf import DictConfig
+from collections.abc import Callable
 from pathlib import Path
+from typing import Any
+
+import torch
+from omegaconf import DictConfig
 
 
 class OptimizerRegistry:
     """优化器注册器，用于管理不同类型的优化器创建逻辑"""
 
     def __init__(self):
-        self._optimizers: Dict[str, Callable] = {}
+        self._optimizers: dict[str, Callable] = {}
 
     def register(self, name: str):
         """注册优化器创建函数的装饰器"""
@@ -27,7 +29,7 @@ class OptimizerRegistry:
         cfg: DictConfig,
         results_folder: Path,
         tb_writer=None,
-    ) -> Tuple[Any, Any]:
+    ) -> tuple[Any, Any]:
         """创建生成器和判别器的优化器"""
         if name not in self._optimizers:
             raise NotImplementedError(f"Optimizer {name} is not implemented.")
@@ -275,7 +277,7 @@ def create_rmsprop_optimizers(
 
 def create_optimizers(
     generator, discriminator, cfg: DictConfig, results_folder: Path, tb_writer=None
-) -> Tuple[Any, Any]:
+) -> tuple[Any, Any]:
     """主要的优化器创建函数，保持向后兼容性"""
     return optimizer_registry.create_optimizers(
         cfg.optimizers.name, generator, discriminator, cfg, results_folder, tb_writer

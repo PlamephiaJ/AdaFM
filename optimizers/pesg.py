@@ -1,8 +1,7 @@
-import torch
-from pathlib import Path
-from typing import Optional
-import copy
 import logging
+from pathlib import Path
+
+import torch
 
 LOGGER = logging.getLogger(__name__)
 
@@ -19,24 +18,24 @@ class PESG(torch.optim.Optimizer):
         weight_decay: float = 1e-5,
         epoch_decay: float = 2e-3,
         momentum: float = 0,
-        decay_iters: Optional[list[int]] = None,
+        decay_iters: list[int] | None = None,
         decay_factor: int = 3,
-        opponent_optim: Optional[torch.optim.Optimizer] = None,
-        results_folder: Optional[Path] = None,
+        opponent_optim: torch.optim.Optimizer | None = None,
+        results_folder: Path | None = None,
         tb_writer=None,
         *,
         maximize: bool = False,
     ):
         if lr <= 0.0:
-            raise ValueError("Invalid learning rate: {}".format(lr))
+            raise ValueError(f"Invalid learning rate: {lr}")
         if clip_value < 0.0:
-            raise ValueError("Invalid clip_value: {}".format(clip_value))
+            raise ValueError(f"Invalid clip_value: {clip_value}")
         if weight_decay < 0.0:
-            raise ValueError("Invalid weight_decay: {}".format(weight_decay))
+            raise ValueError(f"Invalid weight_decay: {weight_decay}")
         if epoch_decay < 0.0:
-            raise ValueError("Invalid epoch_decay: {}".format(epoch_decay))
+            raise ValueError(f"Invalid epoch_decay: {epoch_decay}")
         if momentum < 0.0:
-            raise ValueError("Invalid momentum: {}".format(momentum))
+            raise ValueError(f"Invalid momentum: {momentum}")
 
         params = list(params)
 
@@ -262,7 +261,7 @@ class PESG(torch.optim.Optimizer):
                     p.grad = None
 
     def update_regularizer(self, decay_factor=None):
-        if decay_factor != None:
+        if decay_factor is not None:
             self.param_groups[0]["lr"] = self.param_groups[0]["lr"] / decay_factor
             LOGGER.info(
                 "Reducing learning rate to %.5f @ T=%s!",

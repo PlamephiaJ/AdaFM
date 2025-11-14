@@ -1,0 +1,15 @@
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: "v0.14.5"
+    hooks:
+      - id: ruff
+        args: ["--fix"]
+
+  - repo: local
+    hooks:
+      - id: pyink
+        name: pyink
+        entry: pyink
+        language: system
+        types: [python]
+        args: ["--line-length=88"]
