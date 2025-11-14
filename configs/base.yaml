@@ -1,7 +1,7 @@
 defaults:
   - _self_
-  - optimizers: tiada
-  - datasets: cifar100
+  - optimizers: msgda
+  - datasets: cifar10
   - models: wgan
 
 result_folder: results/
