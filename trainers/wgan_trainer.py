@@ -126,13 +126,13 @@ class WGAN_GP_Trainer:
         LOGGER.info(f"Saved discriminator checkpoint to {d_checkpoint_path}")
 
     def train(self, train_loader, Real_Inception_score, time_record):
-        use_delta = self.cfg.optimizers.get("use_delta", False)
-        if use_delta:
-            self.train_use_delta(train_loader, Real_Inception_score, time_record)
+        use_previous_model = self.cfg.optimizers.get("use_previous_model", False)
+        if use_previous_model:
+            self.train_use_previous_model(train_loader, Real_Inception_score, time_record)
         else:
-            self.train_dont_use_delta(train_loader, Real_Inception_score, time_record)
+            self.train_dont_use_previous_model(train_loader, Real_Inception_score, time_record)
 
-    def train_dont_use_delta(self, train_loader, Real_Inception_score, time_record):
+    def train_dont_use_previous_model(self, train_loader, Real_Inception_score, time_record):
         try:
             self.t_begin = t.time()
             self.data = self.get_infinite_batches(train_loader)
@@ -346,7 +346,7 @@ class WGAN_GP_Trainer:
             else:
                 LOGGER.warning("No Real Inception Scores to save.")
 
-    def train_use_delta(self, train_loader, Real_Inception_score, time_record):
+    def train_use_previous_model(self, train_loader, Real_Inception_score, time_record):
         try:
             self.t_begin = t.time()
             self.data = self.get_infinite_batches(train_loader)
