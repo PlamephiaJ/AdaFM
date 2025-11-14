@@ -3,7 +3,7 @@ import torch
 from scipy.stats import entropy
 from torch import nn
 from torch.nn import functional as F
-from torchvision.models.inception import inception_v3
+from torchvision.models.inception import Inception_V3_Weights, inception_v3
 
 
 def get_inception_score(
@@ -23,8 +23,7 @@ def get_inception_score(
     assert N > batch_size
 
     if inception_model is None:
-        inception_model = inception_v3(pretrained=True, transform_input=False)
-        inception_model.to(device)
+        inception_model = inception_v3(weights=Inception_V3_Weights.DEFAULT).to(device)
         inception_model.eval()
 
     up = None

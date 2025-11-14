@@ -13,7 +13,7 @@ import torch.optim as optim
 import torchvision.utils as vutils
 from omegaconf import DictConfig
 from torch.autograd import Variable
-from torchvision.models.inception import inception_v3
+from torchvision.models.inception import Inception_V3_Weights, inception_v3
 from torchvision.utils import make_grid
 from tqdm import tqdm
 
@@ -62,7 +62,7 @@ class WGAN_GP_Trainer:
         os.makedirs(self.images_folder, exist_ok=True)
         self.writer = tb_writer
 
-        self.inception_model = inception_v3(pretrained=True, transform_input=False).to(
+        self.inception_model = inception_v3(weights=Inception_V3_Weights.DEFAULT).to(
             device
         )
         self.inception_model.eval()
@@ -311,7 +311,7 @@ class WGAN_GP_Trainer:
                     # # Flattening list of list into one list
                     # new_sample_list = list(chain.from_iterable(sample_list))
                     LOGGER.info(
-                        f"Calculating Inception Score over {self.cfg.models.evaluation.number_of_generated_images_for_inception_score_calculation} generated images"
+                        f"Calculating Inception Score and FID Score over {self.cfg.models.evaluation.number_of_generated_images_for_inception_score_calculation} generated images"
                     )
                     # # Feeding list of numpy arrays
                     # inception_score is a tuple (mean, std)
