@@ -6,7 +6,6 @@ import torch.autograd as autograd
 from torch.autograd import Variable
 import time as t
 from datetime import timedelta
-from itertools import chain
 import copy
 from .utils.inception_score import get_inception_score
 import torchvision.utils as vutils
@@ -60,7 +59,9 @@ class WGAN_GP_Trainer:
         self.images_folder = results_folder / "images"
         os.makedirs(self.images_folder, exist_ok=True)
         self.writer = tb_writer
-        self.inception_model = inception_v3(pretrained=True, transform_input=False).to(device)
+        self.inception_model = inception_v3(pretrained=True, transform_input=False).to(
+            device
+        )
         self.inception_model.eval()
 
     def calculate_gradient_penalty(self, real_images, fake_images, eta):
@@ -158,7 +159,10 @@ class WGAN_GP_Trainer:
                 for p in self.D.parameters():
                     p.requires_grad = True
 
-                if self.cfg.optimizers.get("use_previous_model", False) and D_old is not None:
+                if (
+                    self.cfg.optimizers.get("use_previous_model", False)
+                    and D_old is not None
+                ):
                     for p in D_old.parameters():
                         p.requires_grad = True
 
@@ -168,7 +172,10 @@ class WGAN_GP_Trainer:
 
                 for d_iter in range(self.cfg.optimizers.critic_iters):
                     self.D.zero_grad()
-                    if self.cfg.optimizers.get("use_previous_model", False) and D_old is not None:
+                    if (
+                        self.cfg.optimizers.get("use_previous_model", False)
+                        and D_old is not None
+                    ):
                         D_old.zero_grad()
 
                     images = self.data.__next__()
@@ -182,7 +189,9 @@ class WGAN_GP_Trainer:
                     d_loss_real.backward(mone)
 
                     # Train with fake images
-                    z = torch.randn(images.size(0), self.z_dim, 1, 1, device=self.device)
+                    z = torch.randn(
+                        images.size(0), self.z_dim, 1, 1, device=self.device
+                    )
 
                     fake_images = self.G(z)
                     d_loss_fake = self.D(fake_images)
@@ -216,7 +225,9 @@ class WGAN_GP_Trainer:
                             )
                             gradient_penalty_old.backward()
                             delta_y = [g.grad.data.clone() for g in D_old.parameters()]
-                            d_loss_real_old = d_loss_fake_old = gradient_penalty_old = None
+                            d_loss_real_old = d_loss_fake_old = gradient_penalty_old = (
+                                None
+                            )
                         else:
                             delta_y = None
 
@@ -233,12 +244,18 @@ class WGAN_GP_Trainer:
                 # Generator update
                 for p in self.D.parameters():
                     p.requires_grad = False  # to avoid computation
-                if self.cfg.optimizers.get("use_previous_model", False) and D_old is not None:
+                if (
+                    self.cfg.optimizers.get("use_previous_model", False)
+                    and D_old is not None
+                ):
                     for p in D_old.parameters():
                         p.requires_grad = False
 
                 self.G.zero_grad()
-                if self.cfg.optimizers.get("use_previous_model", False) and G_old is not None:
+                if (
+                    self.cfg.optimizers.get("use_previous_model", False)
+                    and G_old is not None
+                ):
                     G_old.zero_grad()
                 # train generator
                 # compute loss with fake images
@@ -269,9 +286,14 @@ class WGAN_GP_Trainer:
                 total_iter += 1
                 # Saving model and sampling images every 1000th generator iterations
                 if (total_iter) % self.eval_interval == 0:
-                    sample_list = []
                     with torch.no_grad():
-                        z = torch.randn(self.cfg.models.evaluation.number_of_generated_images_for_inception_score_calculation, self.z_dim, 1, 1, device=self.device)
+                        z = torch.randn(
+                            self.cfg.models.evaluation.number_of_generated_images_for_inception_score_calculation,
+                            self.z_dim,
+                            1,
+                            1,
+                            device=self.device,
+                        )
                         samples = self.G(z)
                     # for _ in range(10):
                     #     z = Variable(torch.randn(800, self.z_dim, 1, 1)).to(self.device)
@@ -280,7 +302,9 @@ class WGAN_GP_Trainer:
 
                     # # Flattening list of list into one list
                     # new_sample_list = list(chain.from_iterable(sample_list))
-                    LOGGER.info(f"Calculating Inception Score over {self.cfg.models.evaluation.number_of_generated_images_for_inception_score_calculation} generated images")
+                    LOGGER.info(
+                        f"Calculating Inception Score over {self.cfg.models.evaluation.number_of_generated_images_for_inception_score_calculation} generated images"
+                    )
                     # # Feeding list of numpy arrays
                     # inception_score is a tuple (mean, std)
                     # mean IS and std IS
@@ -306,12 +330,12 @@ class WGAN_GP_Trainer:
                     elapsed_time = t.time() - self.t_begin
                     time_record.append(elapsed_time)
 
-                    self.writer.add_scalar(
-                        "Inception Score", is_mean, total_iter
-                    )
+                    self.writer.add_scalar("Inception Score", is_mean, total_iter)
 
                     LOGGER.info(
-                        "Real Inception score (mean, std): ({:.4f}, {:.4f})".format(is_mean, is_std)
+                        "Real Inception score (mean, std): ({:.4f}, {:.4f})".format(
+                            is_mean, is_std
+                        )
                     )
                     LOGGER.info("Generator iter: {}".format(g_iter))
                     LOGGER.info("total_iter_finished: {}".format(total_iter))
@@ -324,7 +348,9 @@ class WGAN_GP_Trainer:
                     # Save generated images for visualization
                     if self.cfg.models.evaluation.save_img and improvement:
                         with torch.no_grad():
-                            z = torch.randn(self.batch_size, self.z_dim, 1, 1, device=self.device)
+                            z = torch.randn(
+                                self.batch_size, self.z_dim, 1, 1, device=self.device
+                            )
                             fake_images = self.G(z).detach().cpu()
                         save_image_path = self.images_folder / f"iter_{total_iter}.png"
                         vutils.save_image(fake_images, save_image_path, normalize=True)
@@ -334,8 +360,9 @@ class WGAN_GP_Trainer:
                             fake_images, nrow=8, normalize=True, value_range=(-1, 1)
                         )
                         self.writer.add_image("Generated Images", grid, total_iter)
-                        LOGGER.info(f"Saved images at iteration {total_iter} with improvement.")
-
+                        LOGGER.info(
+                            f"Saved images at iteration {total_iter} with improvement."
+                        )
 
             self.t_end = t.time()
             LOGGER.info("Time of training-{}".format((self.t_end - self.t_begin)))
@@ -356,8 +383,12 @@ class WGAN_GP_Trainer:
                 txt_save_path = self.results_folder / "real_inception_scores.csv"
                 with open(txt_save_path, "w") as f:
                     f.write("Iteration,IS,Time\n")
-                    for i, (score, elapsed) in enumerate(zip(real_inception_scores, time_record)):
-                        f.write(f"{(i+1)*self.eval_interval},{score:.6f},{elapsed:.6f}\n")
+                    for i, (score, elapsed) in enumerate(
+                        zip(real_inception_scores, time_record)
+                    ):
+                        f.write(
+                            f"{(i+1)*self.eval_interval},{score:.6f},{elapsed:.6f}\n"
+                        )
 
                 best_IS_save_path = (
                     self.results_folder / "best_real_inception_score.csv"
@@ -374,9 +405,7 @@ class WGAN_GP_Trainer:
             else:
                 LOGGER.warning("No Real Inception Scores to save.")
 
-
     def get_infinite_batches(self, data_loader):
         while True:
             for i, (images, _) in enumerate(data_loader):
                 yield images
-
