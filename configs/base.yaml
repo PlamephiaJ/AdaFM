@@ -1,12 +1,12 @@
 defaults:
   - _self_
-  - optimizers: msgda
+  - optimizers: adafm
   - datasets: cifar10
   - models: wgan
 
 result_folder: results/
 
-experiment_type: default # g_l_observation | delta_test | default | gp_exp | loss_lr | grid_search
+experiment_type: grid_search # g_l_observation | delta_test | default | gp_exp | loss_lr | grid_search
 
 setup:
   seed: 8
