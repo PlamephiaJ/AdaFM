@@ -37,40 +37,40 @@ class DatasetRegistry:
         return cls._registry[name](dataroot, args)
 
 
-@DatasetRegistry.register("mnist")
-def build_mnist(dataroot, args):
-    trans = transforms.Compose(
-        [
-            transforms.Resize(32),
-            transforms.ToTensor(),
-            transforms.Normalize((0.5,), (0.5,)),
-        ]
-    )
-    train_dataset = MNIST(
-        root=dataroot, train=True, download=args.download, transform=trans
-    )
-    test_dataset = MNIST(
-        root=dataroot, train=False, download=args.download, transform=trans
-    )
-    return train_dataset, test_dataset
+# @DatasetRegistry.register("mnist")
+# def build_mnist(dataroot, args):
+#     trans = transforms.Compose(
+#         [
+#             transforms.Resize(32),
+#             transforms.ToTensor(),
+#             transforms.Normalize((0.5,), (0.5,)),
+#         ]
+#     )
+#     train_dataset = MNIST(
+#         root=dataroot, train=True, download=args.download, transform=trans
+#     )
+#     test_dataset = MNIST(
+#         root=dataroot, train=False, download=args.download, transform=trans
+#     )
+#     return train_dataset, test_dataset
 
 
-@DatasetRegistry.register("fashion-mnist")
-def build_fashion_mnist(dataroot, args):
-    trans = transforms.Compose(
-        [
-            transforms.Resize(32),
-            transforms.ToTensor(),
-            transforms.Normalize((0.5,), (0.5,)),
-        ]
-    )
-    train_dataset = FashionMNIST(
-        root=dataroot, train=True, download=args.download, transform=trans
-    )
-    test_dataset = FashionMNIST(
-        root=dataroot, train=False, download=args.download, transform=trans
-    )
-    return train_dataset, test_dataset
+# @DatasetRegistry.register("fashion-mnist")
+# def build_fashion_mnist(dataroot, args):
+#     trans = transforms.Compose(
+#         [
+#             transforms.Resize(32),
+#             transforms.ToTensor(),
+#             transforms.Normalize((0.5,), (0.5,)),
+#         ]
+#     )
+#     train_dataset = FashionMNIST(
+#         root=dataroot, train=True, download=args.download, transform=trans
+#     )
+#     test_dataset = FashionMNIST(
+#         root=dataroot, train=False, download=args.download, transform=trans
+#     )
+#     return train_dataset, test_dataset
 
 
 @DatasetRegistry.register("cifar10")
@@ -109,21 +109,21 @@ def build_cifar100(dataroot, args):
     return train_dataset, test_dataset
 
 
-@DatasetRegistry.register("stl10")
-def build_stl10(dataroot, args):
-    trans = transforms.Compose(
-        [
-            transforms.Resize(32),
-            transforms.ToTensor(),
-        ]
-    )
-    train_dataset = dset.STL10(
-        root=dataroot, split="train", download=args.download, transform=trans
-    )
-    test_dataset = dset.STL10(
-        root=dataroot, split="test", download=args.download, transform=trans
-    )
-    return train_dataset, test_dataset
+# @DatasetRegistry.register("stl10")
+# def build_stl10(dataroot, args):
+#     trans = transforms.Compose(
+#         [
+#             transforms.Resize(32),
+#             transforms.ToTensor(),
+#         ]
+#     )
+#     train_dataset = dset.STL10(
+#         root=dataroot, split="train", download=args.download, transform=trans
+#     )
+#     test_dataset = dset.STL10(
+#         root=dataroot, split="test", download=args.download, transform=trans
+#     )
+#     return train_dataset, test_dataset
 
 
 def get_data_loader(args):
@@ -134,12 +134,14 @@ def get_data_loader(args):
     train_dataloader = data_utils.DataLoader(
         train_dataset,
         batch_size=args.batch_size,
+        pin_memory=True,
         shuffle=True,
         worker_init_fn=worker_init_fn,
     )
     test_dataloader = data_utils.DataLoader(
         test_dataset,
         batch_size=args.batch_size,
+        pin_memory=True,
         shuffle=True,
         worker_init_fn=worker_init_fn,
     )

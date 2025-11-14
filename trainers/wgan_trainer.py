@@ -8,6 +8,8 @@ import time as t
 from datetime import timedelta
 import copy
 from .utils.inception_score import get_inception_score
+from .utils.frechet_inception_distance import get_fid_score
+from cleanfid import fid
 import torchvision.utils as vutils
 import os
 import pickle
@@ -59,10 +61,13 @@ class WGAN_GP_Trainer:
         self.images_folder = results_folder / "images"
         os.makedirs(self.images_folder, exist_ok=True)
         self.writer = tb_writer
+
         self.inception_model = inception_v3(pretrained=True, transform_input=False).to(
             device
         )
         self.inception_model.eval()
+
+        self.dataset_name = cfg.datasets.name
 
     def calculate_gradient_penalty(self, real_images, fake_images, eta):
         # eta = torch.FloatTensor(self.batch_size,1,1,1).uniform_(0,1)
@@ -129,7 +134,7 @@ class WGAN_GP_Trainer:
         LOGGER.info(f"Saved generator checkpoint to {g_checkpoint_path}")
         LOGGER.info(f"Saved discriminator checkpoint to {d_checkpoint_path}")
 
-    def train(self, train_loader, Real_Inception_score, time_record):
+    def train(self, train_loader):
         try:
             self.t_begin = t.time()
             self.data = self.get_infinite_batches(train_loader)
@@ -149,6 +154,9 @@ class WGAN_GP_Trainer:
                 D_old, G_old = None, None
 
             best_real_inception_score = -float("inf")
+            inception_scores = []
+            fid_scores = []
+            time_record = []
 
             for g_iter in tqdm(
                 range(self.generator_iters),
@@ -308,6 +316,7 @@ class WGAN_GP_Trainer:
                     # # Feeding list of numpy arrays
                     # inception_score is a tuple (mean, std)
                     # mean IS and std IS
+                    
                     is_mean, is_std = get_inception_score(
                         samples,
                         inception_model=self.inception_model,
@@ -316,8 +325,10 @@ class WGAN_GP_Trainer:
                         splits=10,
                         device=self.device,
                     )
+                    inception_scores.append(is_mean)
+                    fid_score = get_fid_score(fake_imgs=samples, dataset_name=self.dataset_name)
+                    fid_scores.append(fid_score)
 
-                    Real_Inception_score.append(is_mean)
                     if is_mean > best_real_inception_score:
                         best_real_inception_score = is_mean
                         self._save_models_checkpoint(total_iter)
@@ -331,9 +342,10 @@ class WGAN_GP_Trainer:
                     time_record.append(elapsed_time)
 
                     self.writer.add_scalar("Inception Score", is_mean, total_iter)
+                    self.writer.add_scalar("FID Score", fid_score, total_iter)
 
                     LOGGER.info(
-                        "Real Inception score (mean, std): ({:.4f}, {:.4f})".format(
+                        "Inception score (mean, std): ({:.4f}, {:.4f})".format(
                             is_mean, is_std
                         )
                     )
@@ -366,44 +378,40 @@ class WGAN_GP_Trainer:
 
             self.t_end = t.time()
             LOGGER.info("Time of training-{}".format((self.t_end - self.t_begin)))
-            real_inception_scores = np.array(Real_Inception_score)
+            np_inception_scores = np.array(inception_scores)
+            np_fid_scores = np.array(fid_scores)
 
         except KeyboardInterrupt:
             LOGGER.warning("Training interrupted. Saving Real Inception Scores...")
-            real_inception_scores = np.array(Real_Inception_score)
+            np_inception_scores = np.array(inception_scores)
+            np_fid_scores = np.array(fid_scores)
         finally:
-            if real_inception_scores is not None:
-                # Save to pickle file
-                score_save_path = self.results_folder / "real_inception_scores.pkl"
-                os.makedirs(os.path.dirname(score_save_path), exist_ok=True)
-                with open(score_save_path, "wb") as f:
-                    pickle.dump(real_inception_scores, f)
-
+            if np_inception_scores is not None and np_fid_scores is not None:
                 # Also save as text file for easy reading
-                txt_save_path = self.results_folder / "real_inception_scores.csv"
-                with open(txt_save_path, "w") as f:
-                    f.write("Iteration,IS,Time\n")
-                    for i, (score, elapsed) in enumerate(
-                        zip(real_inception_scores, time_record)
+                csv_save_path = self.results_folder / "training_log.csv"
+                with open(csv_save_path, "w") as f:
+                    f.write("Step,IS,FID,Time\n")
+                    for i, (inception_score, fid_score, elapsed) in enumerate(
+                        zip(np_inception_scores, np_fid_scores, time_record)
                     ):
                         f.write(
-                            f"{(i+1)*self.eval_interval},{score:.6f},{elapsed:.6f}\n"
+                            f"{(i+1)*self.eval_interval},{inception_score:.6f},{fid_score:.6f},{elapsed:.6f}\n"
                         )
 
-                best_IS_save_path = (
-                    self.results_folder / "best_real_inception_score.csv"
+                best_metrics_save_path = (
+                    self.results_folder / "best_metrics.csv"
                 )
-                with open(best_IS_save_path, "w") as f:
-                    f.write("BestIS,AvgIS\n")
+                with open(best_metrics_save_path, "w") as f:
+                    f.write("BestIS,AvgIS,BestFID,AvgFID\n")
                     f.write(
-                        f"{real_inception_scores.max()},{real_inception_scores.mean()}\n"
+                        f"{np_inception_scores.max()},{np_inception_scores.mean()},{np_fid_scores.min()},{np_fid_scores.mean()}\n"
                     )
 
                 LOGGER.info(
-                    f"Real Inception Scores saved to {score_save_path} and {txt_save_path}"
+                    f"Inception Scores saved to {csv_save_path} and {best_metrics_save_path}"
                 )
             else:
-                LOGGER.warning("No Real Inception Scores to save.")
+                LOGGER.warning("No scores to save.")
 
     def get_infinite_batches(self, data_loader):
         while True:
