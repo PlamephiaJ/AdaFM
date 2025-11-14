@@ -137,7 +137,7 @@ def run(cfg: DictConfig) -> None:
         d_optimizer=d_optimizer,
         generator_iters=cfg.models.generator_iters,
         critic_iters=cfg.optimizers.critic_iters,
-        save_interval=cfg.models.evaluation.eval_interval,
+        eval_interval=cfg.models.evaluation.eval_interval,
         z_dim=cfg.models.backbone.generator.in_dim,
         batch_size=cfg.models.training.batch_size,
         cfg=cfg,
