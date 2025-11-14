@@ -17,6 +17,7 @@ from pathlib import Path
 import logging
 from tqdm import tqdm
 from torchvision.utils import make_grid
+from torchvision.models.inception import inception_v3
 
 LOGGER = logging.getLogger(__name__)
 
@@ -59,6 +60,8 @@ class WGAN_GP_Trainer:
         self.images_folder = results_folder / "images"
         os.makedirs(self.images_folder, exist_ok=True)
         self.writer = tb_writer
+        self.inception_model = inception_v3(pretrained=True, transform_input=False).to(device)
+        self.inception_model.eval()
 
     def calculate_gradient_penalty(self, real_images, fake_images, eta):
         # eta = torch.FloatTensor(self.batch_size,1,1,1).uniform_(0,1)
@@ -276,33 +279,35 @@ class WGAN_GP_Trainer:
                     # Therefore doing loop and generating 800 examples and stacking into list of samples to get 8000 generated images
                     # This way Inception score is more correct since there are different generated examples from every class of Inception model
                     sample_list = []
-                    for _ in range(10):
-                        # samples  = self.data.__next__()
-                        z = Variable(torch.randn(800, self.z_dim, 1, 1)).to(self.device)
+                    with torch.no_grad():
+                        z = torch.randn(8000, self.z_dim, 1, 1, device=self.device)
                         samples = self.G(z)
-                        # samples = samples.mul(0.5).add(0.5)
-                        sample_list.append(samples.data.cpu().numpy())
+                    # for _ in range(10):
+                    #     z = Variable(torch.randn(800, self.z_dim, 1, 1)).to(self.device)
+                    #     samples = self.G(z)
+                    #     sample_list.append(samples.data.cpu().numpy())
 
                     # # Flattening list of list into one list
-                    new_sample_list = list(chain.from_iterable(sample_list))
+                    # new_sample_list = list(chain.from_iterable(sample_list))
                     LOGGER.info("Calculating Inception Score over 8k generated images")
                     # # Feeding list of numpy arrays
                     # inception_score is a tuple (mean, std)
                     # mean IS and std IS
-                    inception_score = get_inception_score(
-                        new_sample_list,
-                        cuda=True,
+                    is_mean, is_std = get_inception_score(
+                        samples,
+                        inception_model=self.inception_model,
                         batch_size=64,
                         resize=True,
                         splits=10,
+                        device=self.device,
                     )
 
                     z = self.get_torch_variable(
                         torch.randn(self.number_of_images, self.z_dim, 1, 1)
                     )
-                    Real_Inception_score.append(inception_score[0])
-                    if inception_score[0] > best_real_inception_score:
-                        best_real_inception_score = inception_score[0]
+                    Real_Inception_score.append(is_mean)
+                    if is_mean > best_real_inception_score:
+                        best_real_inception_score = is_mean
                         self._save_models_checkpoint(total_iter)
                         LOGGER.info(
                             f"New best Inception Score: {best_real_inception_score:.4f}. Checkpoints saved."
@@ -312,7 +317,7 @@ class WGAN_GP_Trainer:
                     elapsed_time = t.time() - self.t_begin
                     time_record.append(elapsed_time)
                     LOGGER.info(
-                        "Real Inception score (mean, std): {}".format(inception_score)
+                        "Real Inception score (mean, std): ({:.4f}, {:.4f})".format(is_mean, is_std)
                     )
                     LOGGER.info("Generator iter: {}".format(g_iter))
                     LOGGER.info("total_iter_finished: {}".format(total_iter))
@@ -383,16 +388,16 @@ class WGAN_GP_Trainer:
             else:
                 LOGGER.warning("No Real Inception Scores to save.")
 
-    @staticmethod
-    def get_gradient_norm(model, norm_type=2.0):
-        with torch.no_grad():
-            total_norm = torch.norm(
-                torch.stack(
-                    [torch.norm(p.grad.detach(), norm_type) for p in model.parameters()]
-                ),
-                norm_type,
-            )
-        return total_norm
+    # @staticmethod
+    # def get_gradient_norm(model, norm_type=2.0):
+    #     with torch.no_grad():
+    #         total_norm = torch.norm(
+    #             torch.stack(
+    #                 [torch.norm(p.grad.detach(), norm_type) for p in model.parameters()]
+    #             ),
+    #             norm_type,
+    #         )
+    #     return total_norm
 
     def get_infinite_batches(self, data_loader):
         while True:
