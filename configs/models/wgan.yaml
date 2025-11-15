@@ -4,7 +4,7 @@ defaults:
 
 name: wgan
 channels: 3
-generator_iters: 1000 # 40000 default
+generator_iters: 40000 # 40000 default
 lambda_term: 1e-4
 number_of_images: 100
 use_checkpoint: false
@@ -20,4 +20,4 @@ evaluation:
   number_of_generated_images_for_inception_score_calculation: 8000
   save_img: true
   use_is: true
-  use_fid: true
+  use_fid: false
