@@ -136,6 +136,7 @@ def run(cfg: DictConfig) -> None:
         eval_interval=cfg.models.evaluation.eval_interval,
         z_dim=cfg.models.backbone.generator.in_dim,
         batch_size=cfg.models.training.batch_size,
+        train_loader=train_loader,
         cfg=cfg,
         results_folder=results_folder,
         device=device,

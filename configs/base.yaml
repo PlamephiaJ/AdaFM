@@ -3,6 +3,7 @@ defaults:
   - optimizers: adafm
   - datasets: cifar10
   - models: wgan
+  - worker: gpu_0
 
 result_folder: results/
 

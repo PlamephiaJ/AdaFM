@@ -1,0 +1,4 @@
+worker_id: 3
+name: xiaokang
+gpu_id: 0
+gpu_memory_gb: 8

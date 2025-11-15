@@ -1,0 +1,4 @@
+worker_id: 2
+name: cav
+gpu_id: 0
+gpu_memory_gb: 24

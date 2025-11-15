@@ -1,26 +1,38 @@
-from cleanfid import fid
+import logging
+
+import torch
+from torchmetrics.image.fid import FrechetInceptionDistance
+
+LOGGER = logging.getLogger(__name__)
 
 
-def tensor_to_uint8(imgs):
-    """
-    imgs: tensor (N,3,H,W) in [-1,1] or [0,1]
-    """
+class FIDCalculator:
 
-    if imgs.min() < 0:  # [-1,1]
-        imgs = (imgs + 1) / 2
+    def __init__(self, device: torch.device, dataloader: torch.utils.data.DataLoader):
+        self.device = device
+        self.fid = FrechetInceptionDistance(
+            feature=2048, reset_real_features=False, normalize=True
+        ).to(device)
 
-    imgs = imgs.clamp(0, 1)
-    imgs = (imgs * 255).byte()
-    imgs = imgs.permute(0, 2, 3, 1).cpu().numpy()
-    return imgs
+        LOGGER.info("Calculating FID real features...")
+        for real_images, _ in dataloader:
+            real_images = real_images.to(device)
+            if real_images.min() < 0:
+                real_images = (real_images + 1) / 2.0
+            real_images = real_images.clamp(0, 1)
+            self.fid.update(real_images, real=True)
+        LOGGER.info("FID real features calculation completed.")
 
+    def calculate(self, fake_images: torch.Tensor) -> float:
+        fake_images = fake_images.to(self.device)
+        if fake_images.min() < 0:
+            fake_images = (fake_images + 1) / 2.0
+        fake_images = fake_images.clamp(0, 1)
 
-def get_fid_score(fake_imgs, dataset_name="cifar10", dataset_split="train"):
-    """
-    fake_imgs: tensor (N,3,H,W) in [-1,1] or [0,1]
-    """
-    fake_array = tensor_to_uint8(fake_imgs)
-    score = fid.compute_fid_from_array(
-        fake_array, dataset_name=dataset_name, dataset_split=dataset_split
-    )
-    return score
+        self.fid.update(fake_images, real=False)
+
+        fid_value = self.fid.compute().item()
+
+        self.fid.reset()
+
+        return fid_value

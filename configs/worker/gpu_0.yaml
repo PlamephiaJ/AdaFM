@@ -1,0 +1,4 @@
+worker_id: 0
+name: gpu_0
+gpu_id: 0
+gpu_memory_gb: 96

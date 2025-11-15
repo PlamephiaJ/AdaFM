@@ -17,7 +17,7 @@ from torchvision.models.inception import Inception_V3_Weights, inception_v3
 from torchvision.utils import make_grid
 from tqdm import tqdm
 
-from .utils.frechet_inception_distance import get_fid_score
+from .utils.frechet_inception_distance import FIDCalculator
 from .utils.inception_score import get_inception_score
 
 LOGGER = logging.getLogger(__name__)
@@ -37,6 +37,7 @@ class WGAN_GP_Trainer:
         z_dim: int,
         batch_size: int,
         cfg: DictConfig,
+        train_loader: torch.utils.data.DataLoader,
         results_folder: Path,
         device=None,
         tb_writer=None,
@@ -61,13 +62,18 @@ class WGAN_GP_Trainer:
         self.images_folder = results_folder / "images"
         os.makedirs(self.images_folder, exist_ok=True)
         self.writer = tb_writer
+        if cfg.worker.gpu_memory_gb <= 8:
+            self.inception_model = None
+        else:
+            self.inception_model = inception_v3(
+                weights=Inception_V3_Weights.DEFAULT
+            ).to(device)
+            self.inception_model.eval()
 
-        self.inception_model = inception_v3(weights=Inception_V3_Weights.DEFAULT).to(
-            device
-        )
-        self.inception_model.eval()
-
-        self.dataset_name = cfg.datasets.name
+        if cfg.models.evaluation.use_fid:
+            self.fid_calculator = FIDCalculator(device, train_loader)
+        else:
+            self.fid_calculator = None
 
     def calculate_gradient_penalty(self, real_images, fake_images, eta):
         # eta = torch.FloatTensor(self.batch_size,1,1,1).uniform_(0,1)
@@ -303,6 +309,7 @@ class WGAN_GP_Trainer:
                             device=self.device,
                         )
                         samples = self.G(z)
+
                     # for _ in range(10):
                     #     z = Variable(torch.randn(800, self.z_dim, 1, 1)).to(self.device)
                     #     samples = self.G(z)
@@ -311,24 +318,25 @@ class WGAN_GP_Trainer:
                     # # Flattening list of list into one list
                     # new_sample_list = list(chain.from_iterable(sample_list))
                     LOGGER.info(
-                        f"Calculating Inception Score and FID Score over {self.cfg.models.evaluation.number_of_generated_images_for_inception_score_calculation} generated images"
+                        f"Calculating Inception Score or FID Score over {self.cfg.models.evaluation.number_of_generated_images_for_inception_score_calculation} generated images"
                     )
-                    # # Feeding list of numpy arrays
-                    # inception_score is a tuple (mean, std)
-                    # mean IS and std IS
 
-                    is_mean, is_std = get_inception_score(
-                        samples,
-                        inception_model=self.inception_model,
-                        batch_size=64,
-                        resize=True,
-                        splits=10,
-                        device=self.device,
-                    )
+                    if self.cfg.models.evaluation.use_is:
+                        is_mean, is_std = get_inception_score(
+                            samples,
+                            inception_model=self.inception_model,
+                            batch_size=64,
+                            resize=True,
+                            splits=10,
+                            device=self.device,
+                        )
+                    else:
+                        is_mean, is_std = float("nan"), float("nan")
                     inception_scores.append(is_mean)
-                    fid_score = get_fid_score(
-                        fake_imgs=samples, dataset_name=self.dataset_name
-                    )
+                    if self.cfg.models.evaluation.use_fid:
+                        fid_score = self.fid_calculator.calculate(samples)
+                    else:
+                        fid_score = float("nan")
                     fid_scores.append(fid_score)
 
                     if is_mean > best_real_inception_score:
@@ -349,6 +357,7 @@ class WGAN_GP_Trainer:
                     LOGGER.info(
                         f"Inception score (mean, std): ({is_mean:.4f}, {is_std:.4f})"
                     )
+                    LOGGER.info(f"FID score: {fid_score:.4f}")
                     LOGGER.info(f"Generator iter: {g_iter}")
                     LOGGER.info(f"total_iter_finished: {total_iter}")
                     LOGGER.info(
