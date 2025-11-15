@@ -54,12 +54,12 @@ def create_adam_optimizers(
     """创建Adam优化器"""
     d_optimizer = torch.optim.Adam(
         discriminator.parameters(),
-        lr=cfg.optimizers.lr,
+        lr=cfg.optimizers.lr_y,
         betas=(cfg.optimizers.b1, cfg.optimizers.b2),
     )
     g_optimizer = torch.optim.Adam(
         generator.parameters(),
-        lr=cfg.optimizers.lr,
+        lr=cfg.optimizers.lr_x,
         betas=(cfg.optimizers.b1, cfg.optimizers.b2),
     )
     return g_optimizer, d_optimizer
@@ -152,7 +152,7 @@ def create_pesg_optimizers(
     d_optimizer = PESG(
         discriminator.parameters(),
         total_iter=cfg.models.generator_iters * cfg.optimizers.critic_iters,
-        lr=cfg.optimizers.lr,
+        lr=cfg.optimizers.lr_y,
         clip_value=cfg.optimizers.clip_value,
         weight_decay=cfg.optimizers.weight_decay,
         epoch_decay=cfg.optimizers.epoch_decay,
@@ -165,7 +165,7 @@ def create_pesg_optimizers(
     g_optimizer = PESG(
         generator.parameters(),
         total_iter=cfg.models.generator_iters,
-        lr=cfg.optimizers.lr,
+        lr=cfg.optimizers.lr_x,
         clip_value=cfg.optimizers.clip_value,
         weight_decay=cfg.optimizers.weight_decay,
         epoch_decay=cfg.optimizers.epoch_decay,
@@ -186,12 +186,12 @@ def create_adagrad_optimizers(
     """创建Adagrad优化器"""
     d_optimizer = torch.optim.Adagrad(
         discriminator.parameters(),
-        lr=cfg.optimizers.lr,
+        lr=cfg.optimizers.lr_y,
         initial_accumulator_value=cfg.optimizers.initial_accumulator_value,
     )
     g_optimizer = torch.optim.Adagrad(
         generator.parameters(),
-        lr=cfg.optimizers.lr,
+        lr=cfg.optimizers.lr_x,
         initial_accumulator_value=cfg.optimizers.initial_accumulator_value,
     )
     return g_optimizer, d_optimizer
@@ -204,13 +204,13 @@ def create_rmsprop_optimizers(
     """创建RMSprop优化器"""
     d_optimizer = torch.optim.RMSprop(
         discriminator.parameters(),
-        lr=cfg.optimizers.lr,
+        lr=cfg.optimizers.lr_y,
         alpha=cfg.optimizers.alpha,
         eps=cfg.optimizers.eps,
     )
     g_optimizer = torch.optim.RMSprop(
         generator.parameters(),
-        lr=cfg.optimizers.lr,
+        lr=cfg.optimizers.lr_x,
         alpha=cfg.optimizers.alpha,
         eps=cfg.optimizers.eps,
     )
