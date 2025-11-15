@@ -17,7 +17,8 @@ dependencies = [
     "scipy",
     "tqdm",
     "tensorboard",
-    "clean-fid",
+    "torchmetrics",
+    "torch-fidelity",
 ]
 
 [project.optional-dependencies]
