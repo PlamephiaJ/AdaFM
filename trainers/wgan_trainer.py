@@ -145,7 +145,7 @@ class WGAN_GP_Trainer:
             self.t_begin = t.time()
             self.data = self.get_infinite_batches(train_loader)
             one = torch.tensor(1, dtype=torch.float).to(self.device)
-            mone = one * -1
+            minus_one = one * -1
 
             real_images, _ = next(iter(train_loader))
             real_images = real_images.to(self.device)
@@ -200,7 +200,7 @@ class WGAN_GP_Trainer:
                     # Train with real images
                     d_loss_real = self.D(images)
                     d_loss_real = d_loss_real.mean()
-                    d_loss_real.backward(mone)
+                    d_loss_real.backward(minus_one)
 
                     # Train with fake images
                     z = torch.randn(
@@ -227,7 +227,7 @@ class WGAN_GP_Trainer:
                     if self.cfg.optimizers.get("use_previous_model", False):
                         if D_old is not None:
                             d_loss_real_old = D_old(images).mean()
-                            d_loss_real_old.backward(mone)
+                            d_loss_real_old.backward(minus_one)
 
                             fake_images_ = G_old(z)
                             d_loss_fake_old = D_old(fake_images_).mean()
@@ -277,14 +277,14 @@ class WGAN_GP_Trainer:
                 fake_images = self.G(z)
                 g_loss = self.D(fake_images)
                 g_loss = g_loss.mean()
-                g_loss.backward(mone)
+                g_loss.backward(minus_one)
                 self.writer.add_scalar("Generator Loss", g_loss.item(), total_iter)
                 # g_cost = -g_loss
                 if self.cfg.optimizers.get("use_previous_model", False):
                     if G_old is not None:
                         fake_images_ = G_old(z)
                         g_loss_old = D_old(fake_images_).mean()
-                        g_loss_old.backward(mone)
+                        g_loss_old.backward(minus_one)
                         delta_x = [g.grad.data.clone() for g in G_old.parameters()]
                         g_loss_old = fake_images_ = None
                     else:
