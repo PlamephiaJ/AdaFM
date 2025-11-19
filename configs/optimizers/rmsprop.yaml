@@ -1,6 +1,6 @@
 name: rmsprop
-lr_x: 5e-5
-lr_y: 5e-5
+lr_x: 1e-3
+lr_y: 1e-4
 alpha: 0.99
 eps: 1e-8
 critic_iters: 5

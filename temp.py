@@ -149,3 +149,17 @@ def step(self, closure=None):
 
             p.data = p.data - lr * d_p
     return loss
+
+with torch.no_grad():
+    z = torch.randn(8000, self.z_dim, 1, 1, device=self.device)
+
+    samples = self.G(z)
+
+    is_mean, is_std = get_inception_score(
+        samples,
+        inception_model=self.inception_model,
+        batch_size=64,
+        resize=True,
+        splits=10,
+        device=self.device,
+    )

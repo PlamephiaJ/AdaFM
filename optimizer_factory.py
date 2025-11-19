@@ -7,14 +7,11 @@ from omegaconf import DictConfig
 
 
 class OptimizerRegistry:
-    """优化器注册器，用于管理不同类型的优化器创建逻辑"""
 
     def __init__(self):
         self._optimizers: dict[str, Callable] = {}
 
     def register(self, name: str):
-        """注册优化器创建函数的装饰器"""
-
         def decorator(func: Callable):
             self._optimizers[name] = func
             return func
@@ -30,7 +27,6 @@ class OptimizerRegistry:
         results_folder: Path,
         tb_writer=None,
     ) -> tuple[Any, Any]:
-        """创建生成器和判别器的优化器"""
         if name not in self._optimizers:
             raise NotImplementedError(f"Optimizer {name} is not implemented.")
 
@@ -39,11 +35,9 @@ class OptimizerRegistry:
         )
 
     def list_available_optimizers(self) -> list:
-        """列出所有可用的优化器"""
         return list(self._optimizers.keys())
 
 
-# 创建全局注册器实例
 optimizer_registry = OptimizerRegistry()
 
 
