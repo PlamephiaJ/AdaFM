@@ -174,7 +174,7 @@ class WGAN_GP_Trainer:
                     p.requires_grad = True
 
                 if (
-                    self.cfg.optimizers.getuse_previous_model
+                    self.cfg.optimizers.use_previous_model
                     and D_old is not None
                 ):
                     for p in D_old.parameters():
