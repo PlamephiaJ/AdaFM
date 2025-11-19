@@ -1,6 +1,11 @@
 import torch
 import torch_fidelity
 
+import numpy as np
+import torch.serialization as ts
+
+ts.add_safe_globals([np._core.multiarray._reconstruct])
+
 class FidelityGeneratorWrapper(torch.nn.Module):
     def __init__(self, generator, z_dim):
         super().__init__()

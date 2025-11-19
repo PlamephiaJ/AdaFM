@@ -313,7 +313,7 @@ class WGAN_GP_Trainer:
                     # # Flattening list of list into one list
                     # new_sample_list = list(chain.from_iterable(sample_list))
                     LOGGER.info(
-                        f"Calculating Inception Score or FID Score over {self.cfg.models.evaluation.number_of_generated_images_for_inception_score_calculation} generated images"
+                        f"Calculating Inception Score over {self.cfg.models.evaluation.number_of_generated_images_for_inception_score_calculation} generated images"
                     )
 
                     if self.cfg.models.evaluation.use_is:
@@ -329,6 +329,9 @@ class WGAN_GP_Trainer:
                         is_mean, is_std = float("nan"), float("nan")
                     inception_scores.append(is_mean)
                     if self.cfg.models.evaluation.use_fid:
+                        LOGGER.info(
+                            f"Calculating FID Score over {self.cfg.models.evaluation.number_of_generated_images_for_fid_calculation} generated images"
+                        )
                         fid_score = get_fid_score(
                             self.G,
                             self.z_dim,
