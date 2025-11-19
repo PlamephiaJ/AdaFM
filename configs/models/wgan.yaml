@@ -18,6 +18,7 @@ training:
 evaluation:
   eval_interval: 200
   number_of_generated_images_for_inception_score_calculation: 8000
+  number_of_generated_images_for_fid_calculation: 50000
   save_img: true
   use_is: true
   use_fid: true

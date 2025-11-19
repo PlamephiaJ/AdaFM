@@ -17,7 +17,7 @@ from torchvision.models.inception import Inception_V3_Weights, inception_v3
 from torchvision.utils import make_grid
 from tqdm import tqdm
 
-from .utils.frechet_inception_distance import FIDCalculator
+from .utils.frechet_inception_distance import get_fid_score
 from .utils.inception_score import get_inception_score
 
 LOGGER = logging.getLogger(__name__)
@@ -69,11 +69,6 @@ class WGAN_GP_Trainer:
                 weights=Inception_V3_Weights.DEFAULT
             ).to(device)
             self.inception_model.eval()
-
-        if cfg.models.evaluation.use_fid:
-            self.fid_calculator = FIDCalculator(device, train_loader)
-        else:
-            self.fid_calculator = None
 
     def calculate_gradient_penalty(self, real_images, fake_images, eta):
         # eta = torch.FloatTensor(self.batch_size,1,1,1).uniform_(0,1)
@@ -334,7 +329,13 @@ class WGAN_GP_Trainer:
                         is_mean, is_std = float("nan"), float("nan")
                     inception_scores.append(is_mean)
                     if self.cfg.models.evaluation.use_fid:
-                        fid_score = self.fid_calculator.calculate(samples)
+                        fid_score = get_fid_score(
+                            self.G,
+                            self.z_dim,
+                            self.device,
+                            num_samples=self.cfg.models.evaluation.number_of_generated_images_for_fid_calculation,
+                            dataset_name=self.cfg.datasets.name,
+                        )
                     else:
                         fid_score = float("nan")
                     fid_scores.append(fid_score)

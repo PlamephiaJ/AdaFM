@@ -1,38 +1,47 @@
-import logging
-
 import torch
-from torchmetrics.image.fid import FrechetInceptionDistance
+import torch_fidelity
 
-LOGGER = logging.getLogger(__name__)
+class FidelityGeneratorWrapper(torch.nn.Module):
+    def __init__(self, generator, z_dim):
+        super().__init__()
+        self.generator = generator
+        self.z_dim = z_dim
+
+    def forward(self, z):
+        # z: [N, z_dim]
+        # The generator expects input of shape [N, z_dim, 1, 1]
+        z = z.view(z.size(0), self.z_dim, 1, 1)
+        x = self.generator(z)
+
+        # The output of the original generator is in the range [-1, 1] (Tanh).
+        x = (x.clamp(-1, 1) + 1) * 127.5
+        x = x.clamp(0, 255).to(torch.uint8)
+        return x
 
 
-class FIDCalculator:
+def get_fid_score(generator: torch.nn.Module, z_dim: int, device: torch.device, num_samples: int = 50000, dataset_name: str = 'cifar10') -> float:
+    if dataset_name == 'cifar10':
+        input2 = 'cifar10-train'
+    elif dataset_name == 'cifar100':
+        input2 = 'cifar100-train'
+    else:
+        raise ValueError(f"Unsupported dataset for FID calculation: {dataset_name}")
 
-    def __init__(self, device: torch.device, dataloader: torch.utils.data.DataLoader):
-        self.device = device
-        self.fid = FrechetInceptionDistance(
-            feature=2048, reset_real_features=False, normalize=True
-        ).to(device)
+    gen_for_fid = FidelityGeneratorWrapper(generator, z_dim).to(device)
 
-        LOGGER.info("Calculating FID real features...")
-        for real_images, _ in dataloader:
-            real_images = real_images.to(device)
-            if real_images.min() < 0:
-                real_images = (real_images + 1) / 2.0
-            real_images = real_images.clamp(0, 1)
-            self.fid.update(real_images, real=True)
-        LOGGER.info("FID real features calculation completed.")
+    wrapped_generator = torch_fidelity.GenerativeModelModuleWrapper(gen_for_fid, z_dim, 'normal', 0)
 
-    def calculate(self, fake_images: torch.Tensor) -> float:
-        fake_images = fake_images.to(self.device)
-        if fake_images.min() < 0:
-            fake_images = (fake_images + 1) / 2.0
-        fake_images = fake_images.clamp(0, 1)
+    with torch.no_grad():
+        fid_score = torch_fidelity.calculate_metrics(
+            input1=wrapped_generator,
+            input1_model_num_samples=num_samples,
+            input2=input2,
+            cuda=True,
+            fid=True,
+            isc=False,
+            kid=False,
+            prc=False,
+            verbose=False
+        )
 
-        self.fid.update(fake_images, real=False)
-
-        fid_value = self.fid.compute().item()
-
-        self.fid.reset()
-
-        return fid_value
+    return fid_score['frechet_inception_distance']
