@@ -7,7 +7,7 @@ defaults:
 
 result_folder: results/
 
-experiment_type: grid_search # g_l_observation | delta_test | default | gp_exp | loss_lr | grid_search
+experiment_type: fid_experiment # g_l_observation | delta_test | default | gp_exp | loss_lr | grid_search | fid_experiment
 
 experiment_name: ${experiment_type}_${optimizers.name}_${datasets.name}_${now:%Y%m%d-%H%M%S}
 
