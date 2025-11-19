@@ -1,6 +1,6 @@
 name: adagrad
-lr_x: 0.02
-lr_y: 0.02
+lr_x: 0.1
+lr_y: 0.01
 initial_accumulator_value: 0.05
 use_previous_model: false
 critic_iters: 5

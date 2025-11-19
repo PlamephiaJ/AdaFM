@@ -1,5 +1,5 @@
 name: msgda
-lr_discriminator: 1e-4
+lr_discriminator: 1e-2
 lr_generator: 1e-4
 beta_discriminator: 0.8
 beta_generator: 0.8
