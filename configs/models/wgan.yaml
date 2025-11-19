@@ -20,4 +20,4 @@ evaluation:
   number_of_generated_images_for_inception_score_calculation: 8000
   save_img: true
   use_is: true
-  use_fid: false
+  use_fid: true
