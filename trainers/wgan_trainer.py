@@ -156,7 +156,7 @@ class WGAN_GP_Trainer:
             )
 
             total_iter = 0
-            if self.cfg.optimizers.get("use_previous_model", False):
+            if self.cfg.optimizers.use_previous_model:
                 D_old, G_old = None, None
 
             best_real_inception_score = -float("inf")
@@ -174,7 +174,7 @@ class WGAN_GP_Trainer:
                     p.requires_grad = True
 
                 if (
-                    self.cfg.optimizers.get("use_previous_model", False)
+                    self.cfg.optimizers.getuse_previous_model
                     and D_old is not None
                 ):
                     for p in D_old.parameters():
@@ -187,7 +187,7 @@ class WGAN_GP_Trainer:
                 for d_iter in range(self.cfg.optimizers.critic_iters):
                     self.D.zero_grad()
                     if (
-                        self.cfg.optimizers.get("use_previous_model", False)
+                        self.cfg.optimizers.use_previous_model
                         and D_old is not None
                     ):
                         D_old.zero_grad()
@@ -224,7 +224,7 @@ class WGAN_GP_Trainer:
                     )
                     # Wasserstein_D = (d_loss_real - d_loss_fake).item()
 
-                    if self.cfg.optimizers.get("use_previous_model", False):
+                    if self.cfg.optimizers.use_previous_model:
                         if D_old is not None:
                             d_loss_real_old = D_old(images).mean()
                             d_loss_real_old.backward(minus_one)
@@ -259,7 +259,7 @@ class WGAN_GP_Trainer:
                 for p in self.D.parameters():
                     p.requires_grad = False  # to avoid computation
                 if (
-                    self.cfg.optimizers.get("use_previous_model", False)
+                    self.cfg.optimizers.use_previous_model
                     and D_old is not None
                 ):
                     for p in D_old.parameters():
@@ -267,7 +267,7 @@ class WGAN_GP_Trainer:
 
                 self.G.zero_grad()
                 if (
-                    self.cfg.optimizers.get("use_previous_model", False)
+                    self.cfg.optimizers.use_previous_model
                     and G_old is not None
                 ):
                     G_old.zero_grad()
@@ -280,7 +280,7 @@ class WGAN_GP_Trainer:
                 g_loss.backward(minus_one)
                 self.writer.add_scalar("Generator Loss", g_loss.item(), total_iter)
                 # g_cost = -g_loss
-                if self.cfg.optimizers.get("use_previous_model", False):
+                if self.cfg.optimizers.use_previous_model:
                     if G_old is not None:
                         fake_images_ = G_old(z)
                         g_loss_old = D_old(fake_images_).mean()
