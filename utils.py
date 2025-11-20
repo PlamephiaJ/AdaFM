@@ -20,9 +20,9 @@ def FID_checker(cfg: DictConfig) -> bool:
     if cfg.models.evaluation.use_fid:
         LOGGER.info("FID evaluation is enabled.")
         g_memory = get_graphics_memory()
-        if g_memory < 32.0:
+        if g_memory < 12.0:
             LOGGER.error(
-                f"FID evaluation requires at least 32GB of GPU memory. Detected GPU memory: {g_memory:.2f} GB"
+                f"FID evaluation requires at least 12GB of GPU memory. Detected GPU memory: {g_memory:.2f} GB"
             )
             return False
     return True
