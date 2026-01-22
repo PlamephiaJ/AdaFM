@@ -44,7 +44,7 @@ def seed_everything(seed: int) -> None:
         )
 
 
-def run(cfg: DictConfig) -> None:
+def run(cfg: DictConfig, trial_id: int | None = None) -> dict:
     if not experiment_setting_checker(cfg):
         raise ValueError(
             "Experiment settings check failed. Please review the configuration."
@@ -70,12 +70,14 @@ def run(cfg: DictConfig) -> None:
     experiment_name = cfg.experiment_name
     tb_log_dir = results_folder / "tensorboard_logs" / experiment_name
 
+    timestamp = t.strftime("%Y%m%d-%H%M%S")
+    trial_suffix = f"trial_{trial_id}" if trial_id is not None else "single_run"
     results_folder = (
         results_folder
         / f"GAN_{cfg.datasets.name}"
         / cfg.models.backbone.name
         / cfg.optimizers.name
-        / t.strftime("%Y%m%d-%H%M%S")
+        / f"{timestamp}_{trial_suffix}"
     )
 
     results_folder.mkdir(parents=True, exist_ok=True)
@@ -144,6 +146,7 @@ def run(cfg: DictConfig) -> None:
     )
     logger.info("Trainer is ready.")
 
-    trainer.train(train_loader)
+    metrics = trainer.train(train_loader)
 
     logger.info("Training is finished.")
+    return metrics

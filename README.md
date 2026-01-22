@@ -38,6 +38,30 @@ pip install -r requirements.txt
 
 ### 3. Running an Experiment
 
+Single run (no hyperparameter search):
+
+```bash
+python main.py optuna.enabled=false
+```
+
+Optuna hyperparameter search (uses settings in configs/base.yaml):
+
+```bash
+python main.py optuna.enabled=true optuna.n_trials=20
+```
+
+You can edit the Optuna search space in configs/base.yaml under the `optuna` section.
+
+Multi-machine search (shared PostgreSQL storage):
+
+1) Set `optuna.storage` in configs/base.yaml, for example:
+	postgresql+psycopg2://user:password@host:5432/optuna_db
+2) Run the same command on each machine:
+
+```bash
+python main.py optuna.enabled=true optuna.storage=postgresql+psycopg2://user:password@host:5432/optuna_db
+```
+
 
 ## Expected Results
 

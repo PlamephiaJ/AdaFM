@@ -5,3 +5,5 @@ hydra-core==1.3.2
 scipy
 tqdm
 tensorboard
+optuna
+psycopg2-binary
