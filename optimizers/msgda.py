@@ -210,9 +210,6 @@ class MSGDA(Optimizer):
                     # 累积grad_m的二范数平方
                     grad_m_norm_squared += grad_m.data.norm(2).item() ** 2
 
-                    # 累积grad_m的二范数平方
-                    grad_m_norm_squared += grad_m.data.norm(2).item() ** 2
-
                     # 计算学习率的衰减
                     clr = lr / (1 + (step - 1) * lr_decay)
 
