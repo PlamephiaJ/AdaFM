@@ -1,13 +1,13 @@
 defaults:
   - _self_
   - optimizers: adafm
-  - datasets: cifar10
+  - datasets: imagenet
   - models: wgan
   - worker: gpu_0
 
 result_folder: results/
 
-experiment_type: fid_experiment # g_l_observation | delta_test | default | gp_exp | loss_lr | grid_search | fid_experiment
+experiment_type: ImageNet # g_l_observation | delta_test | default | gp_exp | loss_lr | grid_search | fid_experiment
 
 experiment_name: ${experiment_type}_${optimizers.name}_${datasets.name}_${now:%Y%m%d-%H%M%S}
 
@@ -24,11 +24,38 @@ setup:
 hydra:
   run:
     dir: ./outputs/${now:%Y-%m-%d}/${now:%H-%M-%S}
-  sweep:
-    dir: ./multirun/${now:%Y-%m-%d}/${now:%H-%M-%S}
   job_logging:
     level: INFO
   output_subdir: null
 
 tensorboard:
   log_dir_root: ./tensorboard_logs
+
+optuna:
+  enabled: false
+  n_trials: 20
+  direction: maximize # minimize
+  metric: is  # fid | is
+  study_name: AdaFM_Optuna
+  sampler: tpe
+  pruner: median
+  seed: ${setup.seed}
+  # For multi-machine/distributed search, set storage to a shared RDB like PostgreSQL.
+  # Example: postgresql+psycopg2://user:password@host:5432/optuna_db
+  storage: null
+  search_space:
+    - name: optimizers.lr_x
+      type: float
+      low: 1e-5
+      high: 1e-2
+      log: true
+    - name: optimizers.lr_y
+      type: float
+      low: 1e-5
+      high: 1e-2
+      log: true
+    - name: optimizers.critic_iters
+      type: int
+      low: 1
+      high: 5
+  fixed_params: []

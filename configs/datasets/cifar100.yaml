@@ -2,3 +2,4 @@ name: cifar100
 dataroot: /mnt/cnlab/
 download: false
 batch_size: 64
+image_size: 32

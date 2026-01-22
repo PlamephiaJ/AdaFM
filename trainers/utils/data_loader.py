@@ -74,9 +74,10 @@ class DatasetRegistry:
 
 @DatasetRegistry.register("cifar10")
 def build_cifar10(dataroot, args):
+    image_size = getattr(args, "image_size", 32)
     trans = transforms.Compose(
         [
-            transforms.Resize(32),
+            transforms.Resize(image_size),
             transforms.ToTensor(),
             transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
         ]
@@ -92,9 +93,10 @@ def build_cifar10(dataroot, args):
 
 @DatasetRegistry.register("cifar100")
 def build_cifar100(dataroot, args):
+    image_size = getattr(args, "image_size", 32)
     trans = transforms.Compose(
         [
-            transforms.Resize(32),
+            transforms.Resize(image_size),
             transforms.ToTensor(),
             transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
         ]
@@ -106,6 +108,46 @@ def build_cifar100(dataroot, args):
         root=dataroot, train=False, download=args.download, transform=trans
     )
     return train_dataset, test_dataset
+
+@DatasetRegistry.register("imagenet")
+def build_imagenet(dataroot, args):
+    image_size = getattr(args, "image_size", 128)
+    trans = transforms.Compose(
+        [
+            transforms.Resize(image_size),
+            transforms.CenterCrop(image_size),
+            transforms.ToTensor(),
+            transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+        ]
+    )
+    from datasets import load_dataset
+
+    hf_dataset = getattr(args, "hf_dataset", "ILSVRC/imagenet-1k")
+    hf_train_split = getattr(args, "hf_train_split", "train")
+    hf_val_split = getattr(args, "hf_val_split", "validation")
+    hf_cache_dir = getattr(args, "hf_cache_dir", None)
+
+    cache_dir = hf_cache_dir if hf_cache_dir else (dataroot if dataroot else None)
+    train_hf = load_dataset(hf_dataset, split=hf_train_split, cache_dir=cache_dir)
+    val_hf = load_dataset(hf_dataset, split=hf_val_split, cache_dir=cache_dir)
+
+    class HFDataset(torch.utils.data.Dataset):
+        def __init__(self, hf_ds, transform):
+            self.hf_ds = hf_ds
+            self.transform = transform
+
+        def __len__(self):
+            return len(self.hf_ds)
+
+        def __getitem__(self, idx):
+            item = self.hf_ds[idx]
+            image = item["image"].convert("RGB")
+            label = int(item["label"]) if "label" in item else 0
+            if self.transform is not None:
+                image = self.transform(image)
+            return image, label
+
+    return HFDataset(train_hf, trans), HFDataset(val_hf, trans)
 
 
 # @DatasetRegistry.register("stl10")

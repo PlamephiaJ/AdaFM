@@ -2,6 +2,7 @@
 __pycache__/
 outputs/
 dataset/
+data/
 GAN/
 GAN_CIFAR100/
 multirun/

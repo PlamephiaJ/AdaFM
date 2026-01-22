@@ -136,6 +136,8 @@ class WGAN_GP_Trainer:
         LOGGER.info(f"Saved discriminator checkpoint to {d_checkpoint_path}")
 
     def train(self, train_loader):
+        np_inception_scores = None
+        np_fid_scores = None
         try:
             self.t_begin = t.time()
             self.data = self.get_infinite_batches(train_loader)
@@ -338,6 +340,8 @@ class WGAN_GP_Trainer:
                             self.device,
                             num_samples=self.cfg.models.evaluation.number_of_generated_images_for_fid_calculation,
                             dataset_name=self.cfg.datasets.name,
+                            fid_stats_path=getattr(self.cfg.datasets, "fid_stats_path", None),
+                            fid_batch_size=getattr(self.cfg.datasets, "fid_batch_size", 64),
                         )
                     else:
                         fid_score = float("nan")
@@ -421,6 +425,34 @@ class WGAN_GP_Trainer:
                 )
             else:
                 LOGGER.warning("No scores to save.")
+
+        best_is = (
+            float(np.nanmax(np_inception_scores))
+            if np_inception_scores is not None and np_inception_scores.size > 0
+            else float("nan")
+        )
+        best_fid = (
+            float(np.nanmin(np_fid_scores))
+            if np_fid_scores is not None and np_fid_scores.size > 0
+            else float("nan")
+        )
+        avg_is = (
+            float(np.nanmean(np_inception_scores))
+            if np_inception_scores is not None and np_inception_scores.size > 0
+            else float("nan")
+        )
+        avg_fid = (
+            float(np.nanmean(np_fid_scores))
+            if np_fid_scores is not None and np_fid_scores.size > 0
+            else float("nan")
+        )
+
+        return {
+            "best_is": best_is,
+            "best_fid": best_fid,
+            "avg_is": avg_is,
+            "avg_fid": avg_fid,
+        }
 
     def get_infinite_batches(self, data_loader):
         while True:
