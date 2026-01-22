@@ -340,6 +340,8 @@ class WGAN_GP_Trainer:
                             self.device,
                             num_samples=self.cfg.models.evaluation.number_of_generated_images_for_fid_calculation,
                             dataset_name=self.cfg.datasets.name,
+                            fid_stats_path=getattr(self.cfg.datasets, "fid_stats_path", None),
+                            fid_batch_size=getattr(self.cfg.datasets, "fid_batch_size", 64),
                         )
                     else:
                         fid_score = float("nan")

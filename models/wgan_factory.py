@@ -460,6 +460,87 @@ class Discriminator(nn.Module):
         return x.view(-1, 1024 * 4 * 4)
 
 
+@register("generator_128")
+class Generator128(nn.Module):
+
+    def __init__(self, channels, in_dim):
+        super().__init__()
+        self.main_module = nn.Sequential(
+            nn.ConvTranspose2d(in_dim, 1024, 4, 1, 0),
+            nn.BatchNorm2d(1024),
+            nn.ReLU(True),
+            # 4x4 -> 8x8
+            nn.ConvTranspose2d(1024, 512, 4, 2, 1),
+            nn.BatchNorm2d(512),
+            nn.ReLU(True),
+            # 8x8 -> 16x16
+            nn.ConvTranspose2d(512, 256, 4, 2, 1),
+            nn.BatchNorm2d(256),
+            nn.ReLU(True),
+            # 16x16 -> 32x32
+            nn.ConvTranspose2d(256, 128, 4, 2, 1),
+            nn.BatchNorm2d(128),
+            nn.ReLU(True),
+            # 32x32 -> 64x64
+            nn.ConvTranspose2d(128, 64, 4, 2, 1),
+            nn.BatchNorm2d(64),
+            nn.ReLU(True),
+            # 64x64 -> 128x128
+            nn.ConvTranspose2d(64, channels, 4, 2, 1),
+        )
+        self.output = nn.Tanh()
+        generator_specific_init(self)
+
+    def forward(self, x):
+        x = self.main_module(x)
+        return self.output(x)
+
+
+@register("discriminator_128")
+class Discriminator128(nn.Module):
+
+    def __init__(self, channels, use_spectral_norm=False, use_normalization=True):
+        super().__init__()
+
+        def conv_block(in_ch, out_ch, kernel_size, stride, padding, first_layer=False):
+            conv = nn.Conv2d(in_ch, out_ch, kernel_size, stride, padding)
+            if use_spectral_norm:
+                conv = spectral_norm(conv)
+            layers = [conv]
+            if use_normalization and not first_layer:
+                layers.append(nn.InstanceNorm2d(out_ch, affine=True))
+            layers.append(nn.LeakyReLU(0.2, inplace=True))
+            return nn.Sequential(*layers)
+
+        self.main_module = nn.Sequential(
+            # 128x128 -> 64x64
+            conv_block(channels, 64, 4, 2, 1, first_layer=True),
+            # 64x64 -> 32x32
+            conv_block(64, 128, 4, 2, 1),
+            # 32x32 -> 16x16
+            conv_block(128, 256, 4, 2, 1),
+            # 16x16 -> 8x8
+            conv_block(256, 512, 4, 2, 1),
+            # 8x8 -> 4x4
+            conv_block(512, 1024, 4, 2, 1),
+        )
+
+        output_conv = nn.Conv2d(1024, 1, kernel_size=4, stride=1, padding=0)
+        if use_spectral_norm:
+            output_conv = spectral_norm(output_conv)
+        self.output = nn.Sequential(output_conv)
+
+        discriminator_specific_init(self, use_spectral_norm=use_spectral_norm)
+
+    def forward(self, x):
+        x = self.main_module(x)
+        return self.output(x)
+
+    def feature_extraction(self, x):
+        x = self.main_module(x)
+        return x.view(-1, 1024 * 4 * 4)
+
+
 # Additional Generator Variants with Different Backbones
 
 

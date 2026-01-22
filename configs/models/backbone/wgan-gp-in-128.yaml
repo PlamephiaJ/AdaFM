@@ -1,0 +1,13 @@
+# WGAN-GP with Instance Normalization (128x128)
+
+name: wgan-gp-in-128
+
+generator:
+  name: generator_128
+  channels: 3
+  in_dim: 50
+  checkpoint_path: null
+discriminator:
+  name: discriminator_128
+  channels: 3
+  checkpoint_path: null

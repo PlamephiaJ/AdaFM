@@ -7,3 +7,4 @@ tqdm
 tensorboard
 optuna
 psycopg2-binary
+datasets

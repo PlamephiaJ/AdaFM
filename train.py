@@ -62,6 +62,11 @@ def run(cfg: DictConfig, trial_id: int | None = None) -> dict:
         dataset=cfg.datasets.name,
         download=cfg.datasets.download,
         batch_size=cfg.models.training.batch_size,
+        image_size=getattr(cfg.datasets, "image_size", 32),
+        hf_dataset=getattr(cfg.datasets, "hf_dataset", None),
+        hf_train_split=getattr(cfg.datasets, "hf_train_split", "train"),
+        hf_val_split=getattr(cfg.datasets, "hf_val_split", "validation"),
+        hf_cache_dir=getattr(cfg.datasets, "hf_cache_dir", None),
     )
     train_loader, _ = get_data_loader(args)
     logger.info("Data loaders are ready.")

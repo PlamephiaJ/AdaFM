@@ -52,6 +52,16 @@ python main.py optuna.enabled=true optuna.n_trials=20
 
 You can edit the Optuna search space in configs/base.yaml under the `optuna` section.
 
+ImageNet (128x128) defaults:
+
+- Dataset config: configs/datasets/imagenet.yaml
+- Backbone: configs/models/backbone/wgan-gp-in-128.yaml
+
+Expected ImageNet folder layout:
+
+- <dataroot>/imagenet/train
+- <dataroot>/imagenet/val
+
 Multi-machine search (shared PostgreSQL storage):
 
 1) Set `optuna.storage` in configs/base.yaml, for example:
