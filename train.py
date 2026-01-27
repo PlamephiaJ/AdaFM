@@ -94,6 +94,8 @@ def run(cfg: DictConfig, trial_id: int | None = None) -> dict:
     logger.info(f"Configuration snapshot saved to {config_file}")
 
     tb_writer = SummaryWriter(log_dir=tb_log_dir)
+    tb_writer.add_text("training config", OmegaConf.to_yaml(cfg), global_step=0)
+
 
     generator = create_model(
         cfg.models.backbone.name, cfg.models.backbone.generator
