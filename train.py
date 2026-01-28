@@ -67,6 +67,7 @@ def run(cfg: DictConfig, trial_id: int | None = None) -> dict:
         hf_train_split=getattr(cfg.datasets, "hf_train_split", "train"),
         hf_val_split=getattr(cfg.datasets, "hf_val_split", "validation"),
         hf_cache_dir=getattr(cfg.datasets, "hf_cache_dir", None),
+        use_ratio=getattr(cfg.datasets, "use_ratio", 1.0),
     )
     train_loader, _ = get_data_loader(args)
     logger.info("Data loaders are ready.")

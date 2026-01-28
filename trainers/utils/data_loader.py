@@ -176,9 +176,9 @@ def get_data_loader(args):
     test_sampler = None
 
     # Support for using a subset of the dataset
-    if args.dataset.use_ratio != 1.0:
+    if args.use_ratio != 1.0:
         from torch.utils.data import SubsetRandomSampler
-        use_ratio = args.dataset.use_ratio
+        use_ratio = args.use_ratio
         num_train = len(train_dataset)
         indices = np.random.choice(num_train, int(num_train * use_ratio), replace=False)
         train_sampler = SubsetRandomSampler(indices)

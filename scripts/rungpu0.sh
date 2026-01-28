@@ -2,4 +2,4 @@
 export CUDA_VISIBLE_DEVICES=0
 python main.py -m \
   optimizers=adafm \
-  setup.seed=50,32
+  setup.seed=55,20
