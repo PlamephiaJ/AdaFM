@@ -1,5 +1,5 @@
 defaults:
-  - backbone: wgan-gp-in-128
+  - backbone: wgan-gp-in
   - _self_
 
 name: wgan

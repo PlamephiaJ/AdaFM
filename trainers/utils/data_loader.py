@@ -172,6 +172,37 @@ def get_data_loader(args):
 
     train_dataset, test_dataset = DatasetRegistry.build(args.dataset, dataroot, args)
 
+    train_sampler = None
+    test_sampler = None
+
+    # Support for using a subset of the dataset
+    if args.dataset.use_ratio != 1.0:
+        from torch.utils.data import SubsetRandomSampler
+        use_ratio = args.dataset.use_ratio
+        num_train = len(train_dataset)
+        indices = np.random.choice(num_train, int(num_train * use_ratio), replace=False)
+        train_sampler = SubsetRandomSampler(indices)
+
+        num_test = len(test_dataset)
+        indices = np.random.choice(num_test, int(num_test * use_ratio), replace=False)  
+        test_sampler = SubsetRandomSampler(indices)
+
+        train_dataloader = data_utils.DataLoader(
+            train_dataset,
+            batch_size=args.batch_size,
+            pin_memory=True,
+            sampler=train_sampler,
+            worker_init_fn=worker_init_fn,
+        )
+        test_dataloader = data_utils.DataLoader(
+            test_dataset,
+            batch_size=args.batch_size,
+            pin_memory=True,
+            sampler=test_sampler,
+            worker_init_fn=worker_init_fn,
+        )
+        return train_dataloader, test_dataloader
+
     train_dataloader = data_utils.DataLoader(
         train_dataset,
         batch_size=args.batch_size,
