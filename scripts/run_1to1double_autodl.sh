@@ -48,6 +48,10 @@ run_worker() {
     local optimizer
     local lr_x
     local lr_y
+    local lr_x_tag
+    local lr_y_tag
+    local run_tag
+    local experiment_name
 
     for optimizer in "${OPTIMIZERS[@]}"; do
         for lr_x in "${LR_VALUES[@]}"; do
@@ -69,7 +73,14 @@ run_worker() {
                 started_runs=$((started_runs + 1))
                 echo "[worker ${worker_slot} gpu ${gpu_id}] Run: optimizer=${optimizer}, lr_x=${lr_x}, lr_y=${lr_y}"
 
+                lr_x_tag="${lr_x//./p}"
+                lr_y_tag="${lr_y//./p}"
+                run_tag="gpu${gpu_id}_${optimizer}_lrx${lr_x_tag}_lry${lr_y_tag}"
+                experiment_name="DoubleLoop1to1_${optimizer}_cifar10_${run_tag}"
+
                 CUDA_VISIBLE_DEVICES="${gpu_id}" python main.py \
+                    "+run_tag=${run_tag}" \
+                    "experiment_name=${experiment_name}" \
                     optimizers="${optimizer}" \
                     optimizers.critic_iters="${CRITIC_ITERS}" \
                     optimizers.lr_x="${lr_x}" \

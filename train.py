@@ -78,12 +78,18 @@ def run(cfg: DictConfig, trial_id: int | None = None) -> dict:
 
     timestamp = t.strftime("%Y%m%d-%H%M%S")
     trial_suffix = f"trial_{trial_id}" if trial_id is not None else "single_run"
+    run_tag = getattr(cfg, "run_tag", None)
+    run_suffix = (
+        str(run_tag).replace("/", "_").replace(" ", "_")
+        if run_tag is not None
+        else trial_suffix
+    )
     results_folder = (
         results_folder
         / f"GAN_{cfg.datasets.name}"
         / cfg.models.backbone.name
         / cfg.optimizers.name
-        / f"{timestamp}_{trial_suffix}"
+        / f"{timestamp}_{run_suffix}"
     )
 
     results_folder.mkdir(parents=True, exist_ok=True)
@@ -96,7 +102,6 @@ def run(cfg: DictConfig, trial_id: int | None = None) -> dict:
 
     tb_writer = SummaryWriter(log_dir=tb_log_dir)
     tb_writer.add_text("training config", OmegaConf.to_yaml(cfg), global_step=0)
-
 
     generator = create_model(
         cfg.models.backbone.name, cfg.models.backbone.generator
