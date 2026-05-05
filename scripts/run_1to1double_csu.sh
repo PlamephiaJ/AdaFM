@@ -5,9 +5,9 @@ shopt -s nullglob
 
 RESULT_ROOT="results/DoubleLoop1to1/GAN_cifar10/wgan-gp-in"
 OPTIMIZERS=(rmsprop)
-LR_VALUES=(0.0001 0.001 0.01 0.1)
+LR_VALUES=(0.01 0.1)
 CRITIC_ITERS=1
-GPU_IDS=(0 1 2 3)
+GPU_IDS=(0 1 2 3 4 5 6 7)
 
 is_completed_run() {
     local optimizer="$1"
@@ -94,7 +94,7 @@ run_worker() {
     echo "[worker ${worker_slot} gpu ${gpu_id}] Finished. assigned=${assigned_runs}, skipped=${skipped_runs}, started=${started_runs}"
 }
 
-echo "Starting 4-GPU run across: ${GPU_IDS[*]}"
+echo "Starting 8-GPU run across: ${GPU_IDS[*]}"
 
 pids=()
 for worker_slot in "${!GPU_IDS[@]}"; do

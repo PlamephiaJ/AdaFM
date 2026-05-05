@@ -6,7 +6,7 @@ shopt -s nullglob
 export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0}"
 
 RESULT_ROOT="results/DoubleLoop1to1/GAN_cifar10/wgan-gp-in"
-OPTIMIZERS=(adagrad adam)
+OPTIMIZERS=(rmsprop)
 LR_VALUES=(0.0001 0.001 0.01 0.1)
 CRITIC_ITERS=1
 
